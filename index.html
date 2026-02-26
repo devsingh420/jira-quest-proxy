@@ -1,451 +1,415 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.4">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px '.AppleSystemUIFontMonospaced'; color: #5b6274; -webkit-text-stroke: #5b6274; background-color: #ffffff}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px '.AppleSystemUIFontMonospaced'; color: #a70014; -webkit-text-stroke: #a70014; background-color: #ffffff}
-    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px '.AppleSystemUIFontMonospaced'; color: #ad0018; -webkit-text-stroke: #ad0018; background-color: #ffffff}
-    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px '.AppleSystemUIFontMonospaced'; color: #0f7001; -webkit-text-stroke: #0f7001; background-color: #ffffff}
-    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px '.AppleSystemUIFontMonospaced'; color: #101318; -webkit-text-stroke: #101318; background-color: #ffffff}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px '.AppleSystemUIFontMonospaced'; color: #101318; -webkit-text-stroke: #101318; background-color: #ffffff; min-height: 17.0px}
-    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px '.AppleSystemUIFontMonospaced'; color: #20242d; -webkit-text-stroke: #20242d; background-color: #ffffff}
-    p.p8 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px '.AppleSystemUIFontMonospaced'; color: #0e6e6d; -webkit-text-stroke: #0e6e6d; background-color: #ffffff}
-    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px '.AppleSystemUIFontMonospaced'; color: #6c00b5; -webkit-text-stroke: #6c00b5; background-color: #ffffff}
-    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px '.AppleSystemUIFontMonospaced'; color: #0439b5; -webkit-text-stroke: #0439b5; background-color: #ffffff}
-    p.p11 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px '.AppleSystemUIFontMonospaced'; color: #a83b09; -webkit-text-stroke: #a83b09; background-color: #ffffff}
-    span.s1 {font-kerning: none; color: #20242d; -webkit-text-stroke: 0px #20242d}
-    span.s2 {font-kerning: none}
-    span.s3 {font-kerning: none; color: #ad0018; -webkit-text-stroke: 0px #ad0018}
-    span.s4 {font-kerning: none; color: #0f7001; -webkit-text-stroke: 0px #0f7001}
-    span.s5 {font-kerning: none; color: #101318; -webkit-text-stroke: 0px #101318}
-    span.s6 {font-kerning: none; color: #a70014; -webkit-text-stroke: 0px #a70014}
-    span.s7 {font-kerning: none; color: #0e6e6d; -webkit-text-stroke: 0px #0e6e6d}
-    span.s8 {font-kerning: none; color: #0439b5; -webkit-text-stroke: 0px #0439b5}
-    span.s9 {font-kerning: none; color: #6c00b5; -webkit-text-stroke: 0px #6c00b5}
-    span.s10 {font-kerning: none; color: #a83b09; -webkit-text-stroke: 0px #a83b09}
-    span.s11 {font-kerning: none; color: #a23704; -webkit-text-stroke: 0px #a23704}
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>⚔️ Jira Quest — BUM Board</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#1a1c2c; color:#f4f4f4; font-family:monospace; min-height:100vh; padding:10px 12px; }
+    button { cursor:pointer; font-family:monospace; }
+    canvas { border-radius:8px; border:2px solid #4a4e8c; width:100%; height:auto; cursor:pointer; }
+    .header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; padding:8px 14px; background:#16213e; border-radius:8px; border:2px solid #f0c040; box-shadow:0 0 20px #f0c04033; }
+    .tabs { display:flex; gap:4px; margin-bottom:10px; flex-wrap:wrap; }
+    .tab { background:#16213e; color:#566c86; border:1px solid #4a4e8c; border-radius:6px; padding:5px 10px; font-size:11px; font-weight:bold; }
+    .tab.active { background:#f0c040; color:#1a1c2c; border-color:#f0c040; }
+    .panel { background:#16213e; border:2px solid #4a4e8c; border-radius:8px; padding:14px; }
+    .bar-wrap { background:#111; border-radius:3px; height:6px; overflow:hidden; flex:1; }
+    .bar-fill { height:100%; border-radius:3px; transition:width 0.5s; }
+    .stat-row { display:flex; gap:6px; align-items:center; margin-bottom:5px; }
+    .stat-label { font-size:10px; width:22px; }
+    .stat-val { font-size:10px; width:55px; text-align:right; }
+    .card { background:#16213e; border:2px solid #4a4e8c; border-radius:8px; padding:10px 12px; cursor:pointer; transition:all 0.2s; }
+    .card:hover { border-color:#f0c040; }
+    .roster { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:8px; }
+    .map-wrap { display:grid; grid-template-columns:1fr 220px; gap:10px; }
+    .inspector { background:#16213e; border:2px solid #4a4e8c; border-radius:8px; padding:12px; }
+    .issue-row { display:flex; align-items:center; gap:6px; background:#0f0f1b; border-radius:4px; padding:4px 8px; font-size:10px; margin-bottom:3px; }
+    .badge { color:#fff; padding:1px 5px; border-radius:8px; font-size:9px; text-align:center; }
+    .loading { min-height:100vh; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px; }
+    .log-box { background:#0f0f1b; padding:12px; border-radius:8px; max-height:200px; overflow-y:auto; text-align:left; min-width:320px; }
+    .log-line { color:#29adff; font-size:10px; margin-bottom:2px; }
+    ::-webkit-scrollbar { width:4px; } ::-webkit-scrollbar-track { background:#111; } ::-webkit-scrollbar-thumb { background:#4a4e8c; border-radius:2px; }
   </style>
 </head>
 <body>
-<p class="p1"><span class="s1">&lt;!</span><span class="s2">DOCTYPE html</span><span class="s1">&gt;</span></p>
-<p class="p2"><span class="s1">&lt;</span><span class="s2">html </span><span class="s3">lang</span><span class="s1">="</span><span class="s4">en</span><span class="s1">"&gt;</span></p>
-<p class="p2"><span class="s1">&lt;</span><span class="s2">head</span><span class="s1">&gt;</span></p>
-<p class="p3"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s1">&lt;</span><span class="s6">meta </span><span class="s2">charset</span><span class="s1">="</span><span class="s4">UTF-8</span><span class="s1">"/&gt;</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s1">&lt;</span><span class="s6">meta </span><span class="s3">name</span><span class="s1">="</span><span class="s2">viewport</span><span class="s1">"</span><span class="s6"> </span><span class="s3">content</span><span class="s1">="</span><span class="s2">width=device-width, initial-scale=1.0</span><span class="s1">"/&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">&lt;</span><span class="s6">title</span><span class="s1">&gt;</span><span class="s2">⚔️ Jira Quest — BUM Board</span><span class="s1">&lt;/</span><span class="s6">title</span><span class="s1">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s1">&lt;</span><span class="s2">style</span><span class="s1">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">*</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">margin</span><span class="s1">:</span><span class="s7">0</span><span class="s1">;</span><span class="s5"> </span><span class="s2">padding</span><span class="s1">:</span><span class="s7">0</span><span class="s1">;</span><span class="s5"> </span><span class="s2">box-sizing</span><span class="s1">:</span><span class="s5">border-box</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">body</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">background</span><span class="s1">:</span><span class="s5">#1a1c2c</span><span class="s1">;</span><span class="s5"> </span><span class="s2">color</span><span class="s1">:</span><span class="s5">#f4f4f4</span><span class="s1">;</span><span class="s5"> </span><span class="s2">font-family</span><span class="s1">:</span><span class="s5">monospace</span><span class="s1">;</span><span class="s5"> </span><span class="s2">min-height</span><span class="s1">:</span><span class="s7">100</span><span class="s5">vh</span><span class="s1">;</span><span class="s5"> </span><span class="s2">padding</span><span class="s1">:</span><span class="s7">10</span><span class="s5">px </span><span class="s7">12</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s6">button</span><span class="s2"> </span><span class="s1">{</span><span class="s2"> </span><span class="s6">cursor</span><span class="s1">:</span><span class="s2">pointer</span><span class="s1">;</span><span class="s2"> </span><span class="s6">font-family</span><span class="s1">:</span><span class="s2">monospace</span><span class="s1">;</span><span class="s2"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">canvas</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">border-radius</span><span class="s1">:</span><span class="s7">8</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border</span><span class="s1">:</span><span class="s7">2</span><span class="s5">px solid #4a4e8c</span><span class="s1">;</span><span class="s5"> </span><span class="s2">width</span><span class="s1">:</span><span class="s7">100</span><span class="s5">%</span><span class="s1">;</span><span class="s5"> </span><span class="s2">height</span><span class="s1">:</span><span class="s5">auto</span><span class="s1">;</span><span class="s5"> </span><span class="s2">cursor</span><span class="s1">:</span><span class="s5">pointer</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.header</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">display</span><span class="s1">:</span><span class="s5">flex</span><span class="s1">;</span><span class="s5"> </span><span class="s2">align-items</span><span class="s1">:</span><span class="s5">center</span><span class="s1">;</span><span class="s5"> </span><span class="s2">justify-content</span><span class="s1">:</span><span class="s5">space-between</span><span class="s1">;</span><span class="s5"> </span><span class="s2">margin-bottom</span><span class="s1">:</span><span class="s7">10</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">padding</span><span class="s1">:</span><span class="s7">8</span><span class="s5">px </span><span class="s7">14</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">background</span><span class="s1">:</span><span class="s5">#16213e</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border-radius</span><span class="s1">:</span><span class="s7">8</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border</span><span class="s1">:</span><span class="s7">2</span><span class="s5">px solid #f0c040</span><span class="s1">;</span><span class="s5"> </span><span class="s2">box-shadow</span><span class="s1">:</span><span class="s7">0</span><span class="s5"> </span><span class="s7">0</span><span class="s5"> </span><span class="s7">20</span><span class="s5">px #f0c04033</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.tabs</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">display</span><span class="s1">:</span><span class="s5">flex</span><span class="s1">;</span><span class="s5"> </span><span class="s2">gap</span><span class="s1">:</span><span class="s7">4</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">margin-bottom</span><span class="s1">:</span><span class="s7">10</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">flex-wrap</span><span class="s1">:</span><span class="s5">wrap</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.tab</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">background</span><span class="s1">:</span><span class="s5">#16213e</span><span class="s1">;</span><span class="s5"> </span><span class="s2">color</span><span class="s1">:</span><span class="s5">#566c86</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border</span><span class="s1">:</span><span class="s7">1</span><span class="s5">px solid #4a4e8c</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border-radius</span><span class="s1">:</span><span class="s7">6</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">padding</span><span class="s1">:</span><span class="s7">5</span><span class="s5">px </span><span class="s7">10</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">font-size</span><span class="s1">:</span><span class="s7">11</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">font-weight</span><span class="s1">:</span><span class="s5">bold</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.tab.active</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">background</span><span class="s1">:</span><span class="s5">#f0c040</span><span class="s1">;</span><span class="s5"> </span><span class="s2">color</span><span class="s1">:</span><span class="s5">#1a1c2c</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border-color</span><span class="s1">:</span><span class="s5">#f0c040</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.panel</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">background</span><span class="s1">:</span><span class="s5">#16213e</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border</span><span class="s1">:</span><span class="s7">2</span><span class="s5">px solid #4a4e8c</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border-radius</span><span class="s1">:</span><span class="s7">8</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">padding</span><span class="s1">:</span><span class="s7">14</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.bar-wrap</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">background</span><span class="s1">:</span><span class="s5">#111</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border-radius</span><span class="s1">:</span><span class="s7">3</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">height</span><span class="s1">:</span><span class="s7">6</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">overflow</span><span class="s1">:</span><span class="s5">hidden</span><span class="s1">;</span><span class="s5"> </span><span class="s2">flex</span><span class="s1">:</span><span class="s7">1</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.bar-fill</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">height</span><span class="s1">:</span><span class="s7">100</span><span class="s5">%</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border-radius</span><span class="s1">:</span><span class="s7">3</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">transition</span><span class="s1">:</span><span class="s5">width </span><span class="s7">0.5</span><span class="s5">s</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.stat-row</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">display</span><span class="s1">:</span><span class="s5">flex</span><span class="s1">;</span><span class="s5"> </span><span class="s2">gap</span><span class="s1">:</span><span class="s7">6</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">align-items</span><span class="s1">:</span><span class="s5">center</span><span class="s1">;</span><span class="s5"> </span><span class="s2">margin-bottom</span><span class="s1">:</span><span class="s7">5</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.stat-label</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">font-size</span><span class="s1">:</span><span class="s7">10</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">width</span><span class="s1">:</span><span class="s7">22</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.stat-val</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">font-size</span><span class="s1">:</span><span class="s7">10</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">width</span><span class="s1">:</span><span class="s7">55</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">text-align</span><span class="s1">:</span><span class="s5">right</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.card</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">background</span><span class="s1">:</span><span class="s5">#16213e</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border</span><span class="s1">:</span><span class="s7">2</span><span class="s5">px solid #4a4e8c</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border-radius</span><span class="s1">:</span><span class="s7">8</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">padding</span><span class="s1">:</span><span class="s7">10</span><span class="s5">px </span><span class="s7">12</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">cursor</span><span class="s1">:</span><span class="s5">pointer</span><span class="s1">;</span><span class="s5"> </span><span class="s2">transition</span><span class="s1">:</span><span class="s5">all </span><span class="s7">0.2</span><span class="s5">s</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.card:hover</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">border-color</span><span class="s1">:</span><span class="s5">#f0c040</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.roster</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">display</span><span class="s1">:</span><span class="s5">grid</span><span class="s1">;</span><span class="s5"> </span><span class="s2">grid-template-columns</span><span class="s1">:</span><span class="s8">repeat</span><span class="s1">(</span><span class="s5">auto-fill</span><span class="s1">,</span><span class="s8">minmax</span><span class="s1">(</span><span class="s7">230</span><span class="s5">px</span><span class="s1">,</span><span class="s7">1</span><span class="s5">fr</span><span class="s1">));</span><span class="s5"> </span><span class="s2">gap</span><span class="s1">:</span><span class="s7">8</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.map-wrap</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">display</span><span class="s1">:</span><span class="s5">grid</span><span class="s1">;</span><span class="s5"> </span><span class="s2">grid-template-columns</span><span class="s1">:</span><span class="s7">1</span><span class="s5">fr </span><span class="s7">220</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">gap</span><span class="s1">:</span><span class="s7">10</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.inspector</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">background</span><span class="s1">:</span><span class="s5">#16213e</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border</span><span class="s1">:</span><span class="s7">2</span><span class="s5">px solid #4a4e8c</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border-radius</span><span class="s1">:</span><span class="s7">8</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">padding</span><span class="s1">:</span><span class="s7">12</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.issue-row</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">display</span><span class="s1">:</span><span class="s5">flex</span><span class="s1">;</span><span class="s5"> </span><span class="s2">align-items</span><span class="s1">:</span><span class="s5">center</span><span class="s1">;</span><span class="s5"> </span><span class="s2">gap</span><span class="s1">:</span><span class="s7">6</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">background</span><span class="s1">:</span><span class="s5">#0f0f1b</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border-radius</span><span class="s1">:</span><span class="s7">4</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">padding</span><span class="s1">:</span><span class="s7">4</span><span class="s5">px </span><span class="s7">8</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">font-size</span><span class="s1">:</span><span class="s7">10</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">margin-bottom</span><span class="s1">:</span><span class="s7">3</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.badge</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">color</span><span class="s1">:</span><span class="s5">#fff</span><span class="s1">;</span><span class="s5"> </span><span class="s2">padding</span><span class="s1">:</span><span class="s7">1</span><span class="s5">px </span><span class="s7">5</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border-radius</span><span class="s1">:</span><span class="s7">8</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">font-size</span><span class="s1">:</span><span class="s7">9</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">text-align</span><span class="s1">:</span><span class="s5">center</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.loading</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">min-height</span><span class="s1">:</span><span class="s7">100</span><span class="s5">vh</span><span class="s1">;</span><span class="s5"> </span><span class="s2">display</span><span class="s1">:</span><span class="s5">flex</span><span class="s1">;</span><span class="s5"> </span><span class="s2">align-items</span><span class="s1">:</span><span class="s5">center</span><span class="s1">;</span><span class="s5"> </span><span class="s2">justify-content</span><span class="s1">:</span><span class="s5">center</span><span class="s1">;</span><span class="s5"> </span><span class="s2">flex-direction</span><span class="s1">:</span><span class="s5">column</span><span class="s1">;</span><span class="s5"> </span><span class="s2">gap</span><span class="s1">:</span><span class="s7">8</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.log-box</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">background</span><span class="s1">:</span><span class="s5">#0f0f1b</span><span class="s1">;</span><span class="s5"> </span><span class="s2">padding</span><span class="s1">:</span><span class="s7">12</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border-radius</span><span class="s1">:</span><span class="s7">8</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">max-height</span><span class="s1">:</span><span class="s7">200</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">overflow-y</span><span class="s1">:</span><span class="s5">auto</span><span class="s1">;</span><span class="s5"> </span><span class="s2">text-align</span><span class="s1">:</span><span class="s5">left</span><span class="s1">;</span><span class="s5"> </span><span class="s2">min-width</span><span class="s1">:</span><span class="s7">320</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">.log-line</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">color</span><span class="s1">:</span><span class="s5">#29adff</span><span class="s1">;</span><span class="s5"> </span><span class="s2">font-size</span><span class="s1">:</span><span class="s7">10</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s2">margin-bottom</span><span class="s1">:</span><span class="s7">2</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">::-webkit-scrollbar</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">width</span><span class="s1">:</span><span class="s7">4</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span><span class="s5"> </span><span class="s2">::-webkit-scrollbar-track</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">background</span><span class="s1">:</span><span class="s5">#111</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span><span class="s5"> </span><span class="s2">::-webkit-scrollbar-thumb</span><span class="s5"> </span><span class="s1">{</span><span class="s5"> </span><span class="s2">background</span><span class="s1">:</span><span class="s5">#4a4e8c</span><span class="s1">;</span><span class="s5"> </span><span class="s2">border-radius</span><span class="s1">:</span><span class="s7">2</span><span class="s5">px</span><span class="s1">;</span><span class="s5"> </span><span class="s1">}</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s1">&lt;/</span><span class="s2">style</span><span class="s1">&gt;</span></p>
-<p class="p2"><span class="s1">&lt;/</span><span class="s2">head</span><span class="s1">&gt;</span></p>
-<p class="p2"><span class="s1">&lt;</span><span class="s2">body</span><span class="s1">&gt;</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p7"><span class="s2">&lt;</span><span class="s6">div </span><span class="s3">id</span><span class="s2">="</span><span class="s4">app</span><span class="s2">"&gt;</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s1">&lt;</span><span class="s6">div </span><span class="s3">class</span><span class="s1">="</span><span class="s2">loading</span><span class="s1">"&gt;</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">&lt;</span><span class="s6">div </span><span class="s3">style</span><span class="s1">="</span><span class="s2">font-size:48px</span><span class="s1">"&gt;</span><span class="s5">⚔️</span><span class="s1">&lt;/</span><span class="s6">div</span><span class="s1">&gt;</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">&lt;</span><span class="s6">div </span><span class="s3">style</span><span class="s1">="</span><span class="s2">color:#f0c040;font-size:18px;letter-spacing:3px</span><span class="s1">"&gt;</span><span class="s5">JIRA QUEST</span><span class="s1">&lt;/</span><span class="s6">div</span><span class="s1">&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">&lt;</span><span class="s6">div </span><span class="s3">style</span><span class="s1">="</span><span class="s4">color:#566c86;font-size:12px</span><span class="s1">"&gt;</span><span class="s2">Connecting to Bumrungrad Sprint...</span><span class="s1">&lt;/</span><span class="s6">div</span><span class="s1">&gt;</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s1">&lt;</span><span class="s6">div </span><span class="s3">class</span><span class="s1">="</span><span class="s2">log-box</span><span class="s1">"</span><span class="s6"> </span><span class="s3">id</span><span class="s1">="</span><span class="s2">logBox</span><span class="s1">"&gt;&lt;/</span><span class="s6">div</span><span class="s1">&gt;</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s1">&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
-<p class="p2"><span class="s1">&lt;/</span><span class="s2">div</span><span class="s1">&gt;</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p2"><span class="s1">&lt;</span><span class="s2">script</span><span class="s1">&gt;</span></p>
-<p class="p8"><span class="s9">const</span><span class="s5"> </span><span class="s2">BOARD_ID</span><span class="s5"> = </span><span class="s2">124</span><span class="s1">;</span></p>
-<p class="p1"><span class="s9">const</span><span class="s5"> </span><span class="s7">PROXY</span><span class="s5"> = </span><span class="s4">'/.netlify/functions/jira'</span><span class="s1">;</span><span class="s5"> </span><span class="s2">// relative — same origin, no CORS!</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p8"><span class="s9">const</span><span class="s5"> </span><span class="s2">STATUS_COLORS</span><span class="s5"> = </span><span class="s1">{</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s2">'To Do'</span><span class="s5">:</span><span class="s4">'#566c86'</span><span class="s1">,</span><span class="s2">'In Progress'</span><span class="s5">:</span><span class="s4">'#f0a030'</span><span class="s1">,</span><span class="s2">'In Review'</span><span class="s5">:</span><span class="s4">'#9b59b6'</span><span class="s1">,</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s2">'Code Review'</span><span class="s5">:</span><span class="s4">'#9b59b6'</span><span class="s1">,</span><span class="s2">'Done'</span><span class="s5">:</span><span class="s4">'#38b764'</span><span class="s1">,</span><span class="s2">'Blocked'</span><span class="s5">:</span><span class="s4">'#e43b44'</span><span class="s1">,</span></p>
-<p class="p2"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s2">'Selected for Development'</span><span class="s5">:</span><span class="s4">'#3b7fd4'</span></p>
-<p class="p7"><span class="s2">};</span></p>
-<p class="p4"><span class="s9">const</span><span class="s5"> </span><span class="s7">ROLES</span><span class="s5"> = </span><span class="s1">[</span><span class="s2">'Warrior'</span><span class="s1">,</span><span class="s2">'Mage'</span><span class="s1">,</span><span class="s2">'Ranger'</span><span class="s1">,</span><span class="s2">'Healer'</span><span class="s1">,</span><span class="s2">'Rogue'</span><span class="s1">,</span><span class="s2">'Paladin'</span><span class="s1">,</span><span class="s2">'Bard'</span><span class="s1">,</span><span class="s2">'Druid'</span><span class="s1">];</span></p>
-<p class="p4"><span class="s9">const</span><span class="s5"> </span><span class="s7">AVATARS</span><span class="s5"> = </span><span class="s1">[</span><span class="s2">'⚔️'</span><span class="s1">,</span><span class="s2">'🧙'</span><span class="s1">,</span><span class="s2">'🏹'</span><span class="s1">,</span><span class="s2">'✨'</span><span class="s1">,</span><span class="s2">'🗡️'</span><span class="s1">,</span><span class="s2">'🛡️'</span><span class="s1">,</span><span class="s2">'🎵'</span><span class="s1">,</span><span class="s2">'🌿'</span><span class="s1">,</span><span class="s2">'🔥'</span><span class="s1">,</span><span class="s2">'💎'</span><span class="s1">,</span><span class="s2">'🌙'</span><span class="s1">,</span><span class="s2">'⚡'</span><span class="s1">];</span></p>
-<p class="p4"><span class="s9">const</span><span class="s5"> </span><span class="s7">MCOLORS</span><span class="s5"> = </span><span class="s1">[</span><span class="s2">'#9b59b6'</span><span class="s1">,</span><span class="s2">'#e43b44'</span><span class="s1">,</span><span class="s2">'#38b764'</span><span class="s1">,</span><span class="s2">'#29adff'</span><span class="s1">,</span><span class="s2">'#f0c040'</span><span class="s1">,</span><span class="s2">'#f0a030'</span><span class="s1">,</span><span class="s2">'#e91e8c'</span><span class="s1">,</span><span class="s2">'#00bcd4'</span><span class="s1">];</span></p>
-<p class="p9"><span class="s2">const</span><span class="s5"> </span><span class="s7">ZONES</span><span class="s5"> = </span><span class="s1">[</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s1">{</span><span class="s5"> </span><span class="s6">name</span><span class="s5">:</span><span class="s2">'Feature Forest'</span><span class="s1">,</span><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s6">color</span><span class="s5">:</span><span class="s2">'#1a4a2a'</span><span class="s1">,</span><span class="s5"> </span><span class="s6">border</span><span class="s5">:</span><span class="s2">'#38b764'</span><span class="s1">,</span><span class="s5"> </span><span class="s6">icon</span><span class="s5">:</span><span class="s2">'🌲'</span><span class="s1">,</span><span class="s5"> </span><span class="s6">match</span><span class="s5">:</span><span class="s1">[</span><span class="s2">'in progress'</span><span class="s1">]</span><span class="s5"> </span><span class="s1">},</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s1">{</span><span class="s5"> </span><span class="s6">name</span><span class="s5">:</span><span class="s2">'Review Citadel'</span><span class="s1">,</span><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s6">color</span><span class="s5">:</span><span class="s2">'#2a1a3a'</span><span class="s1">,</span><span class="s5"> </span><span class="s6">border</span><span class="s5">:</span><span class="s2">'#9b59b6'</span><span class="s1">,</span><span class="s5"> </span><span class="s6">icon</span><span class="s5">:</span><span class="s2">'🏰'</span><span class="s1">,</span><span class="s5"> </span><span class="s6">match</span><span class="s5">:</span><span class="s1">[</span><span class="s2">'review'</span><span class="s1">]</span><span class="s5"> </span><span class="s1">},</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s1">{</span><span class="s5"> </span><span class="s6">name</span><span class="s5">:</span><span class="s2">'Bug Dungeon'</span><span class="s1">,</span><span class="s5"> <span class="Apple-converted-space">    </span></span><span class="s6">color</span><span class="s5">:</span><span class="s2">'#2a1a1a'</span><span class="s1">,</span><span class="s5"> </span><span class="s6">border</span><span class="s5">:</span><span class="s2">'#e43b44'</span><span class="s1">,</span><span class="s5"> </span><span class="s6">icon</span><span class="s5">:</span><span class="s2">'🕷️'</span><span class="s1">,</span><span class="s5"> </span><span class="s6">match</span><span class="s5">:</span><span class="s1">[</span><span class="s2">'blocked'</span><span class="s1">]</span><span class="s5"> </span><span class="s1">},</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s1">{</span><span class="s5"> </span><span class="s6">name</span><span class="s5">:</span><span class="s2">'Victory Plains'</span><span class="s1">,</span><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s6">color</span><span class="s5">:</span><span class="s2">'#2a2a1a'</span><span class="s1">,</span><span class="s5"> </span><span class="s6">border</span><span class="s5">:</span><span class="s2">'#f0c040'</span><span class="s1">,</span><span class="s5"> </span><span class="s6">icon</span><span class="s5">:</span><span class="s2">'🏆'</span><span class="s1">,</span><span class="s5"> </span><span class="s6">match</span><span class="s5">:</span><span class="s1">[</span><span class="s2">'done'</span><span class="s1">]</span><span class="s5"> </span><span class="s1">},</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s1">{</span><span class="s5"> </span><span class="s6">name</span><span class="s5">:</span><span class="s2">'Idle Town'</span><span class="s1">,</span><span class="s5"> <span class="Apple-converted-space">      </span></span><span class="s6">color</span><span class="s5">:</span><span class="s2">'#1a1a2a'</span><span class="s1">,</span><span class="s5"> </span><span class="s6">border</span><span class="s5">:</span><span class="s2">'#566c86'</span><span class="s1">,</span><span class="s5"> </span><span class="s6">icon</span><span class="s5">:</span><span class="s2">'🏘️'</span><span class="s1">,</span><span class="s5"> </span><span class="s6">match</span><span class="s5">:</span><span class="s1">[</span><span class="s2">'to do'</span><span class="s1">,</span><span class="s2">'backlog'</span><span class="s1">,</span><span class="s2">'open'</span><span class="s1">,</span><span class="s2">'selected'</span><span class="s1">]</span><span class="s5"> </span><span class="s1">},</span></p>
-<p class="p7"><span class="s2">];</span></p>
-<p class="p8"><span class="s9">const</span><span class="s5"> </span><span class="s2">ZONE_LAYOUT</span><span class="s5"> = </span><span class="s1">[{</span><span class="s6">x</span><span class="s5">:</span><span class="s2">5</span><span class="s1">,</span><span class="s6">y</span><span class="s5">:</span><span class="s2">5</span><span class="s1">,</span><span class="s6">w</span><span class="s5">:</span><span class="s2">42</span><span class="s1">,</span><span class="s6">h</span><span class="s5">:</span><span class="s2">42</span><span class="s1">},{</span><span class="s6">x</span><span class="s5">:</span><span class="s2">54</span><span class="s1">,</span><span class="s6">y</span><span class="s5">:</span><span class="s2">5</span><span class="s1">,</span><span class="s6">w</span><span class="s5">:</span><span class="s2">42</span><span class="s1">,</span><span class="s6">h</span><span class="s5">:</span><span class="s2">42</span><span class="s1">},{</span><span class="s6">x</span><span class="s5">:</span><span class="s2">5</span><span class="s1">,</span><span class="s6">y</span><span class="s5">:</span><span class="s2">54</span><span class="s1">,</span><span class="s6">w</span><span class="s5">:</span><span class="s2">28</span><span class="s1">,</span><span class="s6">h</span><span class="s5">:</span><span class="s2">42</span><span class="s1">},{</span><span class="s6">x</span><span class="s5">:</span><span class="s2">36</span><span class="s1">,</span><span class="s6">y</span><span class="s5">:</span><span class="s2">54</span><span class="s1">,</span><span class="s6">w</span><span class="s5">:</span><span class="s2">28</span><span class="s1">,</span><span class="s6">h</span><span class="s5">:</span><span class="s2">42</span><span class="s1">},{</span><span class="s6">x</span><span class="s5">:</span><span class="s2">67</span><span class="s1">,</span><span class="s6">y</span><span class="s5">:</span><span class="s2">54</span><span class="s1">,</span><span class="s6">w</span><span class="s5">:</span><span class="s2">28</span><span class="s1">,</span><span class="s6">h</span><span class="s5">:</span><span class="s2">42</span><span class="s1">}];</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p2"><span class="s9">let</span><span class="s5"> state = </span><span class="s1">{</span><span class="s5"> </span><span class="s2">team</span><span class="s5">:</span><span class="s1">[],</span><span class="s5"> </span><span class="s2">issues</span><span class="s5">:</span><span class="s1">[],</span><span class="s5"> </span><span class="s2">sprintName</span><span class="s5">:</span><span class="s4">''</span><span class="s1">,</span><span class="s5"> </span><span class="s2">tab</span><span class="s5">:</span><span class="s4">'map'</span><span class="s1">,</span><span class="s5"> </span><span class="s2">selected</span><span class="s5">:</span><span class="s9">null</span><span class="s1">,</span><span class="s5"> </span><span class="s2">tick</span><span class="s5">:</span><span class="s7">0</span><span class="s1">,</span><span class="s5"> </span><span class="s2">lastSync</span><span class="s5">:</span><span class="s9">null</span><span class="s5"> </span><span class="s1">};</span></p>
-<p class="p5"><span class="s9">let</span><span class="s2"> mcache = </span><span class="s1">{};</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p5"><span class="s9">const</span><span class="s2"> </span><span class="s8">sColor</span><span class="s2"> = </span><span class="s10">s</span><span class="s2"> =&gt; </span><span class="s7">STATUS_COLORS</span><span class="s1">[</span><span class="s2">s</span><span class="s1">]</span><span class="s2"> || </span><span class="s4">'#566c86'</span><span class="s1">;</span></p>
-<p class="p5"><span class="s9">const</span><span class="s2"> </span><span class="s8">getZone</span><span class="s2"> = </span><span class="s10">s</span><span class="s2"> =&gt; </span><span class="s7">ZONES</span><span class="s1">.</span><span class="s8">find</span><span class="s1">(</span><span class="s10">z</span><span class="s2"> =&gt; z</span><span class="s1">.</span><span class="s2">match</span><span class="s1">.</span><span class="s8">some</span><span class="s1">(</span><span class="s10">m</span><span class="s2"> =&gt; </span><span class="s1">(</span><span class="s2">s||</span><span class="s4">''</span><span class="s1">).</span><span class="s8">toLowerCase</span><span class="s1">().</span><span class="s8">includes</span><span class="s1">(</span><span class="s2">m</span><span class="s1">)))</span><span class="s2">?.name || </span><span class="s4">'Idle Town'</span><span class="s1">;</span></p>
-<p class="p5"><span class="s9">const</span><span class="s2"> </span><span class="s8">getMI</span><span class="s2"> = </span><span class="s10">id</span><span class="s2"> =&gt; </span><span class="s1">{</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">if</span><span class="s2"> </span><span class="s1">(</span><span class="s2">mcache</span><span class="s1">[</span><span class="s2">id</span><span class="s1">])</span><span class="s2"> </span><span class="s9">return</span><span class="s2"> mcache</span><span class="s1">[</span><span class="s2">id</span><span class="s1">];</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s2"> i = </span><span class="s11">Object</span><span class="s1">.</span><span class="s8">keys</span><span class="s1">(</span><span class="s2">mcache</span><span class="s1">).</span><span class="s2">length</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span>mcache</span><span class="s1">[</span><span class="s2">id</span><span class="s1">]</span><span class="s2"> = </span><span class="s1">{</span><span class="s2"> </span><span class="s6">role</span><span class="s2">:</span><span class="s7">ROLES</span><span class="s1">[</span><span class="s2">i%</span><span class="s7">ROLES</span><span class="s1">.</span><span class="s2">length</span><span class="s1">],</span><span class="s2"> </span><span class="s6">avatar</span><span class="s2">:</span><span class="s7">AVATARS</span><span class="s1">[</span><span class="s2">i%</span><span class="s7">AVATARS</span><span class="s1">.</span><span class="s2">length</span><span class="s1">],</span><span class="s2"> </span><span class="s6">color</span><span class="s2">:</span><span class="s7">MCOLORS</span><span class="s1">[</span><span class="s2">i%</span><span class="s7">MCOLORS</span><span class="s1">.</span><span class="s2">length</span><span class="s1">],</span><span class="s2"> </span><span class="s6">hp</span><span class="s2">:</span><span class="s7">60</span><span class="s2">+</span><span class="s1">((</span><span class="s2">i*</span><span class="s7">17</span><span class="s1">)</span><span class="s2">%</span><span class="s7">40</span><span class="s1">),</span><span class="s2"> </span><span class="s6">mp</span><span class="s2">:</span><span class="s7">40</span><span class="s2">+</span><span class="s1">((</span><span class="s2">i*</span><span class="s7">23</span><span class="s1">)</span><span class="s2">%</span><span class="s7">60</span><span class="s1">)</span><span class="s2"> </span><span class="s1">};</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">return</span><span class="s2"> mcache</span><span class="s1">[</span><span class="s2">id</span><span class="s1">];</span></p>
-<p class="p7"><span class="s2">};</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p9"><span class="s2">function</span><span class="s5"> </span><span class="s8">log</span><span class="s1">(</span><span class="s10">msg</span><span class="s1">)</span><span class="s5"> </span><span class="s1">{</span></p>
-<p class="p10"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s5"> box = </span><span class="s11">document</span><span class="s1">.</span><span class="s2">getElementById</span><span class="s1">(</span><span class="s4">'logBox'</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">if</span><span class="s2"> </span><span class="s1">(</span><span class="s2">!box</span><span class="s1">)</span><span class="s2"> </span><span class="s9">return</span><span class="s1">;</span></p>
-<p class="p10"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s5"> d = </span><span class="s11">document</span><span class="s1">.</span><span class="s2">createElement</span><span class="s1">(</span><span class="s4">'div'</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span>d</span><span class="s1">.</span><span class="s2">className = </span><span class="s4">'log-line'</span><span class="s1">;</span><span class="s2"> d</span><span class="s1">.</span><span class="s2">textContent = msg</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span>box</span><span class="s1">.</span><span class="s8">appendChild</span><span class="s1">(</span><span class="s2">d</span><span class="s1">);</span><span class="s2"> box</span><span class="s1">.</span><span class="s2">scrollTop = box</span><span class="s1">.</span><span class="s2">scrollHeight</span><span class="s1">;</span></p>
-<p class="p7"><span class="s2">}</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p9"><span class="s2">async</span><span class="s5"> </span><span class="s2">function</span><span class="s5"> </span><span class="s8">jiraFetch</span><span class="s1">(</span><span class="s10">path</span><span class="s1">)</span><span class="s5"> </span><span class="s1">{</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s5"> url = </span><span class="s2">`${PROXY}?path=${encodeURIComponent(path)}`</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s2"> res = </span><span class="s9">await</span><span class="s2"> </span><span class="s8">fetch</span><span class="s1">(</span><span class="s2">url</span><span class="s1">);</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s9">if</span><span class="s5"> </span><span class="s1">(</span><span class="s5">!res</span><span class="s1">.</span><span class="s5">ok</span><span class="s1">)</span><span class="s5"> </span><span class="s9">throw</span><span class="s5"> </span><span class="s9">new</span><span class="s5"> </span><span class="s11">Error</span><span class="s1">(</span><span class="s2">`Proxy ${res.status}: ${await res.text()}`</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">return</span><span class="s2"> res</span><span class="s1">.</span><span class="s8">json</span><span class="s1">();</span></p>
-<p class="p7"><span class="s2">}</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p9"><span class="s2">async</span><span class="s5"> </span><span class="s2">function</span><span class="s5"> </span><span class="s8">fetchData</span><span class="s1">()</span><span class="s5"> </span><span class="s1">{</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">try</span><span class="s2"> </span><span class="s1">{</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s8">log</span><span class="s1">(</span><span class="s2">'🔄 Fetching active sprint...'</span><span class="s1">);</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s9">const</span><span class="s5"> sd = </span><span class="s9">await</span><span class="s5"> </span><span class="s8">jiraFetch</span><span class="s1">(</span><span class="s2">`/rest/agile/1.0/board/${BOARD_ID}/sprint?state=active`</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s9">const</span><span class="s2"> sprint = sd</span><span class="s1">.</span><span class="s2">values?.</span><span class="s1">[</span><span class="s7">0</span><span class="s1">];</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s9">if</span><span class="s5"> </span><span class="s1">(</span><span class="s5">!sprint</span><span class="s1">)</span><span class="s5"> </span><span class="s9">throw</span><span class="s5"> </span><span class="s9">new</span><span class="s5"> </span><span class="s11">Error</span><span class="s1">(</span><span class="s2">'No active sprint on board '</span><span class="s5"> + </span><span class="s7">BOARD_ID</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>state</span><span class="s1">.</span><span class="s2">sprintName = sprint</span><span class="s1">.</span><span class="s2">name</span><span class="s1">;</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s8">log</span><span class="s1">(</span><span class="s2">`✅ Sprint: ${sprint.name}`</span><span class="s1">);</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s8">log</span><span class="s1">(</span><span class="s2">'🔄 Fetching issues...'</span><span class="s1">);</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s9">const</span><span class="s5"> id = </span><span class="s9">await</span><span class="s5"> </span><span class="s8">jiraFetch</span><span class="s1">(</span><span class="s2">`/rest/agile/1.0/board/${BOARD_ID}/sprint/${sprint.id}/issue?maxResults=100&amp;fields=summary,assignee,status,customfield_10016,priority`</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s9">const</span><span class="s2"> raw = id</span><span class="s1">.</span><span class="s2">issues || </span><span class="s1">[];</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s8">log</span><span class="s1">(</span><span class="s2">`✅ ${raw.length} issues loaded`</span><span class="s1">);</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>state</span><span class="s1">.</span><span class="s2">issues = raw</span><span class="s1">.</span><span class="s8">map</span><span class="s1">(</span><span class="s10">i</span><span class="s2"> =&gt; </span><span class="s1">({</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s6">key</span><span class="s2">:i</span><span class="s1">.</span><span class="s2">key</span><span class="s1">,</span><span class="s2"> </span><span class="s6">summary</span><span class="s2">:i</span><span class="s1">.</span><span class="s2">fields?.summary||</span><span class="s4">''</span><span class="s1">,</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s6">status</span><span class="s2">:i</span><span class="s1">.</span><span class="s2">fields?.status?.name||</span><span class="s4">'To Do'</span><span class="s1">,</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s6">assigneeId</span><span class="s2">:i</span><span class="s1">.</span><span class="s2">fields?.assignee?.accountId||</span><span class="s9">null</span><span class="s1">,</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s6">assigneeName</span><span class="s2">:i</span><span class="s1">.</span><span class="s2">fields?.assignee?.displayName||</span><span class="s4">'Unassigned'</span><span class="s1">,</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s6">points</span><span class="s2">:i</span><span class="s1">.</span><span class="s2">fields?.customfield_10016||</span><span class="s7">0</span><span class="s1">,</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">}));</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s9">const</span><span class="s2"> am = </span><span class="s1">{};</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>raw</span><span class="s1">.</span><span class="s8">forEach</span><span class="s1">(</span><span class="s10">i</span><span class="s2"> =&gt; </span><span class="s1">{</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s9">const</span><span class="s2"> a = i</span><span class="s1">.</span><span class="s2">fields?.assignee</span><span class="s1">;</span><span class="s2"> </span><span class="s9">if</span><span class="s2"> </span><span class="s1">(</span><span class="s2">!a</span><span class="s1">)</span><span class="s2"> </span><span class="s9">return</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s9">if</span><span class="s2"> </span><span class="s1">(</span><span class="s2">!am</span><span class="s1">[</span><span class="s2">a</span><span class="s1">.</span><span class="s2">accountId</span><span class="s1">])</span><span class="s2"> am</span><span class="s1">[</span><span class="s2">a</span><span class="s1">.</span><span class="s2">accountId</span><span class="s1">]</span><span class="s2"> = </span><span class="s1">{</span><span class="s2"> </span><span class="s6">accountId</span><span class="s2">:a</span><span class="s1">.</span><span class="s2">accountId</span><span class="s1">,</span><span class="s2"> </span><span class="s6">name</span><span class="s2">:a</span><span class="s1">.</span><span class="s2">displayName</span><span class="s1">,</span><span class="s2"> </span><span class="s6">issues</span><span class="s2">:</span><span class="s1">[]</span><span class="s2"> </span><span class="s1">};</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>am</span><span class="s1">[</span><span class="s2">a</span><span class="s1">.</span><span class="s2">accountId</span><span class="s1">].</span><span class="s2">issues</span><span class="s1">.</span><span class="s8">push</span><span class="s1">({</span><span class="s2"> </span><span class="s6">key</span><span class="s2">:i</span><span class="s1">.</span><span class="s2">key</span><span class="s1">,</span><span class="s2"> </span><span class="s6">summary</span><span class="s2">:i</span><span class="s1">.</span><span class="s2">fields?.summary</span><span class="s1">,</span><span class="s2"> </span><span class="s6">status</span><span class="s2">:i</span><span class="s1">.</span><span class="s2">fields?.status?.name||</span><span class="s4">'To Do'</span><span class="s1">,</span><span class="s2"> </span><span class="s6">points</span><span class="s2">:i</span><span class="s1">.</span><span class="s2">fields?.customfield_10016||</span><span class="s7">0</span><span class="s2"> </span><span class="s1">});</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">});</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>state</span><span class="s1">.</span><span class="s2">team = </span><span class="s11">Object</span><span class="s1">.</span><span class="s8">values</span><span class="s1">(</span><span class="s2">am</span><span class="s1">).</span><span class="s8">map</span><span class="s1">(</span><span class="s10">mb</span><span class="s2"> =&gt; </span><span class="s1">{</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s9">const</span><span class="s2"> info = </span><span class="s8">getMI</span><span class="s1">(</span><span class="s2">mb</span><span class="s1">.</span><span class="s2">accountId</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s9">const</span><span class="s2"> cp = mb</span><span class="s1">.</span><span class="s2">issues</span><span class="s1">.</span><span class="s8">filter</span><span class="s1">(</span><span class="s10">i</span><span class="s2">=&gt;i</span><span class="s1">.</span><span class="s2">status===</span><span class="s4">'Done'</span><span class="s1">).</span><span class="s8">reduce</span><span class="s1">((</span><span class="s10">s</span><span class="s1">,</span><span class="s10">i</span><span class="s1">)</span><span class="s2">=&gt;s+</span><span class="s1">(</span><span class="s2">i</span><span class="s1">.</span><span class="s2">points||</span><span class="s7">0</span><span class="s1">),</span><span class="s7">0</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s9">const</span><span class="s2"> xp = cp*</span><span class="s7">100</span><span class="s1">,</span><span class="s2"> level = </span><span class="s11">Math</span><span class="s1">.</span><span class="s8">max</span><span class="s1">(</span><span class="s7">1</span><span class="s1">,</span><span class="s11">Math</span><span class="s1">.</span><span class="s8">floor</span><span class="s1">(</span><span class="s2">xp/</span><span class="s7">500</span><span class="s1">)</span><span class="s2">+</span><span class="s7">1</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s9">const</span><span class="s2"> active = mb</span><span class="s1">.</span><span class="s2">issues</span><span class="s1">.</span><span class="s8">find</span><span class="s1">(</span><span class="s10">i</span><span class="s2">=&gt;i</span><span class="s1">.</span><span class="s2">status===</span><span class="s4">'In Progress'</span><span class="s1">)</span><span class="s2"> || mb</span><span class="s1">.</span><span class="s2">issues</span><span class="s1">.</span><span class="s8">find</span><span class="s1">(</span><span class="s10">i</span><span class="s2">=&gt;i</span><span class="s1">.</span><span class="s2">status===</span><span class="s4">'In Review'</span><span class="s1">)</span><span class="s2"> || mb</span><span class="s1">.</span><span class="s2">issues</span><span class="s1">.</span><span class="s8">find</span><span class="s1">(</span><span class="s10">i</span><span class="s2">=&gt;!</span><span class="s1">[</span><span class="s4">'Done'</span><span class="s1">,</span><span class="s4">'To Do'</span><span class="s1">,</span><span class="s4">'Backlog'</span><span class="s1">,</span><span class="s4">'Selected for Development'</span><span class="s1">].</span><span class="s8">includes</span><span class="s1">(</span><span class="s2">i</span><span class="s1">.</span><span class="s2">status</span><span class="s1">));</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s9">const</span><span class="s2"> ps = active ? active</span><span class="s1">.</span><span class="s2">status : mb</span><span class="s1">.</span><span class="s2">issues</span><span class="s1">.</span><span class="s8">every</span><span class="s1">(</span><span class="s10">i</span><span class="s2">=&gt;i</span><span class="s1">.</span><span class="s2">status===</span><span class="s4">'Done'</span><span class="s1">)</span><span class="s2"> ? </span><span class="s4">'Done'</span><span class="s2"> : </span><span class="s4">'To Do'</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s9">return</span><span class="s2"> </span><span class="s1">{</span><span class="s2"> ...mb</span><span class="s1">,</span><span class="s2"> ...info</span><span class="s1">,</span><span class="s2"> level</span><span class="s1">,</span><span class="s2"> </span><span class="s6">xp</span><span class="s2">:xp%</span><span class="s7">500</span><span class="s1">,</span><span class="s2"> </span><span class="s6">issueCount</span><span class="s2">:mb</span><span class="s1">.</span><span class="s2">issues</span><span class="s1">.</span><span class="s2">length</span><span class="s1">,</span><span class="s2"> </span><span class="s6">completedPts</span><span class="s2">:cp</span><span class="s1">,</span><span class="s2"> </span><span class="s6">status</span><span class="s2">:ps</span><span class="s1">,</span><span class="s2"> </span><span class="s6">zone</span><span class="s2">:</span><span class="s8">getZone</span><span class="s1">(</span><span class="s2">ps</span><span class="s1">)</span><span class="s2"> </span><span class="s1">};</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">});</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>state</span><span class="s1">.</span><span class="s2">lastSync = </span><span class="s9">new</span><span class="s2"> </span><span class="s11">Date</span><span class="s1">();</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s8">log</span><span class="s1">(</span><span class="s2">`✅ ${state.team.length} heroes ready!`</span><span class="s1">);</span></p>
-<p class="p10"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">render</span><span class="s1">();</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">}</span><span class="s2"> </span><span class="s9">catch</span><span class="s1">(</span><span class="s2">e</span><span class="s1">)</span><span class="s2"> </span><span class="s1">{</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s8">log</span><span class="s1">(</span><span class="s4">'❌ '</span><span class="s2"> + e</span><span class="s1">.</span><span class="s2">message</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s8">renderError</span><span class="s1">(</span><span class="s2">e</span><span class="s1">.</span><span class="s2">message</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">}</span></p>
-<p class="p7"><span class="s2">}</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p1"><span class="s2">// ── RENDER ──────────────────────────────────────────────────────────────────</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p10"><span class="s9">function</span><span class="s5"> </span><span class="s2">renderError</span><span class="s1">(</span><span class="s10">msg</span><span class="s1">)</span><span class="s5"> </span><span class="s1">{</span></p>
-<p class="p10"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s11">document</span><span class="s1">.</span><span class="s2">getElementById</span><span class="s1">(</span><span class="s4">'app'</span><span class="s1">).</span><span class="s5">innerHTML = </span><span class="s4">`</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div class="loading"&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="font-size:40px"&gt;💀&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="color:#e43b44;font-size:15px;margin:8px 0"&gt;CONNECTION FAILED&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="background:#0f0f1b;padding:12px;border-radius:8px;font-size:10px;color:#566c86;max-width:480px;line-height:1.7"&gt;${msg}&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;button onclick="location.reload()" style="margin-top:12px;background:#f0c040;color:#1a1c2c;border:none;padding:8px 24px;border-radius:6px;font-weight:bold;font-size:12px"&gt;⚡ Retry&lt;/button&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;`</span><span class="s1">;</span></p>
-<p class="p7"><span class="s2">}</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p11"><span class="s9">function</span><span class="s5"> </span><span class="s8">statBar</span><span class="s1">(</span><span class="s2">val</span><span class="s1">,</span><span class="s2"> max</span><span class="s1">,</span><span class="s2"> color</span><span class="s1">,</span><span class="s2"> h</span><span class="s5">=</span><span class="s7">6</span><span class="s1">)</span><span class="s5"> </span><span class="s1">{</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s2"> pct = </span><span class="s11">Math</span><span class="s1">.</span><span class="s8">min</span><span class="s1">(</span><span class="s7">100</span><span class="s1">,</span><span class="s2"> max&gt;</span><span class="s7">0</span><span class="s2"> ? </span><span class="s1">(</span><span class="s2">val/max</span><span class="s1">)</span><span class="s2">*</span><span class="s7">100</span><span class="s2"> : </span><span class="s7">0</span><span class="s1">);</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s9">return</span><span class="s5"> </span><span class="s2">`&lt;div class="bar-wrap" style="height:${h}px"&gt;&lt;div class="bar-fill" style="width:${pct}%;background:${color}"&gt;&lt;/div&gt;&lt;/div&gt;`</span><span class="s1">;</span></p>
-<p class="p7"><span class="s2">}</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p10"><span class="s9">function</span><span class="s5"> </span><span class="s2">renderMap</span><span class="s1">()</span><span class="s5"> </span><span class="s1">{</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s2"> zoneCount = </span><span class="s7">ZONES</span><span class="s1">.</span><span class="s8">map</span><span class="s1">(</span><span class="s10">z</span><span class="s2"> =&gt; </span><span class="s4">`</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div style="display:flex;align-items:center;gap:4px;font-size:10px;color:#566c86"&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="width:8px;height:8px;background:${z.border};border-radius:2px"&gt;&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">      </span>${z.icon} ${z.name} (${state.team.filter(m=&gt;m.zone===z.name).length})</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;`</span><span class="s1">).</span><span class="s8">join</span><span class="s1">(</span><span class="s2">''</span><span class="s1">);</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s2"> inspector = state</span><span class="s1">.</span><span class="s2">selected ? </span><span class="s4">`</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="font-size:36px"&gt;${state.selected.avatar}&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div style="color:${state.selected.color};font-size:14px;font-weight:bold"&gt;${state.selected.name}&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div style="color:#566c86;font-size:10px"&gt;${state.selected.role} · Lv.${state.selected.level}&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;span class="badge" style="background:${sColor(state.selected.status)}"&gt;${(state.selected.status||'').toUpperCase()}&lt;/span&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div style="background:#0f0f1b;border-radius:6px;padding:8px;margin-bottom:8px;font-size:10px"&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="color:#566c86;margin-bottom:4px"&gt;📋 QUESTS (${state.selected.issues?.length||0})&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">      </span>${(state.selected.issues||[]).slice(0,4).map(i=&gt;`</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div style="color:#f4f4f4;margin-bottom:3px;border-left:2px solid ${sColor(i.status)};padding-left:6px"&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">          </span>&lt;span style="color:#566c86"&gt;${i.key}&lt;/span&gt; · ${(i.summary||'').slice(0,24)}</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">          </span>&lt;span style="float:right;color:#f0c040"&gt;${i.points||'?'}pt&lt;/span&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/div&gt;`).join('')}</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="color:#29adff;margin-top:4px"&gt;📍 ${state.selected.zone}&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">    </span>${[['HP',state.selected.hp,100,'#e43b44'],['MP',state.selected.mp,100,'#3b7fd4'],['XP',state.selected.xp,500,'#f0c040']].map(([l,v,m,c])=&gt;`</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div class="stat-row"&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;span class="stat-label" style="color:${c}"&gt;${l}&lt;/span&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>${statBar(v,m,c,8)}</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;span class="stat-val" style="color:${c}"&gt;${v}/${m}&lt;/span&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;`).join('')}</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">  </span>`</span><span class="s5"> : </span><span class="s2">`&lt;div style="color:#566c86;font-size:11px;padding:20px;text-align:center"&gt;↑ Click a hero on the map&lt;/div&gt;`</span><span class="s1">;</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p9"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s2">return</span><span class="s5"> </span><span class="s4">`</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div class="map-wrap"&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>&lt;canvas id="mapCanvas" width="640" height="360"&gt;&lt;/canvas&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"&gt;${zoneCount}&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div class="inspector"&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div style="color:#f0c040;font-size:11px;font-weight:bold;margin-bottom:8px"&gt;🔍 INSPECTOR&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>${inspector}</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;`</span><span class="s1">;</span></p>
-<p class="p7"><span class="s2">}</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p10"><span class="s9">function</span><span class="s5"> </span><span class="s2">renderRoster</span><span class="s1">()</span><span class="s5"> </span><span class="s1">{</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s9">return</span><span class="s5"> </span><span class="s2">`&lt;div class="roster"&gt;${state.team.map(m =&gt; `</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div class="card" onclick="selectMember('${m.accountId}')" style="border-color:${state.selected?.accountId===m.accountId?m.color:'#4a4e8c'}"&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;span style="font-size:22px"&gt;${m.avatar}&lt;/span&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">          </span>&lt;div style="color:${m.color};font-weight:bold;font-size:13px"&gt;${m.name}&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">          </span>&lt;div style="color:#566c86;font-size:10px"&gt;${m.role} · Lv.${m.level}&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;span class="badge" style="background:${sColor(m.status)};margin-left:auto"&gt;${(m.status||'').toUpperCase()}&lt;/span&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="font-size:10px;color:#566c86;margin-bottom:6px"&gt;${m.issueCount} quests · ${m.completedPts}pt done&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">      </span>${[['HP',m.hp,100,'#e43b44'],['MP',m.mp,100,'#3b7fd4'],['XP',m.xp,500,'#f0c040']].map(([l,v,mx,c])=&gt;`</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div style="display:flex;gap:4px;align-items:center;margin-bottom:3px"&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">          </span>&lt;span style="font-size:9px;color:${c};width:18px"&gt;${l}&lt;/span&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">          </span>${statBar(v,mx,c,5)}</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">          </span>&lt;span style="font-size:9px;color:${c}"&gt;${v}&lt;/span&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/div&gt;`).join('')}</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;`).join('')}&lt;/div&gt;`</span><span class="s1">;</span></p>
-<p class="p7"><span class="s2">}</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p10"><span class="s9">function</span><span class="s5"> </span><span class="s2">renderSprint</span><span class="s1">()</span><span class="s5"> </span><span class="s1">{</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s2"> issues = state</span><span class="s1">.</span><span class="s2">issues</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s2"> total = issues</span><span class="s1">.</span><span class="s8">reduce</span><span class="s1">((</span><span class="s10">s</span><span class="s1">,</span><span class="s10">i</span><span class="s1">)</span><span class="s2">=&gt;s+</span><span class="s1">(</span><span class="s2">i</span><span class="s1">.</span><span class="s2">points||</span><span class="s7">0</span><span class="s1">),</span><span class="s7">0</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s2"> done = issues</span><span class="s1">.</span><span class="s8">filter</span><span class="s1">(</span><span class="s10">i</span><span class="s2">=&gt;i</span><span class="s1">.</span><span class="s2">status===</span><span class="s4">'Done'</span><span class="s1">).</span><span class="s8">reduce</span><span class="s1">((</span><span class="s10">s</span><span class="s1">,</span><span class="s10">i</span><span class="s1">)</span><span class="s2">=&gt;s+</span><span class="s1">(</span><span class="s2">i</span><span class="s1">.</span><span class="s2">points||</span><span class="s7">0</span><span class="s1">),</span><span class="s7">0</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s2"> inprog = issues</span><span class="s1">.</span><span class="s8">filter</span><span class="s1">(</span><span class="s10">i</span><span class="s2">=&gt;i</span><span class="s1">.</span><span class="s2">status===</span><span class="s4">'In Progress'</span><span class="s1">).</span><span class="s8">reduce</span><span class="s1">((</span><span class="s10">s</span><span class="s1">,</span><span class="s10">i</span><span class="s1">)</span><span class="s2">=&gt;s+</span><span class="s1">(</span><span class="s2">i</span><span class="s1">.</span><span class="s2">points||</span><span class="s7">0</span><span class="s1">),</span><span class="s7">0</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s2"> rev = issues</span><span class="s1">.</span><span class="s8">filter</span><span class="s1">(</span><span class="s10">i</span><span class="s2">=&gt;</span><span class="s1">[</span><span class="s4">'In Review'</span><span class="s1">,</span><span class="s4">'Code Review'</span><span class="s1">].</span><span class="s8">includes</span><span class="s1">(</span><span class="s2">i</span><span class="s1">.</span><span class="s2">status</span><span class="s1">)).</span><span class="s8">reduce</span><span class="s1">((</span><span class="s10">s</span><span class="s1">,</span><span class="s10">i</span><span class="s1">)</span><span class="s2">=&gt;s+</span><span class="s1">(</span><span class="s2">i</span><span class="s1">.</span><span class="s2">points||</span><span class="s7">0</span><span class="s1">),</span><span class="s7">0</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s2"> todo = total-done-rev-inprog</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s2"> pct = total&gt;</span><span class="s7">0</span><span class="s2">?</span><span class="s11">Math</span><span class="s1">.</span><span class="s8">round</span><span class="s1">((</span><span class="s2">done/total</span><span class="s1">)</span><span class="s2">*</span><span class="s7">100</span><span class="s1">)</span><span class="s2">:</span><span class="s7">0</span><span class="s1">;</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s5"> segs = </span><span class="s1">[{</span><span class="s6">l</span><span class="s5">:</span><span class="s2">'Done'</span><span class="s1">,</span><span class="s6">v</span><span class="s5">:done</span><span class="s1">,</span><span class="s6">c</span><span class="s5">:</span><span class="s2">'#38b764'</span><span class="s1">},{</span><span class="s6">l</span><span class="s5">:</span><span class="s2">'Review'</span><span class="s1">,</span><span class="s6">v</span><span class="s5">:rev</span><span class="s1">,</span><span class="s6">c</span><span class="s5">:</span><span class="s2">'#9b59b6'</span><span class="s1">},{</span><span class="s6">l</span><span class="s5">:</span><span class="s2">'In Progress'</span><span class="s1">,</span><span class="s6">v</span><span class="s5">:inprog</span><span class="s1">,</span><span class="s6">c</span><span class="s5">:</span><span class="s2">'#f0a030'</span><span class="s1">},{</span><span class="s6">l</span><span class="s5">:</span><span class="s2">'To Do'</span><span class="s1">,</span><span class="s6">v</span><span class="s5">:todo</span><span class="s1">,</span><span class="s6">c</span><span class="s5">:</span><span class="s2">'#566c86'</span><span class="s1">}];</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p9"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s2">return</span><span class="s5"> </span><span class="s4">`</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div class="panel"&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="display:flex;justify-content:space-between;margin-bottom:6px"&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;span style="color:#f0c040;font-size:12px;font-weight:bold"&gt;⚔️ ${state.sprintName}&lt;/span&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;span style="color:#f0c040;font-size:12px"&gt;${done}/${total} pts · ${pct}%&lt;/span&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="height:20px;display:flex;border-radius:6px;overflow:hidden;border:1px solid #4a4e8c;margin-bottom:8px"&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>${segs.filter(s=&gt;s.v&gt;0).map(s=&gt;`&lt;div style="width:${total&gt;0?(s.v/total)*100:0}%;background:${s.c}" title="${s.l}: ${s.v}pts"&gt;&lt;/div&gt;`).join('')}</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px"&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>${segs.map(s=&gt;`&lt;div style="display:flex;align-items:center;gap:4px"&gt;&lt;div style="width:10px;height:10px;background:${s.c};border-radius:2px"&gt;&lt;/div&gt;&lt;span style="color:#566c86;font-size:10px"&gt;${s.l}: ${s.v}pt&lt;/span&gt;&lt;/div&gt;`).join('')}</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="display:flex;flex-direction:column;gap:3px;max-height:420px;overflow-y:auto"&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>${issues.map(issue =&gt; {</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">          </span>const mb = state.team.find(m=&gt;m.accountId===issue.assigneeId);</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">          </span>return `&lt;div class="issue-row" style="border-left:3px solid ${sColor(issue.status)}"&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">            </span>&lt;span style="color:#566c86;width:64px;flex-shrink:0"&gt;${issue.key}&lt;/span&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">            </span>&lt;span style="color:#f4f4f4;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"&gt;${issue.summary}&lt;/span&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">            </span>${mb?`&lt;span style="color:${mb.color};width:22px;text-align:center"&gt;${mb.avatar}&lt;/span&gt;`:''}</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">            </span>&lt;span style="color:#f0c040;width:28px;text-align:right"&gt;${issue.points||'?'}pt&lt;/span&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">            </span>&lt;span class="badge" style="background:${sColor(issue.status)};width:72px"&gt;${issue.status?.toUpperCase()}&lt;/span&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">          </span>&lt;/div&gt;`;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>}).join('')}</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;`</span><span class="s1">;</span></p>
-<p class="p7"><span class="s2">}</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p10"><span class="s9">function</span><span class="s5"> </span><span class="s2">renderLeaderboard</span><span class="s1">()</span><span class="s5"> </span><span class="s1">{</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s2"> sorted = </span><span class="s1">[</span><span class="s2">...state</span><span class="s1">.</span><span class="s2">team</span><span class="s1">].</span><span class="s8">sort</span><span class="s1">((</span><span class="s10">a</span><span class="s1">,</span><span class="s10">b</span><span class="s1">)</span><span class="s2">=&gt;</span><span class="s1">(</span><span class="s2">b</span><span class="s1">.</span><span class="s2">level*</span><span class="s7">1000</span><span class="s2">+b</span><span class="s1">.</span><span class="s2">xp</span><span class="s1">)</span><span class="s2">-</span><span class="s1">(</span><span class="s2">a</span><span class="s1">.</span><span class="s2">level*</span><span class="s7">1000</span><span class="s2">+a</span><span class="s1">.</span><span class="s2">xp</span><span class="s1">));</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s2"> medals = </span><span class="s1">[</span><span class="s4">'🥇'</span><span class="s1">,</span><span class="s4">'🥈'</span><span class="s1">,</span><span class="s4">'🥉'</span><span class="s1">];</span></p>
-<p class="p9"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s2">return</span><span class="s5"> </span><span class="s4">`</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div style="max-width:520px;margin:0 auto" class="panel"&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="color:#f0c040;font-size:13px;font-weight:bold;margin-bottom:10px;text-align:center"&gt;🏆 HALL OF HEROES&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">      </span>${sorted.map((m,i)=&gt;`</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div style="display:flex;align-items:center;gap:8px;background:${i===0?'#2a2200':'#16213e'};border:1px solid ${i===0?'#f0c040':'#4a4e8c'};border-radius:6px;padding:7px 10px;margin-bottom:5px"&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">          </span>&lt;span style="font-size:16px;width:22px"&gt;${medals[i]||'#'+(i+1)}&lt;/span&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">          </span>&lt;span style="font-size:18px"&gt;${m.avatar}&lt;/span&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">          </span>&lt;div style="flex:1"&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">            </span>&lt;div style="color:${m.color};font-size:12px;font-weight:bold"&gt;${m.name} &lt;span style="color:#566c86;font-weight:normal"&gt;· ${m.role}&lt;/span&gt;&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">            </span>${statBar(m.xp,500,'#f0c040',4)}</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">          </span>&lt;div style="text-align:right"&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">            </span>&lt;div style="color:#f0c040;font-size:13px;font-weight:bold"&gt;Lv.${m.level}&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">            </span>&lt;div style="color:#566c86;font-size:9px"&gt;${m.completedPts}pt · ${m.issueCount} tasks&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">          </span>&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/div&gt;`).join('')}</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;`</span><span class="s1">;</span></p>
-<p class="p7"><span class="s2">}</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p10"><span class="s9">function</span><span class="s5"> </span><span class="s2">renderDebug</span><span class="s1">()</span><span class="s5"> </span><span class="s1">{</span></p>
-<p class="p9"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s2">return</span><span class="s5"> </span><span class="s4">`</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div class="panel"&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="color:#f0c040;font-weight:bold;margin-bottom:8px"&gt;🔧 DEBUG&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="color:#566c86;font-size:10px;line-height:2"&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div&gt;Proxy: ${PROXY}&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div&gt;Board: ${BOARD_ID} · Sprint: ${state.sprintName||'—'}&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div&gt;Issues: ${state.issues.length} · Team: ${state.team.length}&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div&gt;Last sync: ${state.lastSync?.toLocaleTimeString()||'—'}&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;`</span><span class="s1">;</span></p>
-<p class="p7"><span class="s2">}</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p9"><span class="s2">function</span><span class="s5"> </span><span class="s8">render</span><span class="s1">()</span><span class="s5"> </span><span class="s1">{</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s5"> tabs = </span><span class="s1">[[</span><span class="s2">'map'</span><span class="s1">,</span><span class="s2">'🗺️ Map'</span><span class="s1">],[</span><span class="s2">'roster'</span><span class="s1">,</span><span class="s2">'👥 Party'</span><span class="s1">],[</span><span class="s2">'board'</span><span class="s1">,</span><span class="s2">'⚔️ Sprint'</span><span class="s1">],[</span><span class="s2">'lead'</span><span class="s1">,</span><span class="s2">'🏆 Ranks'</span><span class="s1">],[</span><span class="s2">'debug'</span><span class="s1">,</span><span class="s2">'🔧 Debug'</span><span class="s1">]];</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s2"> now = </span><span class="s9">new</span><span class="s2"> </span><span class="s11">Date</span><span class="s1">();</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p10"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s11">document</span><span class="s1">.</span><span class="s2">getElementById</span><span class="s1">(</span><span class="s4">'app'</span><span class="s1">).</span><span class="s5">innerHTML = </span><span class="s4">`</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div class="header"&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div style="color:#f0c040;font-size:18px;font-weight:bold;letter-spacing:2px"&gt;⚔️ JIRA QUEST&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div style="color:#566c86;font-size:10px"&gt;BUM · ${state.sprintName} · ${state.team.length} Heroes&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;div style="display:flex;align-items:center;gap:12px"&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>${state.lastSync?`&lt;div style="text-align:center"&gt;&lt;div style="color:#38b764;font-size:9px"&gt;🟢 LIVE&lt;/div&gt;&lt;div style="color:#566c86;font-size:8px"&gt;${state.lastSync.toLocaleTimeString()}&lt;/div&gt;&lt;/div&gt;`:''}</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>&lt;button onclick="fetchData()" style="background:#16213e;color:#29adff;border:1px solid #29adff;border-radius:6px;padding:4px 10px;font-size:10px"&gt;⟳ Sync&lt;/button&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>&lt;div style="text-align:right"&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">          </span>&lt;div style="color:#29adff;font-size:13px"&gt;${now.toLocaleTimeString()}&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">          </span>&lt;div style="color:#566c86;font-size:9px"&gt;${now.toLocaleDateString()}&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div class="tabs"&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>${tabs.map(([k,l])=&gt;`&lt;button class="tab ${state.tab===k?'active':''}" onclick="setTab('${k}')"&gt;${l}&lt;/button&gt;`).join('')}</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div id="content"&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>${state.tab==='map' ? renderMap() :</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>state.tab==='roster' ? renderRoster() :</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>state.tab==='board' ? renderSprint() :</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>state.tab==='lead' ? renderLeaderboard() :</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>renderDebug()}</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>&lt;div style="margin-top:10px;text-align:center;color:#566c86;font-size:9px"&gt;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>⚡ JIRA QUEST · ${state.sprintName} · Live via Netlify · ${state.issues.length} issues</span></p>
-<p class="p4"><span class="s2"><span class="Apple-converted-space">    </span>&lt;/div&gt;`</span><span class="s1">;</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">if</span><span class="s2"> </span><span class="s1">(</span><span class="s2">state</span><span class="s1">.</span><span class="s2">tab === </span><span class="s4">'map'</span><span class="s1">)</span><span class="s2"> </span><span class="s8">drawMap</span><span class="s1">();</span></p>
-<p class="p7"><span class="s2">}</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p5"><span class="s9">function</span><span class="s2"> </span><span class="s8">setTab</span><span class="s1">(</span><span class="s10">t</span><span class="s1">)</span><span class="s2"> </span><span class="s1">{</span><span class="s2"> state</span><span class="s1">.</span><span class="s2">tab = t</span><span class="s1">;</span><span class="s2"> state</span><span class="s1">.</span><span class="s2">selected = </span><span class="s9">null</span><span class="s1">;</span><span class="s2"> </span><span class="s8">render</span><span class="s1">();</span><span class="s2"> </span><span class="s1">}</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p10"><span class="s9">function</span><span class="s5"> </span><span class="s2">selectMember</span><span class="s1">(</span><span class="s10">id</span><span class="s1">)</span><span class="s5"> </span><span class="s1">{</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span>state</span><span class="s1">.</span><span class="s2">selected = state</span><span class="s1">.</span><span class="s2">team</span><span class="s1">.</span><span class="s8">find</span><span class="s1">(</span><span class="s10">m</span><span class="s2">=&gt;m</span><span class="s1">.</span><span class="s2">accountId===id</span><span class="s1">)</span><span class="s2"> || </span><span class="s9">null</span><span class="s1">;</span></p>
-<p class="p10"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s2">render</span><span class="s1">();</span></p>
-<p class="p7"><span class="s2">}</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p1"><span class="s2">// ── CANVAS MAP ───────────────────────────────────────────────────────────────</span></p>
-<p class="p5"><span class="s9">let</span><span class="s2"> animFrame = </span><span class="s9">null</span><span class="s1">;</span></p>
-<p class="p9"><span class="s2">function</span><span class="s5"> </span><span class="s8">drawMap</span><span class="s1">()</span><span class="s5"> </span><span class="s1">{</span></p>
-<p class="p10"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s5"> canvas = </span><span class="s11">document</span><span class="s1">.</span><span class="s2">getElementById</span><span class="s1">(</span><span class="s4">'mapCanvas'</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">if</span><span class="s2"> </span><span class="s1">(</span><span class="s2">!canvas</span><span class="s1">)</span><span class="s2"> </span><span class="s9">return</span><span class="s1">;</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span>canvas</span><span class="s1">.</span><span class="s2">onclick = </span><span class="s10">e</span><span class="s2"> =&gt; </span><span class="s1">{</span></p>
-<p class="p10"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s9">const</span><span class="s5"> r = canvas</span><span class="s1">.</span><span class="s2">getBoundingClientRect</span><span class="s1">();</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s9">const</span><span class="s2"> sx = canvas</span><span class="s1">.</span><span class="s2">width/r</span><span class="s1">.</span><span class="s2">width</span><span class="s1">,</span><span class="s2"> sy = canvas</span><span class="s1">.</span><span class="s2">height/r</span><span class="s1">.</span><span class="s2">height</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s9">const</span><span class="s2"> mx = </span><span class="s1">(</span><span class="s2">e</span><span class="s1">.</span><span class="s2">clientX-r</span><span class="s1">.</span><span class="s2">left</span><span class="s1">)</span><span class="s2">*sx</span><span class="s1">,</span><span class="s2"> my = </span><span class="s1">(</span><span class="s2">e</span><span class="s1">.</span><span class="s2">clientY-r</span><span class="s1">.</span><span class="s2">top</span><span class="s1">)</span><span class="s2">*sy</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s9">const</span><span class="s2"> </span><span class="s7">W</span><span class="s2">=canvas</span><span class="s1">.</span><span class="s2">width</span><span class="s1">,</span><span class="s2"> </span><span class="s7">H</span><span class="s2">=canvas</span><span class="s1">.</span><span class="s2">height</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s9">let</span><span class="s2"> hit = </span><span class="s9">null</span><span class="s1">;</span></p>
-<p class="p10"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s7">ZONES</span><span class="s1">.</span><span class="s2">forEach</span><span class="s1">((</span><span class="s10">z</span><span class="s1">,</span><span class="s10">zi</span><span class="s1">)</span><span class="s5">=&gt;</span><span class="s1">{</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s9">const</span><span class="s2"> l=</span><span class="s7">ZONE_LAYOUT</span><span class="s1">[</span><span class="s2">zi</span><span class="s1">],</span><span class="s2"> zx=l</span><span class="s1">.</span><span class="s2">x/</span><span class="s7">100</span><span class="s2">*</span><span class="s7">W</span><span class="s1">,</span><span class="s2"> zy=l</span><span class="s1">.</span><span class="s2">y/</span><span class="s7">100</span><span class="s2">*</span><span class="s7">H</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>state</span><span class="s1">.</span><span class="s2">team</span><span class="s1">.</span><span class="s8">filter</span><span class="s1">(</span><span class="s10">m</span><span class="s2">=&gt;m</span><span class="s1">.</span><span class="s2">zone===z</span><span class="s1">.</span><span class="s2">name</span><span class="s1">).</span><span class="s8">forEach</span><span class="s1">((</span><span class="s10">m</span><span class="s1">,</span><span class="s10">mi</span><span class="s1">)</span><span class="s2">=&gt;</span><span class="s1">{</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s9">const</span><span class="s2"> col=mi%</span><span class="s7">3</span><span class="s1">,</span><span class="s2"> row=</span><span class="s11">Math</span><span class="s1">.</span><span class="s8">floor</span><span class="s1">(</span><span class="s2">mi/</span><span class="s7">3</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s9">if</span><span class="s1">(</span><span class="s11">Math</span><span class="s1">.</span><span class="s8">hypot</span><span class="s1">(</span><span class="s2">mx-</span><span class="s1">(</span><span class="s2">zx+</span><span class="s7">20</span><span class="s2">+col*</span><span class="s7">44</span><span class="s1">),</span><span class="s2"> my-</span><span class="s1">(</span><span class="s2">zy+</span><span class="s7">32</span><span class="s2">+row*</span><span class="s7">34</span><span class="s1">))</span><span class="s2">&lt;</span><span class="s7">18</span><span class="s1">)</span><span class="s2"> hit=m</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s1">});</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">});</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>state</span><span class="s1">.</span><span class="s2">selected = hit</span><span class="s1">;</span></p>
-<p class="p10"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s2">render</span><span class="s1">();</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">};</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">if</span><span class="s2"> </span><span class="s1">(</span><span class="s2">animFrame</span><span class="s1">)</span><span class="s2"> </span><span class="s8">cancelAnimationFrame</span><span class="s1">(</span><span class="s2">animFrame</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">let</span><span class="s2"> tick = </span><span class="s7">0</span><span class="s1">;</span></p>
-<p class="p9"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s2">function</span><span class="s5"> </span><span class="s8">frame</span><span class="s1">()</span><span class="s5"> </span><span class="s1">{</span></p>
-<p class="p10"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s9">if</span><span class="s5"> </span><span class="s1">(</span><span class="s5">!</span><span class="s11">document</span><span class="s1">.</span><span class="s2">getElementById</span><span class="s1">(</span><span class="s4">'mapCanvas'</span><span class="s1">))</span><span class="s5"> </span><span class="s9">return</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>tick++</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s9">const</span><span class="s2"> ctx = canvas</span><span class="s1">.</span><span class="s8">getContext</span><span class="s1">(</span><span class="s4">'2d'</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s9">const</span><span class="s2"> </span><span class="s7">W</span><span class="s2">=canvas</span><span class="s1">.</span><span class="s2">width</span><span class="s1">,</span><span class="s2"> </span><span class="s7">H</span><span class="s2">=canvas</span><span class="s1">.</span><span class="s2">height</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>ctx</span><span class="s1">.</span><span class="s2">fillStyle=</span><span class="s4">'#0d1117'</span><span class="s1">;</span><span class="s2"> ctx</span><span class="s1">.</span><span class="s8">fillRect</span><span class="s1">(</span><span class="s7">0</span><span class="s1">,</span><span class="s7">0</span><span class="s1">,</span><span class="s7">W</span><span class="s1">,</span><span class="s7">H</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>ctx</span><span class="s1">.</span><span class="s2">strokeStyle=</span><span class="s4">'#1a2030'</span><span class="s1">;</span><span class="s2"> ctx</span><span class="s1">.</span><span class="s2">lineWidth=</span><span class="s7">1</span><span class="s1">;</span></p>
-<p class="p10"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s9">for</span><span class="s1">(</span><span class="s9">let</span><span class="s5"> x=</span><span class="s7">0</span><span class="s1">;</span><span class="s5">x&lt;</span><span class="s7">W</span><span class="s1">;</span><span class="s5">x+=</span><span class="s7">20</span><span class="s1">){</span><span class="s5">ctx</span><span class="s1">.</span><span class="s2">beginPath</span><span class="s1">();</span><span class="s5">ctx</span><span class="s1">.</span><span class="s2">moveTo</span><span class="s1">(</span><span class="s5">x</span><span class="s1">,</span><span class="s7">0</span><span class="s1">);</span><span class="s5">ctx</span><span class="s1">.</span><span class="s2">lineTo</span><span class="s1">(</span><span class="s5">x</span><span class="s1">,</span><span class="s7">H</span><span class="s1">);</span><span class="s5">ctx</span><span class="s1">.</span><span class="s2">stroke</span><span class="s1">();}</span></p>
-<p class="p10"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s9">for</span><span class="s1">(</span><span class="s9">let</span><span class="s5"> y=</span><span class="s7">0</span><span class="s1">;</span><span class="s5">y&lt;</span><span class="s7">H</span><span class="s1">;</span><span class="s5">y+=</span><span class="s7">20</span><span class="s1">){</span><span class="s5">ctx</span><span class="s1">.</span><span class="s2">beginPath</span><span class="s1">();</span><span class="s5">ctx</span><span class="s1">.</span><span class="s2">moveTo</span><span class="s1">(</span><span class="s7">0</span><span class="s1">,</span><span class="s5">y</span><span class="s1">);</span><span class="s5">ctx</span><span class="s1">.</span><span class="s2">lineTo</span><span class="s1">(</span><span class="s7">W</span><span class="s1">,</span><span class="s5">y</span><span class="s1">);</span><span class="s5">ctx</span><span class="s1">.</span><span class="s2">stroke</span><span class="s1">();}</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p10"><span class="s5"><span class="Apple-converted-space">    </span></span><span class="s7">ZONES</span><span class="s1">.</span><span class="s2">forEach</span><span class="s1">((</span><span class="s10">z</span><span class="s1">,</span><span class="s10">zi</span><span class="s1">)</span><span class="s5">=&gt;</span><span class="s1">{</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s9">const</span><span class="s2"> l=</span><span class="s7">ZONE_LAYOUT</span><span class="s1">[</span><span class="s2">zi</span><span class="s1">],</span><span class="s2"> zx=l</span><span class="s1">.</span><span class="s2">x/</span><span class="s7">100</span><span class="s2">*</span><span class="s7">W</span><span class="s1">,</span><span class="s2"> zy=l</span><span class="s1">.</span><span class="s2">y/</span><span class="s7">100</span><span class="s2">*</span><span class="s7">H</span><span class="s1">,</span><span class="s2"> zw=l</span><span class="s1">.</span><span class="s2">w/</span><span class="s7">100</span><span class="s2">*</span><span class="s7">W</span><span class="s1">,</span><span class="s2"> zh=l</span><span class="s1">.</span><span class="s2">h/</span><span class="s7">100</span><span class="s2">*</span><span class="s7">H</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>ctx</span><span class="s1">.</span><span class="s2">fillStyle=z</span><span class="s1">.</span><span class="s2">color</span><span class="s1">;</span><span class="s2"> ctx</span><span class="s1">.</span><span class="s2">strokeStyle=z</span><span class="s1">.</span><span class="s2">border</span><span class="s1">;</span><span class="s2"> ctx</span><span class="s1">.</span><span class="s2">lineWidth=</span><span class="s7">2</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>ctx</span><span class="s1">.</span><span class="s8">beginPath</span><span class="s1">();</span><span class="s2"> ctx</span><span class="s1">.</span><span class="s8">roundRect</span><span class="s1">(</span><span class="s2">zx</span><span class="s1">,</span><span class="s2">zy</span><span class="s1">,</span><span class="s2">zw</span><span class="s1">,</span><span class="s2">zh</span><span class="s1">,</span><span class="s7">8</span><span class="s1">);</span><span class="s2"> ctx</span><span class="s1">.</span><span class="s8">fill</span><span class="s1">();</span><span class="s2"> ctx</span><span class="s1">.</span><span class="s8">stroke</span><span class="s1">();</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>ctx</span><span class="s1">.</span><span class="s2">fillStyle=z</span><span class="s1">.</span><span class="s2">border</span><span class="s1">;</span><span class="s2"> ctx</span><span class="s1">.</span><span class="s2">font=</span><span class="s4">'bold 10px monospace'</span><span class="s1">;</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">      </span>ctx</span><span class="s1">.</span><span class="s8">fillText</span><span class="s1">(</span><span class="s2">`${z.icon} ${z.name}`</span><span class="s1">,</span><span class="s5">zx+</span><span class="s7">6</span><span class="s1">,</span><span class="s5">zy+</span><span class="s7">16</span><span class="s1">);</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span>state</span><span class="s1">.</span><span class="s2">team</span><span class="s1">.</span><span class="s8">filter</span><span class="s1">(</span><span class="s10">m</span><span class="s2">=&gt;m</span><span class="s1">.</span><span class="s2">zone===z</span><span class="s1">.</span><span class="s2">name</span><span class="s1">).</span><span class="s8">forEach</span><span class="s1">((</span><span class="s10">m</span><span class="s1">,</span><span class="s10">mi</span><span class="s1">)</span><span class="s2">=&gt;</span><span class="s1">{</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s9">const</span><span class="s2"> col=mi%</span><span class="s7">3</span><span class="s1">,</span><span class="s2"> row=</span><span class="s11">Math</span><span class="s1">.</span><span class="s8">floor</span><span class="s1">(</span><span class="s2">mi/</span><span class="s7">3</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s9">const</span><span class="s2"> wobble = tick%</span><span class="s7">2</span><span class="s2">===</span><span class="s7">0</span><span class="s2">?</span><span class="s7">1.2</span><span class="s2">:-</span><span class="s7">1.2</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s9">const</span><span class="s2"> mx=zx+</span><span class="s7">20</span><span class="s2">+col*</span><span class="s7">44</span><span class="s2">+wobble</span><span class="s1">,</span><span class="s2"> my=zy+</span><span class="s7">32</span><span class="s2">+row*</span><span class="s7">34</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s9">const</span><span class="s2"> isSel = state</span><span class="s1">.</span><span class="s2">selected?.accountId===m</span><span class="s1">.</span><span class="s2">accountId</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span></span><span class="s9">if</span><span class="s1">(</span><span class="s2">isSel</span><span class="s1">){</span><span class="s2">ctx</span><span class="s1">.</span><span class="s2">shadowColor=m</span><span class="s1">.</span><span class="s2">color</span><span class="s1">;</span><span class="s2">ctx</span><span class="s1">.</span><span class="s2">shadowBlur=</span><span class="s7">14</span><span class="s1">;}</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>ctx</span><span class="s1">.</span><span class="s2">fillStyle=isSel?m</span><span class="s1">.</span><span class="s2">color:m</span><span class="s1">.</span><span class="s2">color+</span><span class="s4">'bb'</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>ctx</span><span class="s1">.</span><span class="s8">beginPath</span><span class="s1">();</span><span class="s2">ctx</span><span class="s1">.</span><span class="s8">arc</span><span class="s1">(</span><span class="s2">mx</span><span class="s1">,</span><span class="s2">my</span><span class="s1">,</span><span class="s2">isSel?</span><span class="s7">13</span><span class="s2">:</span><span class="s7">10</span><span class="s1">,</span><span class="s7">0</span><span class="s1">,</span><span class="s11">Math</span><span class="s1">.</span><span class="s7">PI</span><span class="s2">*</span><span class="s7">2</span><span class="s1">);</span><span class="s2">ctx</span><span class="s1">.</span><span class="s8">fill</span><span class="s1">();</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>ctx</span><span class="s1">.</span><span class="s2">shadowBlur=</span><span class="s7">0</span><span class="s1">;</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">        </span>ctx</span><span class="s1">.</span><span class="s5">font=</span><span class="s2">`${isSel?15:12}px serif`</span><span class="s1">;</span><span class="s5">ctx</span><span class="s1">.</span><span class="s5">textAlign=</span><span class="s2">'center'</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>ctx</span><span class="s1">.</span><span class="s8">fillText</span><span class="s1">(</span><span class="s2">m</span><span class="s1">.</span><span class="s2">avatar</span><span class="s1">,</span><span class="s2">mx</span><span class="s1">,</span><span class="s2">my+</span><span class="s7">5</span><span class="s1">);</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">        </span>ctx</span><span class="s1">.</span><span class="s5">fillStyle=isSel?</span><span class="s2">'#fff'</span><span class="s5">:</span><span class="s2">'#ccc'</span><span class="s1">;</span><span class="s5">ctx</span><span class="s1">.</span><span class="s5">font=</span><span class="s2">`bold ${isSel?9:8}px monospace`</span><span class="s1">;</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>ctx</span><span class="s1">.</span><span class="s8">fillText</span><span class="s1">(</span><span class="s2">m</span><span class="s1">.</span><span class="s2">name</span><span class="s1">.</span><span class="s8">split</span><span class="s1">(</span><span class="s4">' '</span><span class="s1">)[</span><span class="s7">0</span><span class="s1">],</span><span class="s2">mx</span><span class="s1">,</span><span class="s2">my+</span><span class="s7">24</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>ctx</span><span class="s1">.</span><span class="s2">fillStyle=</span><span class="s8">sColor</span><span class="s1">(</span><span class="s2">m</span><span class="s1">.</span><span class="s2">status</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">        </span>ctx</span><span class="s1">.</span><span class="s8">beginPath</span><span class="s1">();</span><span class="s2">ctx</span><span class="s1">.</span><span class="s8">arc</span><span class="s1">(</span><span class="s2">mx+</span><span class="s7">9</span><span class="s1">,</span><span class="s2">my-</span><span class="s7">9</span><span class="s1">,</span><span class="s7">4</span><span class="s1">,</span><span class="s7">0</span><span class="s1">,</span><span class="s11">Math</span><span class="s1">.</span><span class="s7">PI</span><span class="s2">*</span><span class="s7">2</span><span class="s1">);</span><span class="s2">ctx</span><span class="s1">.</span><span class="s8">fill</span><span class="s1">();</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">      </span></span><span class="s1">});</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span></span><span class="s1">});</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">    </span>animFrame = </span><span class="s8">setTimeout</span><span class="s1">(</span><span class="s2">frame</span><span class="s1">,</span><span class="s2"> </span><span class="s7">700</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s1">}</span></p>
-<p class="p10"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s2">frame</span><span class="s1">();</span></p>
-<p class="p7"><span class="s2">}</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p1"><span class="s2">// ── CLOCK ────────────────────────────────────────────────────────────────────</span></p>
-<p class="p10"><span class="s2">setInterval</span><span class="s1">(()</span><span class="s5">=&gt;</span><span class="s1">{</span></p>
-<p class="p4"><span class="s5"><span class="Apple-converted-space">  </span></span><span class="s9">const</span><span class="s5"> el=</span><span class="s11">document</span><span class="s1">.</span><span class="s8">querySelector</span><span class="s1">(</span><span class="s2">'.header div:last-child div:first-child'</span><span class="s1">);</span></p>
-<p class="p5"><span class="s2"><span class="Apple-converted-space">  </span></span><span class="s9">if</span><span class="s1">(</span><span class="s2">el</span><span class="s1">)</span><span class="s2"> el</span><span class="s1">.</span><span class="s2">textContent=</span><span class="s9">new</span><span class="s2"> </span><span class="s11">Date</span><span class="s1">().</span><span class="s8">toLocaleTimeString</span><span class="s1">();</span></p>
-<p class="p8"><span class="s1">},</span><span class="s2">1000</span><span class="s1">);</span></p>
-<p class="p6"><span class="s2"></span><br></p>
-<p class="p1"><span class="s2">// ── INIT ─────────────────────────────────────────────────────────────────────</span></p>
-<p class="p10"><span class="s2">fetchData</span><span class="s1">();</span></p>
-<p class="p10"><span class="s2">setInterval</span><span class="s1">(</span><span class="s5">fetchData</span><span class="s1">,</span><span class="s5"> </span><span class="s7">60000</span><span class="s1">);</span></p>
-<p class="p2"><span class="s1">&lt;/</span><span class="s2">script</span><span class="s1">&gt;</span></p>
-<p class="p2"><span class="s1">&lt;/</span><span class="s2">body</span><span class="s1">&gt;</span></p>
-<p class="p2"><span class="s1">&lt;/</span><span class="s2">html</span><span class="s1">&gt;</span></p>
+
+<div id="app">
+  <div class="loading">
+    <div style="font-size:48px">⚔️</div>
+    <div style="color:#f0c040;font-size:18px;letter-spacing:3px">JIRA QUEST</div>
+    <div style="color:#566c86;font-size:12px">Connecting to Bumrungrad Sprint...</div>
+    <div class="log-box" id="logBox"></div>
+  </div>
+</div>
+
+<script>
+const BOARD_ID = 124;
+const PROXY = '/.netlify/functions/jira'; // relative — same origin, no CORS!
+
+const STATUS_COLORS = {
+  'To Do':'#566c86','In Progress':'#f0a030','In Review':'#9b59b6',
+  'Code Review':'#9b59b6','Done':'#38b764','Blocked':'#e43b44',
+  'Selected for Development':'#3b7fd4'
+};
+const ROLES = ['Warrior','Mage','Ranger','Healer','Rogue','Paladin','Bard','Druid'];
+const AVATARS = ['⚔️','🧙','🏹','✨','🗡️','🛡️','🎵','🌿','🔥','💎','🌙','⚡'];
+const MCOLORS = ['#9b59b6','#e43b44','#38b764','#29adff','#f0c040','#f0a030','#e91e8c','#00bcd4'];
+const ZONES = [
+  { name:'Feature Forest',  color:'#1a4a2a', border:'#38b764', icon:'🌲', match:['in progress'] },
+  { name:'Review Citadel',  color:'#2a1a3a', border:'#9b59b6', icon:'🏰', match:['review'] },
+  { name:'Bug Dungeon',     color:'#2a1a1a', border:'#e43b44', icon:'🕷️', match:['blocked'] },
+  { name:'Victory Plains',  color:'#2a2a1a', border:'#f0c040', icon:'🏆', match:['done'] },
+  { name:'Idle Town',       color:'#1a1a2a', border:'#566c86', icon:'🏘️', match:['to do','backlog','open','selected'] },
+];
+const ZONE_LAYOUT = [{x:5,y:5,w:42,h:42},{x:54,y:5,w:42,h:42},{x:5,y:54,w:28,h:42},{x:36,y:54,w:28,h:42},{x:67,y:54,w:28,h:42}];
+
+let state = { team:[], issues:[], sprintName:'', tab:'map', selected:null, tick:0, lastSync:null };
+let mcache = {};
+
+const sColor = s => STATUS_COLORS[s] || '#566c86';
+const getZone = s => ZONES.find(z => z.match.some(m => (s||'').toLowerCase().includes(m)))?.name || 'Idle Town';
+const getMI = id => {
+  if (mcache[id]) return mcache[id];
+  const i = Object.keys(mcache).length;
+  mcache[id] = { role:ROLES[i%ROLES.length], avatar:AVATARS[i%AVATARS.length], color:MCOLORS[i%MCOLORS.length], hp:60+((i*17)%40), mp:40+((i*23)%60) };
+  return mcache[id];
+};
+
+function log(msg) {
+  const box = document.getElementById('logBox');
+  if (!box) return;
+  const d = document.createElement('div');
+  d.className = 'log-line'; d.textContent = msg;
+  box.appendChild(d); box.scrollTop = box.scrollHeight;
+}
+
+async function jiraFetch(path) {
+  const url = `${PROXY}?path=${encodeURIComponent(path)}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Proxy ${res.status}: ${await res.text()}`);
+  return res.json();
+}
+
+async function fetchData() {
+  try {
+    log('🔄 Fetching active sprint...');
+    const sd = await jiraFetch(`/rest/agile/1.0/board/${BOARD_ID}/sprint?state=active`);
+    const sprint = sd.values?.[0];
+    if (!sprint) throw new Error('No active sprint on board ' + BOARD_ID);
+    state.sprintName = sprint.name;
+    log(`✅ Sprint: ${sprint.name}`);
+
+    log('🔄 Fetching issues...');
+    const id = await jiraFetch(`/rest/agile/1.0/board/${BOARD_ID}/sprint/${sprint.id}/issue?maxResults=100&fields=summary,assignee,status,customfield_10016,priority`);
+    const raw = id.issues || [];
+    log(`✅ ${raw.length} issues loaded`);
+
+    state.issues = raw.map(i => ({
+      key:i.key, summary:i.fields?.summary||'',
+      status:i.fields?.status?.name||'To Do',
+      assigneeId:i.fields?.assignee?.accountId||null,
+      assigneeName:i.fields?.assignee?.displayName||'Unassigned',
+      points:i.fields?.customfield_10016||0,
+    }));
+
+    const am = {};
+    raw.forEach(i => {
+      const a = i.fields?.assignee; if (!a) return;
+      if (!am[a.accountId]) am[a.accountId] = { accountId:a.accountId, name:a.displayName, issues:[] };
+      am[a.accountId].issues.push({ key:i.key, summary:i.fields?.summary, status:i.fields?.status?.name||'To Do', points:i.fields?.customfield_10016||0 });
+    });
+
+    state.team = Object.values(am).map(mb => {
+      const info = getMI(mb.accountId);
+      const cp = mb.issues.filter(i=>i.status==='Done').reduce((s,i)=>s+(i.points||0),0);
+      const xp = cp*100, level = Math.max(1,Math.floor(xp/500)+1);
+      const active = mb.issues.find(i=>i.status==='In Progress') || mb.issues.find(i=>i.status==='In Review') || mb.issues.find(i=>!['Done','To Do','Backlog','Selected for Development'].includes(i.status));
+      const ps = active ? active.status : mb.issues.every(i=>i.status==='Done') ? 'Done' : 'To Do';
+      return { ...mb, ...info, level, xp:xp%500, issueCount:mb.issues.length, completedPts:cp, status:ps, zone:getZone(ps) };
+    });
+
+    state.lastSync = new Date();
+    log(`✅ ${state.team.length} heroes ready!`);
+    render();
+  } catch(e) {
+    log('❌ ' + e.message);
+    renderError(e.message);
+  }
+}
+
+// ── RENDER ──────────────────────────────────────────────────────────────────
+
+function renderError(msg) {
+  document.getElementById('app').innerHTML = `
+    <div class="loading">
+      <div style="font-size:40px">💀</div>
+      <div style="color:#e43b44;font-size:15px;margin:8px 0">CONNECTION FAILED</div>
+      <div style="background:#0f0f1b;padding:12px;border-radius:8px;font-size:10px;color:#566c86;max-width:480px;line-height:1.7">${msg}</div>
+      <button onclick="location.reload()" style="margin-top:12px;background:#f0c040;color:#1a1c2c;border:none;padding:8px 24px;border-radius:6px;font-weight:bold;font-size:12px">⚡ Retry</button>
+    </div>`;
+}
+
+function statBar(val, max, color, h=6) {
+  const pct = Math.min(100, max>0 ? (val/max)*100 : 0);
+  return `<div class="bar-wrap" style="height:${h}px"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div>`;
+}
+
+function renderMap() {
+  const zoneCount = ZONES.map(z => `
+    <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:#566c86">
+      <div style="width:8px;height:8px;background:${z.border};border-radius:2px"></div>
+      ${z.icon} ${z.name} (${state.team.filter(m=>m.zone===z.name).length})
+    </div>`).join('');
+
+  const inspector = state.selected ? `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <div style="font-size:36px">${state.selected.avatar}</div>
+      <div>
+        <div style="color:${state.selected.color};font-size:14px;font-weight:bold">${state.selected.name}</div>
+        <div style="color:#566c86;font-size:10px">${state.selected.role} · Lv.${state.selected.level}</div>
+        <span class="badge" style="background:${sColor(state.selected.status)}">${(state.selected.status||'').toUpperCase()}</span>
+      </div>
+    </div>
+    <div style="background:#0f0f1b;border-radius:6px;padding:8px;margin-bottom:8px;font-size:10px">
+      <div style="color:#566c86;margin-bottom:4px">📋 QUESTS (${state.selected.issues?.length||0})</div>
+      ${(state.selected.issues||[]).slice(0,4).map(i=>`
+        <div style="color:#f4f4f4;margin-bottom:3px;border-left:2px solid ${sColor(i.status)};padding-left:6px">
+          <span style="color:#566c86">${i.key}</span> · ${(i.summary||'').slice(0,24)}
+          <span style="float:right;color:#f0c040">${i.points||'?'}pt</span>
+        </div>`).join('')}
+      <div style="color:#29adff;margin-top:4px">📍 ${state.selected.zone}</div>
+    </div>
+    ${[['HP',state.selected.hp,100,'#e43b44'],['MP',state.selected.mp,100,'#3b7fd4'],['XP',state.selected.xp,500,'#f0c040']].map(([l,v,m,c])=>`
+      <div class="stat-row">
+        <span class="stat-label" style="color:${c}">${l}</span>
+        ${statBar(v,m,c,8)}
+        <span class="stat-val" style="color:${c}">${v}/${m}</span>
+      </div>`).join('')}
+  ` : `<div style="color:#566c86;font-size:11px;padding:20px;text-align:center">↑ Click a hero on the map</div>`;
+
+  return `
+    <div class="map-wrap">
+      <div>
+        <canvas id="mapCanvas" width="640" height="360"></canvas>
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">${zoneCount}</div>
+      </div>
+      <div class="inspector">
+        <div style="color:#f0c040;font-size:11px;font-weight:bold;margin-bottom:8px">🔍 INSPECTOR</div>
+        ${inspector}
+      </div>
+    </div>`;
+}
+
+function renderRoster() {
+  return `<div class="roster">${state.team.map(m => `
+    <div class="card" onclick="selectMember('${m.accountId}')" style="border-color:${state.selected?.accountId===m.accountId?m.color:'#4a4e8c'}">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="font-size:22px">${m.avatar}</span>
+        <div>
+          <div style="color:${m.color};font-weight:bold;font-size:13px">${m.name}</div>
+          <div style="color:#566c86;font-size:10px">${m.role} · Lv.${m.level}</div>
+        </div>
+        <span class="badge" style="background:${sColor(m.status)};margin-left:auto">${(m.status||'').toUpperCase()}</span>
+      </div>
+      <div style="font-size:10px;color:#566c86;margin-bottom:6px">${m.issueCount} quests · ${m.completedPts}pt done</div>
+      ${[['HP',m.hp,100,'#e43b44'],['MP',m.mp,100,'#3b7fd4'],['XP',m.xp,500,'#f0c040']].map(([l,v,mx,c])=>`
+        <div style="display:flex;gap:4px;align-items:center;margin-bottom:3px">
+          <span style="font-size:9px;color:${c};width:18px">${l}</span>
+          ${statBar(v,mx,c,5)}
+          <span style="font-size:9px;color:${c}">${v}</span>
+        </div>`).join('')}
+    </div>`).join('')}</div>`;
+}
+
+function renderSprint() {
+  const issues = state.issues;
+  const total = issues.reduce((s,i)=>s+(i.points||0),0);
+  const done = issues.filter(i=>i.status==='Done').reduce((s,i)=>s+(i.points||0),0);
+  const inprog = issues.filter(i=>i.status==='In Progress').reduce((s,i)=>s+(i.points||0),0);
+  const rev = issues.filter(i=>['In Review','Code Review'].includes(i.status)).reduce((s,i)=>s+(i.points||0),0);
+  const todo = total-done-rev-inprog;
+  const pct = total>0?Math.round((done/total)*100):0;
+  const segs = [{l:'Done',v:done,c:'#38b764'},{l:'Review',v:rev,c:'#9b59b6'},{l:'In Progress',v:inprog,c:'#f0a030'},{l:'To Do',v:todo,c:'#566c86'}];
+
+  return `
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+        <span style="color:#f0c040;font-size:12px;font-weight:bold">⚔️ ${state.sprintName}</span>
+        <span style="color:#f0c040;font-size:12px">${done}/${total} pts · ${pct}%</span>
+      </div>
+      <div style="height:20px;display:flex;border-radius:6px;overflow:hidden;border:1px solid #4a4e8c;margin-bottom:8px">
+        ${segs.filter(s=>s.v>0).map(s=>`<div style="width:${total>0?(s.v/total)*100:0}%;background:${s.c}" title="${s.l}: ${s.v}pts"></div>`).join('')}
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px">
+        ${segs.map(s=>`<div style="display:flex;align-items:center;gap:4px"><div style="width:10px;height:10px;background:${s.c};border-radius:2px"></div><span style="color:#566c86;font-size:10px">${s.l}: ${s.v}pt</span></div>`).join('')}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:3px;max-height:420px;overflow-y:auto">
+        ${issues.map(issue => {
+          const mb = state.team.find(m=>m.accountId===issue.assigneeId);
+          return `<div class="issue-row" style="border-left:3px solid ${sColor(issue.status)}">
+            <span style="color:#566c86;width:64px;flex-shrink:0">${issue.key}</span>
+            <span style="color:#f4f4f4;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${issue.summary}</span>
+            ${mb?`<span style="color:${mb.color};width:22px;text-align:center">${mb.avatar}</span>`:''}
+            <span style="color:#f0c040;width:28px;text-align:right">${issue.points||'?'}pt</span>
+            <span class="badge" style="background:${sColor(issue.status)};width:72px">${issue.status?.toUpperCase()}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+}
+
+function renderLeaderboard() {
+  const sorted = [...state.team].sort((a,b)=>(b.level*1000+b.xp)-(a.level*1000+a.xp));
+  const medals = ['🥇','🥈','🥉'];
+  return `
+    <div style="max-width:520px;margin:0 auto" class="panel">
+      <div style="color:#f0c040;font-size:13px;font-weight:bold;margin-bottom:10px;text-align:center">🏆 HALL OF HEROES</div>
+      ${sorted.map((m,i)=>`
+        <div style="display:flex;align-items:center;gap:8px;background:${i===0?'#2a2200':'#16213e'};border:1px solid ${i===0?'#f0c040':'#4a4e8c'};border-radius:6px;padding:7px 10px;margin-bottom:5px">
+          <span style="font-size:16px;width:22px">${medals[i]||'#'+(i+1)}</span>
+          <span style="font-size:18px">${m.avatar}</span>
+          <div style="flex:1">
+            <div style="color:${m.color};font-size:12px;font-weight:bold">${m.name} <span style="color:#566c86;font-weight:normal">· ${m.role}</span></div>
+            ${statBar(m.xp,500,'#f0c040',4)}
+          </div>
+          <div style="text-align:right">
+            <div style="color:#f0c040;font-size:13px;font-weight:bold">Lv.${m.level}</div>
+            <div style="color:#566c86;font-size:9px">${m.completedPts}pt · ${m.issueCount} tasks</div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+function renderDebug() {
+  return `
+    <div class="panel">
+      <div style="color:#f0c040;font-weight:bold;margin-bottom:8px">🔧 DEBUG</div>
+      <div style="color:#566c86;font-size:10px;line-height:2">
+        <div>Proxy: ${PROXY}</div>
+        <div>Board: ${BOARD_ID} · Sprint: ${state.sprintName||'—'}</div>
+        <div>Issues: ${state.issues.length} · Team: ${state.team.length}</div>
+        <div>Last sync: ${state.lastSync?.toLocaleTimeString()||'—'}</div>
+      </div>
+    </div>`;
+}
+
+function render() {
+  const tabs = [['map','🗺️ Map'],['roster','👥 Party'],['board','⚔️ Sprint'],['lead','🏆 Ranks'],['debug','🔧 Debug']];
+  const now = new Date();
+
+  document.getElementById('app').innerHTML = `
+    <div class="header">
+      <div>
+        <div style="color:#f0c040;font-size:18px;font-weight:bold;letter-spacing:2px">⚔️ JIRA QUEST</div>
+        <div style="color:#566c86;font-size:10px">BUM · ${state.sprintName} · ${state.team.length} Heroes</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        ${state.lastSync?`<div style="text-align:center"><div style="color:#38b764;font-size:9px">🟢 LIVE</div><div style="color:#566c86;font-size:8px">${state.lastSync.toLocaleTimeString()}</div></div>`:''}
+        <button onclick="fetchData()" style="background:#16213e;color:#29adff;border:1px solid #29adff;border-radius:6px;padding:4px 10px;font-size:10px">⟳ Sync</button>
+        <div style="text-align:right">
+          <div style="color:#29adff;font-size:13px">${now.toLocaleTimeString()}</div>
+          <div style="color:#566c86;font-size:9px">${now.toLocaleDateString()}</div>
+        </div>
+      </div>
+    </div>
+    <div class="tabs">
+      ${tabs.map(([k,l])=>`<button class="tab ${state.tab===k?'active':''}" onclick="setTab('${k}')">${l}</button>`).join('')}
+    </div>
+    <div id="content">
+      ${state.tab==='map' ? renderMap() :
+        state.tab==='roster' ? renderRoster() :
+        state.tab==='board' ? renderSprint() :
+        state.tab==='lead' ? renderLeaderboard() :
+        renderDebug()}
+    </div>
+    <div style="margin-top:10px;text-align:center;color:#566c86;font-size:9px">
+      ⚡ JIRA QUEST · ${state.sprintName} · Live via Netlify · ${state.issues.length} issues
+    </div>`;
+
+  if (state.tab === 'map') drawMap();
+}
+
+function setTab(t) { state.tab = t; state.selected = null; render(); }
+
+function selectMember(id) {
+  state.selected = state.team.find(m=>m.accountId===id) || null;
+  render();
+}
+
+// ── CANVAS MAP ───────────────────────────────────────────────────────────────
+let animFrame = null;
+function drawMap() {
+  const canvas = document.getElementById('mapCanvas');
+  if (!canvas) return;
+
+  canvas.onclick = e => {
+    const r = canvas.getBoundingClientRect();
+    const sx = canvas.width/r.width, sy = canvas.height/r.height;
+    const mx = (e.clientX-r.left)*sx, my = (e.clientY-r.top)*sy;
+    const W=canvas.width, H=canvas.height;
+    let hit = null;
+    ZONES.forEach((z,zi)=>{
+      const l=ZONE_LAYOUT[zi], zx=l.x/100*W, zy=l.y/100*H;
+      state.team.filter(m=>m.zone===z.name).forEach((m,mi)=>{
+        const col=mi%3, row=Math.floor(mi/3);
+        if(Math.hypot(mx-(zx+20+col*44), my-(zy+32+row*34))<18) hit=m;
+      });
+    });
+    state.selected = hit;
+    render();
+  };
+
+  if (animFrame) cancelAnimationFrame(animFrame);
+  let tick = 0;
+  function frame() {
+    if (!document.getElementById('mapCanvas')) return;
+    tick++;
+    const ctx = canvas.getContext('2d');
+    const W=canvas.width, H=canvas.height;
+    ctx.fillStyle='#0d1117'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#1a2030'; ctx.lineWidth=1;
+    for(let x=0;x<W;x+=20){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<H;y+=20){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+
+    ZONES.forEach((z,zi)=>{
+      const l=ZONE_LAYOUT[zi], zx=l.x/100*W, zy=l.y/100*H, zw=l.w/100*W, zh=l.h/100*H;
+      ctx.fillStyle=z.color; ctx.strokeStyle=z.border; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.roundRect(zx,zy,zw,zh,8); ctx.fill(); ctx.stroke();
+      ctx.fillStyle=z.border; ctx.font='bold 10px monospace';
+      ctx.fillText(`${z.icon} ${z.name}`,zx+6,zy+16);
+
+      state.team.filter(m=>m.zone===z.name).forEach((m,mi)=>{
+        const col=mi%3, row=Math.floor(mi/3);
+        const wobble = tick%2===0?1.2:-1.2;
+        const mx=zx+20+col*44+wobble, my=zy+32+row*34;
+        const isSel = state.selected?.accountId===m.accountId;
+        if(isSel){ctx.shadowColor=m.color;ctx.shadowBlur=14;}
+        ctx.fillStyle=isSel?m.color:m.color+'bb';
+        ctx.beginPath();ctx.arc(mx,my,isSel?13:10,0,Math.PI*2);ctx.fill();
+        ctx.shadowBlur=0;
+        ctx.font=`${isSel?15:12}px serif`;ctx.textAlign='center';
+        ctx.fillText(m.avatar,mx,my+5);
+        ctx.fillStyle=isSel?'#fff':'#ccc';ctx.font=`bold ${isSel?9:8}px monospace`;
+        ctx.fillText(m.name.split(' ')[0],mx,my+24);
+        ctx.fillStyle=sColor(m.status);
+        ctx.beginPath();ctx.arc(mx+9,my-9,4,0,Math.PI*2);ctx.fill();
+      });
+    });
+    animFrame = setTimeout(frame, 700);
+  }
+  frame();
+}
+
+// ── CLOCK ────────────────────────────────────────────────────────────────────
+setInterval(()=>{
+  const el=document.querySelector('.header div:last-child div:first-child');
+  if(el) el.textContent=new Date().toLocaleTimeString();
+},1000);
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+fetchData();
+setInterval(fetchData, 60000);
+</script>
 </body>
 </html>
