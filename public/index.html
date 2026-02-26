@@ -8,155 +8,238 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:#1a1c2c;color:#f4f4f4;font-family:monospace;min-height:100vh;padding:10px 12px;overflow-x:hidden;}
 button{cursor:pointer;font-family:monospace;}
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding:8px 14px;background:#16213e;border-radius:8px;border:2px solid #f0c040;box-shadow:0 0 20px #f0c04033;}
+input,textarea,select{font-family:monospace;}
+
+/* HEADER */
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding:8px 14px;background:#16213e;border-radius:8px;border:2px solid #f0c040;box-shadow:0 0 20px #f0c04033;}
 .tabs{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap;}
-.tab{background:#16213e;color:#566c86;border:1px solid #4a4e8c;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:bold;}
+.tab{background:#16213e;color:#566c86;border:1px solid #4a4e8c;border-radius:6px;padding:5px 10px;font-size:11px;font-weight:bold;transition:all 0.2s;}
 .tab.active{background:#f0c040;color:#1a1c2c;border-color:#f0c040;}
 .panel{background:#16213e;border:2px solid #4a4e8c;border-radius:8px;padding:14px;}
-.bar-wrap{background:#111;border-radius:3px;height:6px;overflow:hidden;flex:1;}
-.bar-fill{height:100%;border-radius:3px;transition:width 0.6s;}
-.card{background:#16213e;border:2px solid #4a4e8c;border-radius:8px;padding:10px 12px;cursor:pointer;transition:all 0.2s;}
-.card:hover{border-color:#f0c040;transform:translateY(-2px);}
-.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;}
-.badge{color:#fff;padding:1px 6px;border-radius:8px;font-size:9px;text-align:center;white-space:nowrap;}
-::-webkit-scrollbar{width:4px;} ::-webkit-scrollbar-track{background:#111;} ::-webkit-scrollbar-thumb{background:#4a4e8c;border-radius:2px;}
+.badge{color:#fff;padding:2px 7px;border-radius:8px;font-size:9px;font-weight:bold;}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:#111;}
+::-webkit-scrollbar-thumb{background:#4a4e8c;border-radius:2px;}
 
-/* Board columns */
+/* BOARD */
 .board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:start;}
-.col{background:#0f0f1b;border-radius:8px;padding:10px;min-height:200px;border:2px solid transparent;transition:border-color 0.2s;}
-.col.drag-over{border-color:#f0c040;background:#1a1800;}
-.col-title{font-size:11px;font-weight:bold;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #2a2a3a;}
-.ticket{background:#16213e;border-radius:6px;padding:8px;margin-bottom:6px;cursor:grab;border-left:3px solid #566c86;font-size:10px;transition:all 0.2s;user-select:none;}
-.ticket:hover{transform:translateY(-1px);box-shadow:0 4px 12px #00000066;}
-.ticket.dragging{opacity:0.4;cursor:grabbing;}
-.ticket-key{color:#566c86;font-size:9px;}
-.ticket-title{color:#f4f4f4;margin:2px 0;line-height:1.4;}
-.ticket-meta{display:flex;align-items:center;gap:4px;margin-top:4px;}
+.col{background:#0f0f1b;border-radius:8px;padding:10px;min-height:300px;border:2px solid transparent;transition:all 0.2s;}
+.col.drag-over{border-color:#f0c040;background:#1a1800;box-shadow:0 0 15px #f0c04044;}
+.col-title{font-size:11px;font-weight:bold;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #2a2a3a;display:flex;align-items:center;justify-content:space-between;}
+.ticket{background:#16213e;border-radius:6px;padding:8px;margin-bottom:6px;cursor:pointer;border-left:3px solid #566c86;font-size:10px;transition:all 0.2s;user-select:none;position:relative;}
+.ticket:hover{transform:translateY(-2px);box-shadow:0 4px 16px #00000088;border-left-width:4px;}
+.ticket.dragging{opacity:0.3;cursor:grabbing;}
+.ticket-key{color:#566c86;font-size:9px;margin-bottom:2px;}
+.ticket-title{color:#f4f4f4;line-height:1.4;margin-bottom:6px;}
+.ticket-meta{display:flex;align-items:center;gap:4px;flex-wrap:wrap;}
 .ticket-pts{background:#2a2a3a;color:#f0c040;padding:1px 5px;border-radius:4px;font-size:9px;}
-.ticket-assignee{font-size:12px;}
-.done-btn{background:none;border:1px solid #38b764;color:#38b764;border-radius:4px;padding:1px 6px;font-size:9px;margin-left:auto;}
-.done-btn:hover{background:#38b764;color:#fff;}
+.grab-handle{position:absolute;top:6px;right:6px;color:#566c86;font-size:10px;cursor:grab;}
 
-/* Hero Modal */
-.modal-bg{position:fixed;inset:0;background:#000000cc;z-index:100;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
-.modal{background:#16213e;border:2px solid #4a4e8c;border-radius:12px;padding:20px;width:500px;max-width:95vw;max-height:85vh;overflow-y:auto;position:relative;}
-.modal-close{position:absolute;top:10px;right:12px;background:none;border:none;color:#566c86;font-size:18px;cursor:pointer;}
-.quest-item{display:flex;align-items:center;gap:8px;background:#0f0f1b;border-radius:6px;padding:8px;margin-bottom:6px;border-left:3px solid #566c86;}
-.status-select{background:#0f0f1b;color:#f4f4f4;border:1px solid #4a4e8c;border-radius:4px;padding:2px 4px;font-size:9px;font-family:monospace;cursor:pointer;}
+/* TICKET MODAL */
+.modal-bg{position:fixed;inset:0;background:#000000dd;z-index:100;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+.modal{background:#16213e;border:2px solid #4a4e8c;border-radius:12px;padding:0;width:680px;max-width:96vw;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;position:relative;}
+.modal-header{padding:16px 20px 12px;border-bottom:1px solid #2a2a3a;background:#0f0f1b;}
+.modal-body{padding:16px 20px;overflow-y:auto;flex:1;}
+.modal-close{position:absolute;top:12px;right:14px;background:none;border:none;color:#566c86;font-size:18px;cursor:pointer;z-index:1;}
+.modal-close:hover{color:#f4f4f4;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.field{background:#0f0f1b;border-radius:6px;padding:8px;}
+.field-label{color:#566c86;font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.field-val{color:#f4f4f4;font-size:11px;}
+.desc-box{background:#0f0f1b;border-radius:6px;padding:10px;margin-bottom:12px;font-size:10px;color:#ccc;line-height:1.6;min-height:60px;}
+.comment{background:#0f0f1b;border-radius:6px;padding:8px;margin-bottom:6px;font-size:10px;}
+.comment-author{color:#f0c040;font-weight:bold;margin-bottom:2px;}
+.comment-body{color:#ccc;line-height:1.5;}
+.comment-date{color:#566c86;font-size:9px;margin-top:2px;}
+.history-item{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid #1a1a2a;font-size:10px;}
+.add-comment{width:100%;background:#0f0f1b;border:1px solid #4a4e8c;border-radius:6px;color:#f4f4f4;padding:8px;font-size:10px;resize:vertical;min-height:60px;}
+.add-comment:focus{outline:none;border-color:#f0c040;}
+.action-btn{background:#16213e;border:1px solid #4a4e8c;color:#f4f4f4;border-radius:6px;padding:5px 12px;font-size:10px;transition:all 0.2s;}
+.action-btn:hover{border-color:#f0c040;color:#f0c040;}
+.action-btn.primary{background:#f0c040;color:#1a1c2c;border-color:#f0c040;}
+.action-btn.primary:hover{background:#ffd700;}
+.action-btn.danger{border-color:#e43b44;color:#e43b44;}
+.section-title{color:#f0c040;font-size:11px;font-weight:bold;margin:14px 0 8px;display:flex;align-items:center;gap:6px;}
 
-/* Confetti */
-.confetti-piece{position:fixed;width:8px;height:8px;top:-10px;z-index:999;pointer-events:none;border-radius:2px;animation:confettiFall linear forwards;}
-@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+/* SPRINT BAR */
+.sprint-bar{background:#16213e;border:2px solid #4a4e8c;border-radius:8px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
+.timer-ring{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;border:3px solid #f0c040;flex-shrink:0;}
 
-/* Level up overlay */
-.levelup{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;pointer-events:none;}
-.levelup-box{background:#1a1c2c;border:3px solid #f0c040;border-radius:16px;padding:30px 50px;text-align:center;animation:levelupPop 0.4s ease-out,levelupFade 0.5s 2s forwards;box-shadow:0 0 60px #f0c04088;}
-@keyframes levelupPop{0%{transform:scale(0.3);opacity:0;}70%{transform:scale(1.1);}100%{transform:scale(1);opacity:1;}}
-@keyframes levelupFade{to{opacity:0;transform:scale(1.2);}}
+/* BURNDOWN */
+.chart-wrap{background:#0f0f1b;border-radius:8px;padding:10px;margin-top:10px;}
 
-/* Shake */
-@keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-6px);}80%{transform:translateX(6px);}}
-.shake{animation:shake 0.5s ease-out;}
-
-/* Sprint timer */
-.timer-ring{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:bold;border:3px solid #f0c040;color:#f0c040;flex-direction:column;flex-shrink:0;}
-
-/* Map */
+/* MAP */
+.map-container{position:relative;width:100%;border-radius:8px;overflow:hidden;border:2px solid #4a4e8c;}
+#mapCanvas{display:block;width:100%;image-rendering:pixelated;}
 .map-wrap{display:grid;grid-template-columns:1fr 240px;gap:10px;}
-.inspector{background:#16213e;border:2px solid #4a4e8c;border-radius:8px;padding:12px;}
-canvas{border-radius:8px;border:2px solid #4a4e8c;width:100%;height:auto;cursor:pointer;}
+.inspector{background:#16213e;border:2px solid #4a4e8c;border-radius:8px;padding:12px;max-height:500px;overflow-y:auto;}
 
-/* Toast */
-.toast{position:fixed;bottom:20px;right:20px;background:#16213e;border:1px solid #38b764;border-radius:8px;padding:10px 16px;font-size:11px;z-index:300;animation:toastIn 0.3s ease-out,toastOut 0.3s 2.5s forwards;}
+/* ROSTER */
+.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;}
+.hero-card{background:#16213e;border:2px solid #4a4e8c;border-radius:8px;padding:10px;cursor:pointer;transition:all 0.2s;}
+.hero-card:hover{border-color:#f0c040;transform:translateY(-2px);box-shadow:0 4px 16px #00000066;}
+
+/* ACTIVITY FEED */
+.feed{position:fixed;bottom:12px;left:12px;width:260px;max-height:140px;overflow:hidden;z-index:50;pointer-events:none;}
+.feed-item{background:#16213e;border:1px solid #4a4e8c;border-radius:6px;padding:5px 8px;font-size:9px;color:#ccc;margin-bottom:3px;animation:feedIn 0.3s ease-out;}
+@keyframes feedIn{from{transform:translateX(-20px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+
+/* LEADERBOARD */
+.lb-row{display:flex;align-items:center;gap:8px;background:#16213e;border:1px solid #4a4e8c;border-radius:6px;padding:7px 10px;margin-bottom:5px;cursor:pointer;transition:all 0.2s;}
+.lb-row:hover{border-color:#f0c040;}
+
+/* CELEBRATIONS */
+.confetti-piece{position:fixed;width:8px;height:8px;top:-10px;z-index:999;pointer-events:none;border-radius:2px;animation:cFall linear forwards;}
+@keyframes cFall{0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+.levelup-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+.levelup-box{background:#1a1c2c;border:3px solid #f0c040;border-radius:16px;padding:28px 44px;text-align:center;animation:luPop 0.4s ease-out,luFade 0.5s 2.2s forwards;box-shadow:0 0 60px #f0c04088;}
+@keyframes luPop{0%{transform:scale(0.2);opacity:0;}70%{transform:scale(1.1);}100%{transform:scale(1);opacity:1;}}
+@keyframes luFade{to{opacity:0;transform:scale(1.1);}}
+@keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-5px);}80%{transform:translateX(5px);}}
+.shake{animation:shake 0.5s ease-out;}
+.toast{position:fixed;bottom:20px;right:20px;background:#16213e;border:1px solid #38b764;border-radius:8px;padding:10px 16px;font-size:11px;z-index:300;animation:toastIn 0.3s ease-out,toastOut 0.3s 2.7s forwards;max-width:280px;}
 @keyframes toastIn{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
 @keyframes toastOut{to{transform:translateY(20px);opacity:0;}}
-
+.bar-wrap{background:#111;border-radius:3px;overflow:hidden;flex:1;}
+.bar-fill{height:100%;border-radius:3px;transition:width 0.6s;}
 .loading{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;}
-.log-line{color:#29adff;font-size:10px;margin-bottom:2px;}
 </style>
 </head>
 <body>
-<div id="app"><div class="loading"><div style="font-size:48px">⚔️</div><div style="color:#f0c040;font-size:18px;letter-spacing:3px">JIRA QUEST</div><div style="color:#566c86;font-size:12px">Loading your sprint...</div><div id="logBox" style="background:#0f0f1b;padding:12px;border-radius:8px;max-height:180px;overflow-y:auto;min-width:300px;margin-top:8px;"></div></div></div>
+<div id="app">
+  <div class="loading">
+    <div style="font-size:52px">⚔️</div>
+    <div style="color:#f0c040;font-size:20px;letter-spacing:4px;margin-bottom:4px">JIRA QUEST</div>
+    <div style="color:#566c86;font-size:11px">Summoning heroes...</div>
+    <div id="logBox" style="background:#0f0f1b;padding:10px;border-radius:8px;max-height:160px;overflow-y:auto;min-width:300px;margin-top:10px;"></div>
+  </div>
+</div>
 <div id="overlays"></div>
+<div id="feed" class="feed"></div>
 
 <script>
+// ── CONFIG ────────────────────────────────────────────────────────────────────
 const BOARD_ID = 124;
 const PROXY = '/.netlify/functions/jira';
 const JIRA_STATUSES = ['To Do','In Progress','In Review','Done'];
-const STATUS_COLORS = {'To Do':'#566c86','In Progress':'#f0a030','In Review':'#9b59b6','Code Review':'#9b59b6','Done':'#38b764','Blocked':'#e43b44','Selected for Development':'#3b7fd4'};
+const SC = {'To Do':'#566c86','In Progress':'#f0a030','In Review':'#9b59b6','Code Review':'#9b59b6','Done':'#38b764','Blocked':'#e43b44','Selected for Development':'#3b7fd4'};
 const ROLES=['Warrior','Mage','Ranger','Healer','Rogue','Paladin','Bard','Druid'];
 const AVATARS=['⚔️','🧙','🏹','✨','🗡️','🛡️','🎵','🌿','🔥','💎','🌙','⚡'];
-const MCOLORS=['#9b59b6','#e43b44','#38b764','#29adff','#f0c040','#f0a030','#e91e8c','#00bcd4'];
+const MC=['#9b59b6','#e43b44','#38b764','#29adff','#f0c040','#f0a030','#e91e8c','#00bcd4'];
+
+// ASCII pixel art sprites per zone (3 frames each)
+const SPRITES = {
+  walk: [
+    [' o ','\\|/','/ \\'],
+    [' o ',' | ','/ \\'],
+    [' o ','/| ','/ \\'],
+  ],
+  idle: [[' o ',' | ','/ \\']],
+  victory: [[' o ','\\o/','/ \\']],
+  work: [[' o ',' |_','/  ']],
+};
+
 const ZONES=[
-  {name:'Feature Forest',color:'#1a4a2a',border:'#38b764',icon:'🌲',match:['in progress']},
-  {name:'Review Citadel',color:'#2a1a3a',border:'#9b59b6',icon:'🏰',match:['review']},
-  {name:'Bug Dungeon',color:'#2a1a1a',border:'#e43b44',icon:'🕷️',match:['blocked']},
-  {name:'Victory Plains',color:'#2a2a1a',border:'#f0c040',icon:'🏆',match:['done']},
-  {name:'Idle Town',color:'#1a1a2a',border:'#566c86',icon:'🏘️',match:['to do','backlog','open','selected']},
+  {name:'Feature Forest',bg:'#0d2b0d',border:'#38b764',icon:'🌲',match:['in progress'],tileChar:'♣',tileColor:'#1a4a1a'},
+  {name:'Review Citadel',bg:'#1a0d2b',border:'#9b59b6',icon:'🏰',match:['review'],tileChar:'#',tileColor:'#2a1a3a'},
+  {name:'Bug Dungeon',bg:'#2b0d0d',border:'#e43b44',icon:'🕷️',match:['blocked'],tileChar:'▓',tileColor:'#3a1a1a'},
+  {name:'Victory Plains',bg:'#2b2b0d',border:'#f0c040',icon:'🏆',match:['done'],tileChar:'░',tileColor:'#2a2a1a'},
+  {name:'Idle Town',bg:'#0d0d2b',border:'#566c86',icon:'🏘️',match:['to do','backlog','open','selected'],tileChar:'·',tileColor:'#1a1a2a'},
 ];
 const ZL=[{x:5,y:5,w:42,h:42},{x:54,y:5,w:42,h:42},{x:5,y:54,w:28,h:42},{x:36,y:54,w:28,h:42},{x:67,y:54,w:28,h:42}];
 
-let S={team:[],issues:[],sprintName:'',sprintEnd:null,tab:'board',selected:null,lastSync:null,dragIssue:null,mapTick:0};
-let mcache={}, animFrame=null, toastTimeout=null;
-
-const sColor=s=>STATUS_COLORS[s]||'#566c86';
+let S={
+  team:[],issues:[],sprintName:'',sprintEnd:null,sprintId:null,
+  tab:'board',sel:null,lastSync:null,dragIssue:null,
+  heroPositions:{}, // accountId -> {x,y,tx,ty,frame,dir}
+  particles:[],dayPhase:0,
+};
+let mcache={}, mapAnim=null, clockInt=null;
+const sColor=s=>SC[s]||'#566c86';
 const getZone=s=>ZONES.find(z=>z.match.some(m=>(s||'').toLowerCase().includes(m)))?.name||'Idle Town';
 const getMI=id=>{
   if(mcache[id])return mcache[id];
   const i=Object.keys(mcache).length;
-  mcache[id]={role:ROLES[i%ROLES.length],avatar:AVATARS[i%AVATARS.length],color:MCOLORS[i%MCOLORS.length],hp:60+((i*17)%40),mp:40+((i*23)%60)};
+  mcache[id]={role:ROLES[i%ROLES.length],avatar:AVATARS[i%AVATARS.length],color:MC[i%MC.length],hp:60+((i*17)%40),mp:40+((i*23)%60)};
   return mcache[id];
 };
 
-function log(msg){const b=document.getElementById('logBox');if(!b)return;const d=document.createElement('div');d.className='log-line';d.textContent=msg;b.appendChild(d);b.scrollTop=b.scrollHeight;}
+// ── LOGGING ───────────────────────────────────────────────────────────────────
+function log(msg){
+  const b=document.getElementById('logBox');
+  if(!b)return;
+  const d=document.createElement('div');
+  d.style.cssText='color:#29adff;font-size:10px;margin-bottom:2px;';
+  d.textContent=msg;
+  b.appendChild(d);b.scrollTop=b.scrollHeight;
+}
 
-// ── JIRA API ─────────────────────────────────────────────────────────────────
-async function jiraFetch(path,method='GET',body=null){
-  const url=`${PROXY}?path=${encodeURIComponent(path)}`;
-  const opts={method:'GET',headers:{'Content-Type':'application/json'}};
-  if(method!=='GET'){
-    // For mutations, pass method and body as query params handled by proxy
-    const mUrl=`${PROXY}?path=${encodeURIComponent(path)}&method=${method}`;
-    const res=await fetch(mUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    if(!res.ok)throw new Error(`${res.status}`);
-    return res.status===204?{}:res.json();
-  }
-  const res=await fetch(url,opts);
-  if(!res.ok)throw new Error(`Proxy ${res.status}`);
+// ── JIRA API ──────────────────────────────────────────────────────────────────
+async function jiraGet(path){
+  const res=await fetch(`${PROXY}?path=${encodeURIComponent(path)}`);
+  if(!res.ok)throw new Error(`${res.status}: ${await res.text()}`);
+  return res.json();
+}
+async function jiraPost(path,body){
+  const res=await fetch(`${PROXY}?path=${encodeURIComponent(path)}&method=POST`,{
+    method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)
+  });
+  if(res.status===204)return{};
+  if(!res.ok)throw new Error(`${res.status}: ${await res.text()}`);
+  return res.json();
+}
+async function jiraPut(path,body){
+  const res=await fetch(`${PROXY}?path=${encodeURIComponent(path)}&method=PUT`,{
+    method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)
+  });
+  if(res.status===204)return{};
+  if(!res.ok)throw new Error(`${res.status}: ${await res.text()}`);
   return res.json();
 }
 
-async function updateIssueStatus(issueKey, statusName){
-  // Get available transitions
-  const tData=await jiraFetch(`/rest/api/3/issue/${issueKey}/transitions`);
-  const transition=tData.transitions?.find(t=>t.name===statusName||t.to?.name===statusName);
-  if(!transition)throw new Error(`No transition to "${statusName}" for ${issueKey}`);
-  await jiraFetch(`/rest/api/3/issue/${issueKey}/transitions`,  'POST', {transition:{id:transition.id}});
-}
-
-async function fetchData(){
+// ── DATA FETCH ────────────────────────────────────────────────────────────────
+async function fetchData(silent=false){
   try{
-    log('🔄 Fetching sprint...');
-    const sd=await jiraFetch(`/rest/agile/1.0/board/${BOARD_ID}/sprint?state=active`);
+    if(!silent)log('🔄 Fetching sprint...');
+    const sd=await jiraGet(`/rest/agile/1.0/board/${BOARD_ID}/sprint?state=active`);
     const sprint=sd.values?.[0];
-    if(!sprint)throw new Error('No active sprint');
+    if(!sprint){
+      // Check for future sprints to start
+      const fs=await jiraGet(`/rest/agile/1.0/board/${BOARD_ID}/sprint?state=future`);
+      S.futureSprint=fs.values?.[0]||null;
+      S.sprintName='No Active Sprint';
+      S.issues=[];S.team=[];
+      render();return;
+    }
     S.sprintName=sprint.name;
     S.sprintEnd=sprint.endDate?new Date(sprint.endDate):null;
-    log(`✅ ${sprint.name}`);
+    S.sprintId=sprint.id;
+    if(!silent)log(`✅ ${sprint.name}`);
 
-    log('🔄 Fetching issues...');
-    const id=await jiraFetch(`/rest/agile/1.0/board/${BOARD_ID}/sprint/${sprint.id}/issue?maxResults=100&fields=summary,assignee,status,customfield_10016,priority`);
+    if(!silent)log('🔄 Fetching issues...');
+    const id=await jiraGet(`/rest/agile/1.0/board/${BOARD_ID}/sprint/${sprint.id}/issue?maxResults=100&fields=summary,assignee,status,customfield_10016,priority,description,reporter,created,updated,comment,labels,issuetype`);
     const raw=id.issues||[];
-    log(`✅ ${raw.length} issues`);
+    if(!silent)log(`✅ ${raw.length} issues`);
 
     S.issues=raw.map(i=>({
-      key:i.key,summary:i.fields?.summary||'',
+      key:i.key,
+      summary:i.fields?.summary||'',
       status:i.fields?.status?.name||'To Do',
       assigneeId:i.fields?.assignee?.accountId||null,
       assigneeName:i.fields?.assignee?.displayName||'Unassigned',
+      assigneeAvatar:i.fields?.assignee?.avatarUrls?.['24x24']||null,
       points:i.fields?.customfield_10016||0,
+      priority:i.fields?.priority?.name||'Medium',
+      description:i.fields?.description||null,
+      reporter:i.fields?.reporter?.displayName||'?',
+      created:i.fields?.created||null,
+      updated:i.fields?.updated||null,
+      comments:i.fields?.comment?.comments||[],
+      labels:i.fields?.labels||[],
+      issueType:i.fields?.issuetype?.name||'Story',
     }));
 
+    // Build team
     const am={};
     raw.forEach(i=>{
       const a=i.fields?.assignee;if(!a)return;
@@ -164,237 +247,724 @@ async function fetchData(){
       am[a.accountId].issues.push({key:i.key,summary:i.fields?.summary,status:i.fields?.status?.name||'To Do',points:i.fields?.customfield_10016||0});
     });
 
+    const oldTeam={};
+    S.team.forEach(m=>oldTeam[m.accountId]=m);
     S.team=Object.values(am).map(mb=>{
       const info=getMI(mb.accountId);
       const cp=mb.issues.filter(i=>i.status==='Done').reduce((s,i)=>s+(i.points||0),0);
       const xp=cp*100,level=Math.max(1,Math.floor(xp/500)+1);
       const active=mb.issues.find(i=>i.status==='In Progress')||mb.issues.find(i=>i.status==='In Review');
       const ps=active?active.status:mb.issues.every(i=>i.status==='Done')?'Done':'To Do';
-      return{...mb,...info,level,xp:xp%500,prevLevel:level,issueCount:mb.issues.length,completedPts:cp,status:ps,zone:getZone(ps)};
+      const zone=getZone(ps);
+      const old=oldTeam[mb.accountId];
+      if(old&&old.level<level)setTimeout(()=>showLevelUp({...mb,...info,level}),500);
+      return{...mb,...info,level,xp:xp%500,issueCount:mb.issues.length,completedPts:cp,status:ps,zone};
+    });
+
+    // Init positions for new heroes
+    S.team.forEach(m=>{
+      if(!S.heroPositions[m.accountId]){
+        const zi=ZONES.findIndex(z=>z.name===m.zone);
+        const l=ZL[Math.max(0,zi)];
+        S.heroPositions[m.accountId]={
+          x:(l.x+5+Math.random()*30)/100,
+          y:(l.y+10+Math.random()*25)/100,
+          tx:(l.x+5+Math.random()*30)/100,
+          ty:(l.y+10+Math.random()*25)/100,
+          frame:0,frameTimer:0,dir:1,state:'idle',
+        };
+      }
     });
 
     S.lastSync=new Date();
-    log(`✅ ${S.team.length} heroes ready!`);
+    if(!silent)log(`✅ ${S.team.length} heroes ready!`);
     render();
   }catch(e){
     log('❌ '+e.message);
-    document.getElementById('app').innerHTML=`<div class="loading"><div style="font-size:40px">💀</div><div style="color:#e43b44;font-size:15px">CONNECTION FAILED</div><div style="color:#566c86;font-size:10px;margin:8px;max-width:400px">${e.message}</div><button onclick="location.reload()" style="margin-top:12px;background:#f0c040;color:#1a1c2c;border:none;padding:8px 24px;border-radius:6px;font-weight:bold">⚡ Retry</button></div>`;
+    if(!silent)document.getElementById('app').innerHTML=`<div class="loading"><div style="font-size:40px">💀</div><div style="color:#e43b44;font-size:15px;margin:8px 0">FAILED</div><div style="color:#566c86;font-size:10px;max-width:400px;line-height:1.6">${e.message}</div><button onclick="location.reload()" style="margin-top:12px;background:#f0c040;color:#1a1c2c;border:none;padding:8px 24px;border-radius:6px;font-weight:bold;font-size:12px">⚡ Retry</button></div>`;
   }
+}
+
+// ── MOVE TICKET ───────────────────────────────────────────────────────────────
+async function moveTicket(key,newStatus){
+  const issue=S.issues.find(i=>i.key===key);
+  if(!issue||issue.status===newStatus)return;
+  const old=issue.status;
+  const isDone=newStatus==='Done';
+  showToast(`⏳ ${key} → ${newStatus}`,'#f0a030');
+  try{
+    const td=await jiraGet(`/rest/api/3/issue/${key}/transitions`);
+    const tr=td.transitions?.find(t=>t.name===newStatus||t.to?.name===newStatus);
+    if(!tr)throw new Error(`No transition "${newStatus}"`);
+    await jiraPost(`/rest/api/3/issue/${key}/transitions`,{transition:{id:tr.id}});
+    issue.status=newStatus;
+    S.team.forEach(m=>{
+      const mi=m.issues?.find(i=>i.key===key);
+      if(mi){
+        mi.status=newStatus;
+        const cp=m.issues.filter(i=>i.status==='Done').reduce((s,i)=>s+(i.points||0),0);
+        m.completedPts=cp;m.xp=(cp*100)%500;m.level=Math.max(1,Math.floor(cp*100/500)+1);
+        const active=m.issues.find(i=>i.status==='In Progress')||m.issues.find(i=>i.status==='In Review');
+        m.status=active?active.status:m.issues.every(i=>i.status==='Done')?'Done':'To Do';
+        const newZone=getZone(m.status);
+        if(m.zone!==newZone){
+          m.zone=newZone;
+          // Walk hero to new zone
+          const zi=ZONES.findIndex(z=>z.name===newZone);
+          const l=ZL[Math.max(0,zi)];
+          const pos=S.heroPositions[m.accountId];
+          if(pos){pos.tx=(l.x+8+Math.random()*25)/100;pos.ty=(l.y+10+Math.random()*25)/100;pos.state='walk';}
+        }
+      }
+    });
+    addFeed(`${isDone?'🏆':'⚡'} ${key} moved to ${newStatus}`);
+    playSound(isDone?'done':'move');
+    if(isDone){shakeScreen();fireConfetti();showToast(`🎉 ${key} DONE! Quest complete!`,'#38b764');}
+    else showToast(`✅ ${key} → ${newStatus}`,'#38b764');
+    render();
+  }catch(e){
+    issue.status=old;
+    showToast(`❌ ${e.message}`,'#e43b44');
+  }
+}
+
+// ── TICKET MODAL ──────────────────────────────────────────────────────────────
+async function openTicket(key){
+  const issue=S.issues.find(i=>i.key===key);
+  if(!issue)return;
+  const assignee=S.team.find(m=>m.accountId===issue.assigneeId);
+
+  const renderModal=()=>{
+    const el=document.getElementById('ticketModal')||document.createElement('div');
+    el.id='ticketModal';el.className='modal-bg';
+    el.onclick=e=>{if(e.target===el)el.remove();};
+
+    const descHtml=issue.description
+      ?`<div class="desc-box">${renderADF(issue.description)}</div>`
+      :`<div class="desc-box" style="color:#566c86;font-style:italic">No description provided.</div>`;
+
+    const priorityColors={'Highest':'#e43b44','High':'#f0a030','Medium':'#f0c040','Low':'#38b764','Lowest':'#566c86'};
+    const typeIcons={'Bug':'🐛','Story':'📖','Task':'✅','Epic':'⚡','Subtask':'↳'};
+
+    el.innerHTML=`
+    <div class="modal">
+      <button class="modal-close" onclick="document.getElementById('ticketModal').remove()">✕</button>
+      <div class="modal-header">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="font-size:16px">${typeIcons[issue.issueType]||'📋'}</span>
+          <span style="color:#566c86;font-size:11px">${issue.key}</span>
+          <span class="badge" style="background:${sColor(issue.status)}">${issue.status.toUpperCase()}</span>
+          <span style="color:${priorityColors[issue.priority]||'#566c86'};font-size:10px">▲ ${issue.priority}</span>
+          ${issue.points?`<span style="background:#2a2a3a;color:#f0c040;padding:2px 6px;border-radius:4px;font-size:10px">${issue.points} pts</span>`:''}
+        </div>
+        <div style="color:#f4f4f4;font-size:14px;font-weight:bold;line-height:1.4">${issue.summary}</div>
+        ${issue.labels.length?`<div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">${issue.labels.map(l=>`<span style="background:#2a2a3a;color:#29adff;padding:1px 6px;border-radius:10px;font-size:9px">${l}</span>`).join('')}</div>`:''}
+      </div>
+      <div class="modal-body">
+        <div class="field-row">
+          <div class="field">
+            <div class="field-label">Assignee</div>
+            <div class="field-val" style="display:flex;align-items:center;gap:6px">
+              ${assignee?`<span style="font-size:16px">${assignee.avatar}</span><span style="color:${assignee.color}">${assignee.name}</span>`:`<span style="color:#566c86">Unassigned</span>`}
+            </div>
+            <select onchange="reassignTicket('${issue.key}',this.value)" style="margin-top:6px;background:#16213e;color:#f4f4f4;border:1px solid #4a4e8c;border-radius:4px;padding:3px 6px;font-size:9px;width:100%">
+              <option value="">Reassign to...</option>
+              ${S.team.map(m=>`<option value="${m.accountId}" ${m.accountId===issue.assigneeId?'selected':''}>${m.avatar} ${m.name}</option>`).join('')}
+            </select>
+          </div>
+          <div class="field">
+            <div class="field-label">Status</div>
+            <div style="display:flex;flex-direction:column;gap:4px;margin-top:4px">
+              ${JIRA_STATUSES.map(s=>`<button onclick="moveTicket('${issue.key}','${s}');setTimeout(()=>openTicket('${issue.key}'),600)" style="background:${issue.status===s?sColor(s):'#2a2a3a'};color:${issue.status===s?'#fff':'#aaa'};border:none;border-radius:4px;padding:3px 8px;font-size:9px;text-align:left;cursor:pointer">${issue.status===s?'▶ ':''} ${s}</button>`).join('')}
+            </div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field"><div class="field-label">Reporter</div><div class="field-val">${issue.reporter}</div></div>
+          <div class="field"><div class="field-label">Created</div><div class="field-val">${issue.created?new Date(issue.created).toLocaleDateString():'-'}</div></div>
+        </div>
+
+        <div class="section-title">📖 Description</div>
+        ${descHtml}
+
+        <div class="section-title">💬 Comments (${issue.comments.length})</div>
+        <div id="commentsList">
+          ${issue.comments.map(c=>`
+            <div class="comment">
+              <div class="comment-author">${c.author?.displayName||'?'}</div>
+              <div class="comment-body">${renderADF(c.body)}</div>
+              <div class="comment-date">${new Date(c.created).toLocaleString()}</div>
+            </div>`).join('')||'<div style="color:#566c86;font-size:10px;padding:8px 0">No comments yet.</div>'}
+        </div>
+
+        <div class="section-title">✏️ Add Comment</div>
+        <textarea class="add-comment" id="commentInput" placeholder="Write a comment..."></textarea>
+        <div style="display:flex;gap:6px;margin-top:6px">
+          <button class="action-btn primary" onclick="addComment('${issue.key}')">💬 Submit</button>
+          <button class="action-btn" onclick="document.getElementById('ticketModal').remove()">Cancel</button>
+        </div>
+      </div>
+    </div>`;
+
+    if(!document.getElementById('ticketModal'))document.getElementById('overlays').appendChild(el);
+    else document.getElementById('overlays').replaceChild(el,document.getElementById('ticketModal'));
+  };
+  renderModal();
+}
+
+function renderADF(node){
+  if(!node)return '';
+  if(typeof node==='string')return node;
+  if(node.type==='doc')return (node.content||[]).map(renderADF).join('');
+  if(node.type==='paragraph')return `<p style="margin-bottom:6px">${(node.content||[]).map(renderADF).join('')}</p>`;
+  if(node.type==='text'){
+    let t=node.text||'';
+    (node.marks||[]).forEach(m=>{
+      if(m.type==='strong')t=`<strong>${t}</strong>`;
+      if(m.type==='em')t=`<em>${t}</em>`;
+      if(m.type==='code')t=`<code style="background:#2a2a3a;padding:1px 4px;border-radius:3px">${t}</code>`;
+    });
+    return t;
+  }
+  if(node.type==='bulletList')return `<ul style="padding-left:16px;margin-bottom:6px">${(node.content||[]).map(renderADF).join('')}</ul>`;
+  if(node.type==='listItem')return `<li style="margin-bottom:2px">${(node.content||[]).map(renderADF).join('')}</li>`;
+  if(node.type==='codeBlock')return `<pre style="background:#2a2a3a;padding:8px;border-radius:4px;overflow-x:auto;font-size:9px;margin-bottom:6px">${(node.content||[]).map(renderADF).join('')}</pre>`;
+  if(node.type==='hardBreak')return '<br>';
+  if(node.type==='heading')return `<h${node.attrs?.level||3} style="margin-bottom:6px;color:#f0c040">${(node.content||[]).map(renderADF).join('')}</h${node.attrs?.level||3}>`;
+  return (node.content||[]).map(renderADF).join('');
+}
+
+async function addComment(key){
+  const input=document.getElementById('commentInput');
+  const text=input?.value?.trim();
+  if(!text)return;
+  try{
+    showToast('💬 Posting comment...','#f0a030');
+    await jiraPost(`/rest/api/3/issue/${key}/comment`,{
+      body:{type:'doc',version:1,content:[{type:'paragraph',content:[{type:'text',text}]}]}
+    });
+    const issue=S.issues.find(i=>i.key===key);
+    if(issue)issue.comments.push({author:{displayName:'Me'},body:{type:'doc',version:1,content:[{type:'paragraph',content:[{type:'text',text}]}]},created:new Date().toISOString()});
+    showToast('✅ Comment posted!','#38b764');
+    addFeed(`💬 Comment on ${key}`);
+    openTicket(key);
+  }catch(e){showToast('❌ '+e.message,'#e43b44');}
+}
+
+async function reassignTicket(key,accountId){
+  if(!accountId)return;
+  try{
+    await jiraPut(`/rest/api/3/issue/${key}`,{fields:{assignee:{accountId}}});
+    const issue=S.issues.find(i=>i.key===key);
+    if(issue){
+      issue.assigneeId=accountId;
+      const m=S.team.find(t=>t.accountId===accountId);
+      issue.assigneeName=m?.name||'Unknown';
+    }
+    showToast('✅ Reassigned!','#38b764');
+    addFeed(`👤 ${key} reassigned`);
+    render();
+    openTicket(key);
+  }catch(e){showToast('❌ '+e.message,'#e43b44');}
+}
+
+// ── SPRINT ACTIONS ────────────────────────────────────────────────────────────
+async function startSprint(){
+  if(!S.futureSprint)return;
+  try{
+    showToast('⏳ Starting sprint...','#f0a030');
+    const now=new Date(),end=new Date(now.getTime()+14*86400000);
+    await jiraPost(`/rest/agile/1.0/sprint/${S.futureSprint.id}`,{state:'active',startDate:now.toISOString(),endDate:end.toISOString()});
+    showToast('⚔️ Sprint started! Let the quest begin!','#38b764');
+    fireConfetti();
+    await fetchData();
+  }catch(e){showToast('❌ '+e.message,'#e43b44');}
+}
+
+async function completeSprint(){
+  if(!S.sprintId)return;
+  showSprintComplete();
+}
+
+function showSprintComplete(){
+  const total=S.issues.length;
+  const done=S.issues.filter(i=>i.status==='Done').length;
+  const pts=S.issues.filter(i=>i.status==='Done').reduce((s,i)=>s+(i.points||0),0);
+  const el=document.createElement('div');
+  el.className='modal-bg';el.id='sprintCompleteModal';
+  el.innerHTML=`<div class="modal" style="max-width:480px;text-align:center">
+    <div class="modal-header" style="text-align:center">
+      <div style="font-size:48px">🏆</div>
+      <div style="color:#f0c040;font-size:20px;font-weight:bold;letter-spacing:2px">QUEST COMPLETE!</div>
+      <div style="color:#566c86;font-size:11px;margin-top:4px">${S.sprintName}</div>
+    </div>
+    <div class="modal-body" style="text-align:center">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">
+        <div style="background:#0f0f1b;border-radius:8px;padding:12px"><div style="color:#f0c040;font-size:24px;font-weight:bold">${done}/${total}</div><div style="color:#566c86;font-size:10px">Issues Done</div></div>
+        <div style="background:#0f0f1b;border-radius:8px;padding:12px"><div style="color:#38b764;font-size:24px;font-weight:bold">${pts}</div><div style="color:#566c86;font-size:10px">Points Delivered</div></div>
+        <div style="background:#0f0f1b;border-radius:8px;padding:12px"><div style="color:#9b59b6;font-size:24px;font-weight:bold">${S.team.length}</div><div style="color:#566c86;font-size:10px">Heroes</div></div>
+      </div>
+      <div style="color:#f0c040;font-size:11px;font-weight:bold;margin-bottom:8px">🏆 HERO HIGHLIGHTS</div>
+      ${[...S.team].sort((a,b)=>b.completedPts-a.completedPts).slice(0,3).map((m,i)=>`
+        <div style="display:flex;align-items:center;gap:8px;background:#0f0f1b;border-radius:6px;padding:8px;margin-bottom:4px">
+          <span>${['🥇','🥈','🥉'][i]}</span><span style="font-size:16px">${m.avatar}</span>
+          <span style="color:${m.color};font-weight:bold;flex:1;text-align:left">${m.name}</span>
+          <span style="color:#f0c040">${m.completedPts}pt</span>
+        </div>`).join('')}
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:14px">
+        <button class="action-btn primary" onclick="confirmCompleteSprint()">✅ Complete Sprint</button>
+        <button class="action-btn" onclick="document.getElementById('sprintCompleteModal').remove()">Cancel</button>
+      </div>
+    </div>
+  </div>`;
+  document.getElementById('overlays').appendChild(el);
+  fireConfetti();
+}
+
+async function confirmCompleteSprint(){
+  try{
+    // Move incomplete issues to backlog first if needed, then complete
+    await jiraPost(`/rest/agile/1.0/sprint/${S.sprintId}`,{state:'closed'});
+    document.getElementById('sprintCompleteModal')?.remove();
+    showToast('🏆 Sprint completed!','#38b764');
+    await fetchData();
+  }catch(e){showToast('❌ '+e.message,'#e43b44');}
+}
+
+// ── BURNDOWN CHART ────────────────────────────────────────────────────────────
+function renderBurndown(){
+  const total=S.issues.reduce((s,i)=>s+(i.points||0),0);
+  const done=S.issues.filter(i=>i.status==='Done').reduce((s,i)=>s+(i.points||0),0);
+  const inprog=S.issues.filter(i=>i.status==='In Progress').reduce((s,i)=>s+(i.points||0),0);
+  const rem=total-done;
+
+  // Fake burndown data based on sprint progress
+  let days=14,elapsed=0;
+  if(S.sprintEnd){
+    const start=new Date(S.sprintEnd.getTime()-14*86400000);
+    elapsed=Math.min(14,Math.max(0,Math.floor((new Date()-start)/86400000)));
+  }
+
+  const W=500,H=160,pad=30;
+  const pts=[];
+  for(let d=0;d<=days;d++){
+    const ideal=total*(1-d/days);
+    let actual=d<elapsed?(total-(done*(d/elapsed))):null;
+    pts.push({d,ideal,actual});
+  }
+  pts[elapsed]={...pts[elapsed],actual:rem};
+
+  let svg=`<svg width="100%" viewBox="0 0 ${W} ${H}" style="display:block">
+    <rect width="${W}" height="${H}" fill="#0f0f1b" rx="6"/>
+    <!-- Grid -->`;
+  for(let i=0;i<=4;i++){
+    const y=pad+(H-pad*2)*(i/4);
+    const v=Math.round(total*(1-i/4));
+    svg+=`<line x1="${pad}" y1="${y}" x2="${W-10}" y2="${y}" stroke="#2a2a3a" stroke-width="1"/>
+    <text x="${pad-4}" y="${y+4}" fill="#566c86" font-size="8" text-anchor="end" font-family="monospace">${v}</text>`;
+  }
+  for(let d=0;d<=days;d+=2){
+    const x=pad+(W-pad-10)*(d/days);
+    svg+=`<text x="${x}" y="${H-6}" fill="#566c86" font-size="8" text-anchor="middle" font-family="monospace">D${d}</text>`;
+  }
+
+  // Ideal line
+  const iPath=pts.map((p,i)=>{
+    const x=pad+(W-pad-10)*(p.d/days);
+    const y=pad+(H-pad*2)*(1-p.ideal/total);
+    return`${i===0?'M':'L'}${x},${y}`;
+  }).join(' ');
+  svg+=`<path d="${iPath}" stroke="#566c86" stroke-width="1.5" fill="none" stroke-dasharray="4,3"/>`;
+
+  // Actual line
+  const aPts=pts.filter(p=>p.actual!==null);
+  if(aPts.length>1){
+    const aPath=aPts.map((p,i)=>{
+      const x=pad+(W-pad-10)*(p.d/days);
+      const y=pad+(H-pad*2)*(1-Math.max(0,p.actual)/total);
+      return`${i===0?'M':'L'}${x},${y}`;
+    }).join(' ');
+    svg+=`<path d="${aPath}" stroke="#f0c040" stroke-width="2" fill="none"/>`;
+    const last=aPts[aPts.length-1];
+    const lx=pad+(W-pad-10)*(last.d/days);
+    const ly=pad+(H-pad*2)*(1-Math.max(0,last.actual)/total);
+    svg+=`<circle cx="${lx}" cy="${ly}" r="4" fill="#f0c040"/>`;
+  }
+
+  svg+=`<!-- Legend -->
+    <text x="${W-10}" y="20" fill="#566c86" font-size="8" text-anchor="end" font-family="monospace">─── ideal</text>
+    <text x="${W-10}" y="32" fill="#f0c040" font-size="8" text-anchor="end" font-family="monospace">─── actual</text>
+  </svg>`;
+  return`<div style="margin-bottom:8px"><div style="color:#f0c040;font-size:11px;font-weight:bold;margin-bottom:6px">📉 BURNDOWN CHART</div>${svg}</div>`;
+}
+
+// ── RETRO MAP ──────────────────────────────────────────────────────────────────
+function drawMap(){
+  const canvas=document.getElementById('mapCanvas');
+  if(!canvas)return;
+  const W=640,H=360;
+  canvas.width=W;canvas.height=H;
+
+  canvas.onclick=e=>{
+    const r=canvas.getBoundingClientRect(),sx=W/r.width,sy=H/r.height;
+    const mx=(e.clientX-r.left)*sx,my=(e.clientY-r.top)*sy;
+    let hit=null;
+    S.team.forEach(m=>{
+      const p=S.heroPositions[m.accountId];
+      if(p&&Math.hypot(mx-p.x*W,my-p.y*H)<18)hit=m;
+    });
+    S.sel=hit;
+    if(hit)openTicketsByHero(hit);
+    else renderMapInspector();
+  };
+
+  if(mapAnim)clearTimeout(mapAnim);
+  let t=0;
+
+  function frame(){
+    if(!document.getElementById('mapCanvas'))return;
+    t++;
+    const ctx=canvas.getContext('2d');
+    ctx.clearRect(0,0,W,H);
+
+    // Sky / bg
+    const dayPct=(Math.sin(t/200)+1)/2;
+    const r=Math.round(13+dayPct*20),g=Math.round(13+dayPct*15),b=Math.round(44+dayPct*30);
+    ctx.fillStyle=`rgb(${r},${g},${b})`;
+    ctx.fillRect(0,0,W,H);
+
+    // Stars (night)
+    if(dayPct<0.5){
+      ctx.fillStyle=`rgba(255,255,255,${(0.5-dayPct)*1.5})`;
+      for(let s=0;s<40;s++){
+        const sx=(s*137.5)%W, sy=(s*97.3)%H;
+        if(Math.sin(t/30+s)>0.8)ctx.fillRect(sx,sy,1,1);
+      }
+    }
+
+    // Draw pixel grid
+    ctx.strokeStyle='rgba(255,255,255,0.03)';ctx.lineWidth=1;
+    for(let x=0;x<W;x+=8){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<H;y+=8){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+
+    // Draw zones as islands
+    ZONES.forEach((z,zi)=>{
+      const l=ZL[zi];
+      const zx=l.x/100*W, zy=l.y/100*H, zw=l.w/100*W, zh=l.h/100*H;
+
+      // Island shadow
+      ctx.fillStyle='rgba(0,0,0,0.3)';
+      ctx.beginPath();ctx.ellipse(zx+zw/2+4,zy+zh+4,zw/2,10,0,0,Math.PI*2);ctx.fill();
+
+      // Island base (water rim)
+      ctx.fillStyle=z.border+'33';
+      ctx.beginPath();ctx.ellipse(zx+zw/2,zy+zh/2,zw/2+6,zh/2+6,0,0,Math.PI*2);ctx.fill();
+
+      // Island land
+      ctx.fillStyle=z.bg;
+      ctx.strokeStyle=z.border;ctx.lineWidth=2;
+      ctx.beginPath();ctx.roundRect(zx,zy,zw,zh,12);ctx.fill();ctx.stroke();
+
+      // Tile texture
+      ctx.fillStyle=z.tileColor;
+      for(let tx=zx+4;tx<zx+zw-4;tx+=8){
+        for(let ty=zy+4;ty<zy+zh-4;ty+=8){
+          if((Math.floor(tx/8)+Math.floor(ty/8))%3===0)ctx.fillRect(tx,ty,6,6);
+        }
+      }
+
+      // Zone decoration
+      const dec=zi===0?'🌲':zi===1?'🏰':zi===2?'☠️':zi===3?'⭐':'🏠';
+      ctx.font='14px serif';ctx.textAlign='center';
+      ctx.fillText(dec,zx+zw/2,zy+14);
+
+      // Zone name
+      ctx.fillStyle=z.border;ctx.font='bold 8px monospace';ctx.textAlign='center';
+      ctx.fillText(z.name.toUpperCase(),zx+zw/2,zy+zh-4);
+
+      // Member count badge
+      const cnt=S.team.filter(m=>m.zone===z.name).length;
+      if(cnt>0){
+        ctx.fillStyle=z.border;
+        ctx.beginPath();ctx.arc(zx+zw-8,zy+8,8,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='#fff';ctx.font='bold 8px monospace';ctx.textAlign='center';
+        ctx.fillText(cnt,zx+zw-8,zy+11);
+      }
+
+      // Ambient particles
+      if(t%3===0&&Math.random()>0.7){
+        S.particles.push({
+          x:zx+Math.random()*zw,y:zy+Math.random()*zh,
+          vx:(Math.random()-0.5)*0.5,vy:-Math.random()*0.8,
+          life:40,maxLife:40,color:z.border,size:zi===2?2:1.5
+        });
+      }
+    });
+
+    // Draw water paths between islands
+    ctx.strokeStyle='rgba(41,173,255,0.2)';ctx.lineWidth=3;ctx.setLineDash([8,6]);
+    [[0,1],[0,2],[1,3],[2,4],[3,4]].forEach(([a,b])=>{
+      const la=ZL[a],lb=ZL[b];
+      ctx.beginPath();
+      ctx.moveTo((la.x+la.w/2)/100*W,(la.y+la.h/2)/100*H);
+      ctx.lineTo((lb.x+lb.w/2)/100*W,(lb.y+lb.h/2)/100*H);
+      ctx.stroke();
+    });
+    ctx.setLineDash([]);
+
+    // Particles
+    S.particles=S.particles.filter(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.life--;
+      if(p.life<=0)return false;
+      ctx.globalAlpha=p.life/p.maxLife*0.8;
+      ctx.fillStyle=p.color;
+      ctx.fillRect(p.x,p.y,p.size,p.size);
+      ctx.globalAlpha=1;
+      return true;
+    });
+
+    // Draw heroes as ASCII pixel art
+    S.team.forEach(m=>{
+      const pos=S.heroPositions[m.accountId];
+      if(!pos)return;
+
+      // Move toward target
+      const dx=pos.tx-pos.x, dy=pos.ty-pos.y;
+      const dist=Math.hypot(dx,dy);
+      if(dist>0.005){
+        pos.x+=dx*0.04;pos.y+=dy*0.04;
+        pos.dir=dx>0?1:-1;
+        pos.state='walk';
+      } else {
+        pos.state=m.status==='In Progress'?'work':'idle';
+        // Wander occasionally
+        if(t%120===0&&Math.random()>0.5){
+          const zi=ZONES.findIndex(z=>z.name===m.zone);
+          const l=ZL[Math.max(0,zi)];
+          pos.tx=(l.x+5+Math.random()*30)/100;
+          pos.ty=(l.y+8+Math.random()*28)/100;
+        }
+      }
+
+      // Animate frame
+      pos.frameTimer=(pos.frameTimer||0)+1;
+      if(pos.frameTimer%8===0)pos.frame=((pos.frame||0)+1)%3;
+
+      const px=pos.x*W, py=pos.y*H;
+      const isSel=S.sel?.accountId===m.accountId;
+
+      // Selection glow
+      if(isSel){
+        ctx.shadowColor=m.color;ctx.shadowBlur=16;
+      }
+
+      // Hero base circle
+      ctx.fillStyle=m.color+(isSel?'ff':'99');
+      ctx.beginPath();ctx.arc(px,py,isSel?11:9,0,Math.PI*2);ctx.fill();
+      ctx.shadowBlur=0;
+
+      // ASCII sprite (3 lines, drawn with tiny text)
+      const sprite=pos.state==='walk'?SPRITES.walk[pos.frame%3]:
+                   pos.state==='work'?SPRITES.work[0]:
+                   m.status==='Done'?SPRITES.victory[0]:SPRITES.idle[0];
+
+      ctx.save();
+      if(pos.dir<0){ctx.translate(px,py);ctx.scale(-1,1);ctx.translate(-px,-py);}
+      ctx.fillStyle='#fff';
+      ctx.font='6px monospace';ctx.textAlign='center';
+      sprite.forEach((line,li)=>{
+        ctx.fillText(line,px,py-6+li*6);
+      });
+      ctx.restore();
+
+      // Name tag
+      ctx.fillStyle=isSel?'#fff':'#ccc';
+      ctx.font=`bold ${isSel?9:7}px monospace`;ctx.textAlign='center';
+      ctx.fillText(m.name.split(' ')[0],px,py+20);
+
+      // Status dot
+      ctx.fillStyle=sColor(m.status);
+      ctx.beginPath();ctx.arc(px+8,py-8,3,0,Math.PI*2);ctx.fill();
+
+      // Bubble if working
+      if(m.status==='In Progress'&&t%60<30){
+        ctx.fillStyle='#f0a030';ctx.font='8px serif';
+        ctx.fillText('⚡',px+10,py-10);
+      }
+    });
+
+    mapAnim=setTimeout(frame,60); // ~16fps for retro feel
+  }
+  frame();
+}
+
+function openTicketsByHero(hero){
+  const heroIssues=S.issues.filter(i=>i.assigneeId===hero.accountId);
+  const el=document.createElement('div');
+  el.className='modal-bg';el.id='heroModal';
+  el.onclick=e=>{if(e.target===el)el.remove();};
+  el.innerHTML=`<div class="modal" style="max-width:480px">
+    <button class="modal-close" onclick="document.getElementById('heroModal').remove()">✕</button>
+    <div class="modal-header">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="font-size:44px">${hero.avatar}</div>
+        <div>
+          <div style="color:${hero.color};font-size:16px;font-weight:bold">${hero.name}</div>
+          <div style="color:#566c86;font-size:10px">${hero.role} · Level ${hero.level} · ${hero.zone}</div>
+          <span class="badge" style="background:${sColor(hero.status)};margin-top:4px;display:inline-block">${hero.status.toUpperCase()}</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div style="color:#f0c040;font-size:11px;font-weight:bold;margin-bottom:8px">⚔️ ACTIVE QUESTS (${heroIssues.length})</div>
+      ${heroIssues.map(i=>`
+        <div style="background:#0f0f1b;border-radius:6px;padding:8px;margin-bottom:6px;border-left:3px solid ${sColor(i.status)};cursor:pointer" onclick="document.getElementById('heroModal').remove();openTicket('${i.key}')">
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="color:#566c86;font-size:9px">${i.key}</span>
+            <span class="badge" style="background:${sColor(i.status)}">${i.status.toUpperCase()}</span>
+            <span style="background:#2a2a3a;color:#f0c040;padding:1px 5px;border-radius:4px;font-size:9px;margin-left:auto">${i.points||'?'}pt</span>
+          </div>
+          <div style="color:#f4f4f4;font-size:10px;margin-top:3px">${i.summary}</div>
+        </div>`).join('')||'<div style="color:#566c86;font-size:10px">No issues assigned.</div>'}
+    </div>
+  </div>`;
+  document.getElementById('overlays').appendChild(el);
+}
+
+function renderMapInspector(){
+  const ins=document.getElementById('mapInspector');
+  if(!ins)return;
+  ins.innerHTML=S.sel?`
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer" onclick="openTicketsByHero(S.sel)">
+      <div style="font-size:32px">${S.sel.avatar}</div>
+      <div>
+        <div style="color:${S.sel.color};font-weight:bold">${S.sel.name}</div>
+        <div style="color:#566c86;font-size:9px">${S.sel.role} · Lv.${S.sel.level}</div>
+        <span class="badge" style="background:${sColor(S.sel.status)}">${S.sel.status.toUpperCase()}</span>
+      </div>
+    </div>
+    <button onclick="openTicketsByHero(S.sel)" style="width:100%;background:#f0c040;color:#1a1c2c;border:none;border-radius:4px;padding:4px;font-size:9px;font-weight:bold">⚔️ VIEW QUESTS</button>
+    `:`<div style="color:#566c86;font-size:10px;text-align:center;padding:20px">Click a hero<br><span style="font-size:9px">to inspect</span></div>`;
 }
 
 // ── CELEBRATIONS ──────────────────────────────────────────────────────────────
 function fireConfetti(){
   const colors=['#f0c040','#38b764','#e43b44','#9b59b6','#29adff','#f0a030'];
-  for(let i=0;i<80;i++){
+  for(let i=0;i<100;i++){
     setTimeout(()=>{
-      const el=document.createElement('div');
-      el.className='confetti-piece';
-      el.style.cssText=`left:${Math.random()*100}vw;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${1.5+Math.random()*2}s;animation-delay:0s;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;border-radius:${Math.random()>0.5?'50%':'2px'}`;
-      document.body.appendChild(el);
-      setTimeout(()=>el.remove(),4000);
-    },i*25);
+      const el=document.createElement('div');el.className='confetti-piece';
+      el.style.cssText=`left:${Math.random()*100}vw;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${1.5+Math.random()*2}s;width:${5+Math.random()*8}px;height:${5+Math.random()*8}px;border-radius:${Math.random()>0.5?'50%':'2px'}`;
+      document.body.appendChild(el);setTimeout(()=>el.remove(),4000);
+    },i*20);
   }
 }
-
-function shakeScreen(){
-  document.body.classList.add('shake');
-  setTimeout(()=>document.body.classList.remove('shake'),500);
-}
-
+function shakeScreen(){document.body.classList.add('shake');setTimeout(()=>document.body.classList.remove('shake'),500);}
 function playSound(type){
   try{
     const ctx=new(window.AudioContext||window.webkitAudioContext)();
     if(type==='done'){
-      // Victory fanfare
-      [[523,0],[659,0.15],[784,0.3],[1047,0.45]].forEach(([freq,delay])=>{
+      [[523,0],[659,0.12],[784,0.24],[1047,0.38]].forEach(([f,d])=>{
         const o=ctx.createOscillator(),g=ctx.createGain();
-        o.connect(g);g.connect(ctx.destination);
-        o.frequency.value=freq;o.type='square';
-        g.gain.setValueAtTime(0.15,ctx.currentTime+delay);
-        g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+delay+0.3);
-        o.start(ctx.currentTime+delay);o.stop(ctx.currentTime+delay+0.3);
+        o.connect(g);g.connect(ctx.destination);o.frequency.value=f;o.type='square';
+        g.gain.setValueAtTime(0.12,ctx.currentTime+d);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+d+0.28);
+        o.start(ctx.currentTime+d);o.stop(ctx.currentTime+d+0.28);
       });
-    } else if(type==='move'){
+    } else {
       const o=ctx.createOscillator(),g=ctx.createGain();
-      o.connect(g);g.connect(ctx.destination);
-      o.frequency.value=440;o.type='sine';
-      g.gain.setValueAtTime(0.1,ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.15);
-      o.start();o.stop(ctx.currentTime+0.15);
+      o.connect(g);g.connect(ctx.destination);o.frequency.value=440;o.type='sine';
+      g.gain.setValueAtTime(0.08,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.12);
+      o.start();o.stop(ctx.currentTime+0.12);
     }
   }catch(e){}
 }
-
 function showLevelUp(hero){
-  const el=document.createElement('div');
-  el.className='levelup';
-  el.innerHTML=`<div class="levelup-box"><div style="font-size:48px">${hero.avatar}</div><div style="color:#f0c040;font-size:22px;font-weight:bold;margin:8px 0">LEVEL UP!</div><div style="color:${hero.color};font-size:16px">${hero.name}</div><div style="color:#566c86;font-size:12px;margin-top:4px">${hero.role} is now Level ${hero.level}!</div></div>`;
+  const el=document.createElement('div');el.className='levelup-overlay';
+  el.innerHTML=`<div class="levelup-box"><div style="font-size:48px">${hero.avatar}</div><div style="color:#f0c040;font-size:22px;font-weight:bold;margin:8px 0;letter-spacing:2px">LEVEL UP!</div><div style="color:${hero.color};font-size:14px">${hero.name} is now Level ${hero.level}!</div></div>`;
   document.getElementById('overlays').appendChild(el);
   setTimeout(()=>el.remove(),3000);
+  playSound('done');
 }
-
+let toastT=null;
 function showToast(msg,color='#38b764'){
-  const existing=document.querySelector('.toast');
-  if(existing)existing.remove();
-  const el=document.createElement('div');
-  el.className='toast';
-  el.style.borderColor=color;
-  el.innerHTML=msg;
+  document.querySelector('.toast')?.remove();
+  const el=document.createElement('div');el.className='toast';
+  el.style.borderColor=color;el.innerHTML=msg;
   document.body.appendChild(el);
-  clearTimeout(toastTimeout);
-  toastTimeout=setTimeout(()=>el?.remove(),3000);
+  clearTimeout(toastT);toastT=setTimeout(()=>el?.remove(),3200);
 }
-
-// ── MOVE TICKET ───────────────────────────────────────────────────────────────
-async function moveTicket(issueKey, newStatus){
-  const issue=S.issues.find(i=>i.key===issueKey);
-  if(!issue||issue.status===newStatus)return;
-
-  const oldStatus=issue.status;
-  const isDone=newStatus==='Done';
-
-  showToast(`⏳ Moving ${issueKey} to ${newStatus}...`,'#f0a030');
-
-  try{
-    await updateIssueStatus(issueKey, newStatus);
-    issue.status=newStatus;
-
-    // Update team member's issue too
-    S.team.forEach(m=>{
-      const mi=m.issues?.find(i=>i.key===issueKey);
-      if(mi){
-        const oldLevel=m.level;
-        mi.status=newStatus;
-        const cp=m.issues.filter(i=>i.status==='Done').reduce((s,i)=>s+(i.points||0),0);
-        const xp=cp*100;
-        m.completedPts=cp;
-        m.xp=xp%500;
-        m.level=Math.max(1,Math.floor(xp/500)+1);
-        const active=m.issues.find(i=>i.status==='In Progress')||m.issues.find(i=>i.status==='In Review');
-        m.status=active?active.status:m.issues.every(i=>i.status==='Done')?'Done':'To Do';
-        m.zone=getZone(m.status);
-
-        if(isDone&&m.level>oldLevel){
-          setTimeout(()=>showLevelUp(m),600);
-        }
-      }
-    });
-
-    playSound(isDone?'done':'move');
-    if(isDone){
-      shakeScreen();
-      fireConfetti();
-      showToast(`🎉 ${issueKey} COMPLETED! +${issue.points*100||100} XP`,'#38b764');
-    } else {
-      showToast(`✅ ${issueKey} → ${newStatus}`,'#38b764');
-    }
-    render();
-  }catch(e){
-    issue.status=oldStatus;
-    showToast(`❌ Failed: ${e.message}`,'#e43b44');
-    render();
-  }
-}
-
-// ── DRAG & DROP ───────────────────────────────────────────────────────────────
-function onDragStart(e,key){
-  S.dragIssue=key;
-  e.dataTransfer.effectAllowed='move';
-  setTimeout(()=>{const el=document.querySelector(`[data-key="${key}"]`);if(el)el.classList.add('dragging');},0);
-}
-function onDragEnd(e){
-  document.querySelectorAll('.ticket').forEach(el=>el.classList.remove('dragging'));
-  document.querySelectorAll('.col').forEach(el=>el.classList.remove('drag-over'));
-}
-function onDragOver(e,status){e.preventDefault();e.currentTarget.classList.add('drag-over');}
-function onDragLeave(e){e.currentTarget.classList.remove('drag-over');}
-function onDrop(e,status){
-  e.preventDefault();
-  e.currentTarget.classList.remove('drag-over');
-  if(S.dragIssue)moveTicket(S.dragIssue,status);
-  S.dragIssue=null;
-}
-
-// ── HERO MODAL ────────────────────────────────────────────────────────────────
-function openHero(accountId){
-  const m=S.team.find(t=>t.accountId===accountId);if(!m)return;
-  const heroIssues=S.issues.filter(i=>i.assigneeId===accountId);
-
-  const el=document.createElement('div');
-  el.className='modal-bg';
-  el.id='heroModal';
-  el.onclick=e=>{if(e.target===el)closeModal();};
-  el.innerHTML=`
-    <div class="modal">
-      <button class="modal-close" onclick="closeModal()">✕</button>
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-        <div style="font-size:48px">${m.avatar}</div>
-        <div>
-          <div style="color:${m.color};font-size:18px;font-weight:bold">${m.name}</div>
-          <div style="color:#566c86;font-size:11px">${m.role} · Level ${m.level} · ${m.zone}</div>
-          <div style="display:flex;gap:8px;margin-top:6px">
-            ${[['HP',m.hp,100,'#e43b44'],['MP',m.mp,100,'#3b7fd4'],['XP',m.xp,500,'#f0c040']].map(([l,v,mx,c])=>`
-              <div style="display:flex;align-items:center;gap:4px;font-size:9px">
-                <span style="color:${c}">${l}</span>
-                <div style="background:#111;border-radius:2px;height:4px;width:60px;overflow:hidden"><div style="width:${Math.min(100,(v/mx)*100)}%;background:${c};height:100%"></div></div>
-              </div>`).join('')}
-          </div>
-        </div>
-      </div>
-      <div style="color:#f0c040;font-size:11px;font-weight:bold;margin-bottom:8px">⚔️ ACTIVE QUESTS (${heroIssues.length})</div>
-      <div id="heroQuests">
-        ${heroIssues.map(i=>`
-          <div class="quest-item" style="border-left-color:${sColor(i.status)}">
-            <div style="flex:1;min-width:0">
-              <div style="color:#566c86;font-size:9px">${i.key} · ${i.points||'?'}pt</div>
-              <div style="color:#f4f4f4;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${i.summary}</div>
-            </div>
-            <select class="status-select" onchange="moveTicket('${i.key}',this.value);setTimeout(()=>openHero('${accountId}'),800)" style="border-color:${sColor(i.status)}">
-              ${JIRA_STATUSES.map(s=>`<option value="${s}" ${i.status===s?'selected':''}>${s}</option>`).join('')}
-            </select>
-          </div>`).join('')}
-      </div>
-    </div>`;
-  document.getElementById('overlays').appendChild(el);
-}
-function closeModal(){document.getElementById('heroModal')?.remove();}
-
-// ── SPRINT TIMER ──────────────────────────────────────────────────────────────
-function getSprintTimer(){
-  if(!S.sprintEnd)return{days:0,pct:0};
-  const now=new Date(),end=S.sprintEnd;
-  const diff=end-now;
-  const days=Math.max(0,Math.ceil(diff/86400000));
-  const total=14*86400000;
-  const pct=Math.min(100,Math.max(0,100-(diff/total)*100));
-  return{days,pct,urgent:days<=2};
+function addFeed(msg){
+  const feed=document.getElementById('feed');if(!feed)return;
+  const el=document.createElement('div');el.className='feed-item';el.textContent=msg;
+  feed.insertBefore(el,feed.firstChild);
+  while(feed.children.length>5)feed.removeChild(feed.lastChild);
+  setTimeout(()=>el.remove(),8000);
 }
 
 // ── RENDER ────────────────────────────────────────────────────────────────────
 function statBar(v,mx,c,h=6){
-  return `<div class="bar-wrap" style="height:${h}px"><div class="bar-fill" style="width:${Math.min(100,mx>0?(v/mx)*100:0)}%;background:${c}"></div></div>`;
+  return`<div class="bar-wrap" style="height:${h}px"><div class="bar-fill" style="width:${Math.min(100,mx>0?(v/mx)*100:0)}%;background:${c}"></div></div>`;
+}
+
+function renderSprintBar(){
+  const total=S.issues.reduce((s,i)=>s+(i.points||0),0);
+  const done=S.issues.filter(i=>i.status==='Done').reduce((s,i)=>s+(i.points||0),0);
+  const inprog=S.issues.filter(i=>i.status==='In Progress').reduce((s,i)=>s+(i.points||0),0);
+  const rev=S.issues.filter(i=>['In Review','Code Review'].includes(i.status)).reduce((s,i)=>s+(i.points||0),0);
+  const pct=total>0?Math.round((done/total)*100):0;
+  let days=0,urgent=false;
+  if(S.sprintEnd){const d=Math.ceil((S.sprintEnd-new Date())/86400000);days=Math.max(0,d);urgent=days<=2;}
+  const segs=[{l:'Done',v:done,c:'#38b764'},{l:'Review',v:rev,c:'#9b59b6'},{l:'In Progress',v:inprog,c:'#f0a030'},{l:'To Do',v:total-done-rev-inprog,c:'#566c86'}];
+  return`<div class="sprint-bar">
+    <div class="timer-ring" style="border-color:${urgent?'#e43b44':'#f0c040'};color:${urgent?'#e43b44':'#f0c040'}">
+      <div style="font-size:15px;font-weight:bold">${days}</div>
+      <div style="font-size:7px">DAYS</div>
+    </div>
+    <div style="flex:1">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="color:#f0c040;font-size:11px;font-weight:bold">⚔️ ${S.sprintName}</span>
+        <div style="display:flex;gap:6px">
+          <span style="color:#f0c040;font-size:11px">${done}/${total}pts · ${pct}%</span>
+          <button onclick="completeSprint()" style="background:#2a1a1a;color:#e43b44;border:1px solid #e43b44;border-radius:4px;padding:2px 8px;font-size:9px">🏁 End Sprint</button>
+        </div>
+      </div>
+      <div style="height:14px;display:flex;border-radius:4px;overflow:hidden;margin-bottom:4px">
+        ${segs.filter(s=>s.v>0).map(s=>`<div style="width:${total>0?(s.v/total)*100:0}%;background:${s.c};transition:width 0.5s" title="${s.l}: ${s.v}pts"></div>`).join('')}
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        ${segs.map(s=>`<div style="display:flex;align-items:center;gap:3px"><div style="width:8px;height:8px;background:${s.c};border-radius:2px"></div><span style="color:#566c86;font-size:9px">${s.l}: ${s.v}pt</span></div>`).join('')}
+      </div>
+    </div>
+  </div>`;
 }
 
 function renderBoard(){
   const cols=JIRA_STATUSES.map(status=>{
     const tickets=S.issues.filter(i=>i.status===status);
+    const priorityIcon={'Highest':'🔴','High':'🟠','Medium':'🟡','Low':'🟢','Lowest':'⚪'};
     return`<div class="col" id="col-${status.replace(/ /g,'-')}"
-      ondragover="onDragOver(event,'${status}')"
-      ondragleave="onDragLeave(event)"
-      ondrop="onDrop(event,'${status}')">
-      <div class="col-title" style="color:${sColor(status)}">${status.toUpperCase()} <span style="color:#566c86;font-weight:normal">(${tickets.length})</span></div>
+      ondragover="event.preventDefault();event.currentTarget.classList.add('drag-over')"
+      ondragleave="event.currentTarget.classList.remove('drag-over')"
+      ondrop="event.preventDefault();event.currentTarget.classList.remove('drag-over');if(S.dragIssue)moveTicket(S.dragIssue,this.id.replace('col-','').replace(/-/g,' '));S.dragIssue=null">
+      <div class="col-title" style="color:${sColor(status)}">
+        <span>${status.toUpperCase()}</span>
+        <span style="background:#2a2a3a;color:#566c86;padding:1px 6px;border-radius:10px;font-size:9px;font-weight:normal">${tickets.length}</span>
+      </div>
       ${tickets.map(i=>{
         const mb=S.team.find(m=>m.accountId===i.assigneeId);
-        return`<div class="ticket" data-key="${i.key}" draggable="true"
+        return`<div class="ticket" data-key="${i.key}"
           style="border-left-color:${sColor(i.status)}"
-          ondragstart="onDragStart(event,'${i.key}')"
-          ondragend="onDragEnd(event)">
-          <div class="ticket-key">${i.key}</div>
-          <div class="ticket-title">${i.summary?.slice(0,60)}${i.summary?.length>60?'...':''}</div>
+          draggable="true"
+          ondragstart="S.dragIssue='${i.key}';setTimeout(()=>{const el=document.querySelector('[data-key=\\'${i.key}\\']');if(el)el.classList.add('dragging');},0)"
+          ondragend="document.querySelectorAll('.ticket').forEach(e=>e.classList.remove('dragging'))"
+          onclick="openTicket('${i.key}')">
+          <div class="grab-handle">⠿</div>
+          <div class="ticket-key">${priorityIcon[i.priority]||'⚪'} ${i.key} · ${i.issueType}</div>
+          <div class="ticket-title">${i.summary?.slice(0,70)}${(i.summary?.length||0)>70?'...':''}</div>
           <div class="ticket-meta">
-            ${mb?`<span class="ticket-assignee" onclick="openHero('${mb.accountId}')" title="${mb.name}" style="cursor:pointer">${mb.avatar}</span>`:'<span style="color:#566c86;font-size:9px">Unassigned</span>'}
-            <span class="ticket-pts">${i.points||'?'}pt</span>
-            ${status!=='Done'?`<button class="done-btn" onclick="moveTicket('${i.key}','Done')">✓ Done</button>`:'<span style="color:#38b764;font-size:9px;margin-left:auto">✓ Complete</span>'}
+            ${mb?`<span title="${mb.name}" style="font-size:13px;cursor:pointer" onclick="event.stopPropagation();openTicketsByHero(S.team.find(m=>m.accountId==='${mb.accountId}'))">${mb.avatar}</span>`:'<span style="color:#566c86;font-size:9px">?</span>'}
+            ${i.points?`<span class="ticket-pts">${i.points}pt</span>`:''}
+            ${i.labels.slice(0,1).map(l=>`<span style="background:#2a2a3a;color:#29adff;padding:1px 5px;border-radius:8px;font-size:8px">${l}</span>`).join('')}
+            <button onclick="event.stopPropagation();moveTicket('${i.key}','Done')" style="background:none;border:1px solid #38b764;color:#38b764;border-radius:3px;padding:1px 5px;font-size:8px;margin-left:auto;display:${status==='Done'?'none':'block'}">✓</button>
           </div>
         </div>`;
       }).join('')}
@@ -404,132 +974,83 @@ function renderBoard(){
 }
 
 function renderMap(){
-  const zoneCount=ZONES.map(z=>`
-    <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:#566c86">
-      <div style="width:8px;height:8px;background:${z.border};border-radius:2px"></div>
-      ${z.icon} ${z.name} (${S.team.filter(m=>m.zone===z.name).length})
-    </div>`).join('');
-
-  const insp=S.selected?`
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-      <div style="font-size:36px;cursor:pointer" onclick="openHero('${S.selected.accountId}')">${S.selected.avatar}</div>
-      <div>
-        <div style="color:${S.selected.color};font-size:14px;font-weight:bold">${S.selected.name}</div>
-        <div style="color:#566c86;font-size:10px">${S.selected.role} · Lv.${S.selected.level}</div>
-        <span class="badge" style="background:${sColor(S.selected.status)}">${(S.selected.status||'').toUpperCase()}</span>
-      </div>
-    </div>
-    <div style="background:#0f0f1b;border-radius:6px;padding:8px;margin-bottom:8px;font-size:10px">
-      <div style="color:#566c86;margin-bottom:4px">📋 QUESTS (${S.selected.issues?.length||0})</div>
-      ${(S.selected.issues||[]).slice(0,3).map(i=>`
-        <div style="color:#f4f4f4;margin-bottom:4px;border-left:2px solid ${sColor(i.status)};padding-left:6px;display:flex;align-items:center;gap:4px">
-          <span style="color:#566c86;flex-shrink:0">${i.key}</span>
-          <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${i.summary?.slice(0,20)}</span>
-          <span style="color:#f0c040;flex-shrink:0">${i.points||'?'}pt</span>
-        </div>`).join('')}
-      <button onclick="openHero('${S.selected.accountId}')" style="margin-top:6px;background:#f0c040;color:#1a1c2c;border:none;border-radius:4px;padding:3px 10px;font-size:9px;font-weight:bold;width:100%">⚔️ MANAGE QUESTS</button>
-    </div>
-    ${[['HP',S.selected.hp,100,'#e43b44'],['MP',S.selected.mp,100,'#3b7fd4'],['XP',S.selected.xp,500,'#f0c040']].map(([l,v,m,c])=>`
-      <div style="display:flex;gap:6px;align-items:center;margin-bottom:5px">
-        <span style="color:${c};font-size:10px;width:22px">${l}</span>${statBar(v,m,c,8)}
-        <span style="color:${c};font-size:10px;width:55px;text-align:right">${v}/${m}</span>
-      </div>`).join('')}`
-  :`<div style="color:#566c86;font-size:11px;padding:20px;text-align:center">↑ Click a hero<br><span style="font-size:9px">or click avatar to manage quests</span></div>`;
-
   return`<div class="map-wrap">
     <div>
-      <canvas id="mapCanvas" width="640" height="360"></canvas>
-      <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">${zoneCount}</div>
+      <div class="map-container"><canvas id="mapCanvas"></canvas></div>
+      <div style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap">
+        ${ZONES.map(z=>`<div style="display:flex;align-items:center;gap:3px;font-size:9px;color:#566c86"><div style="width:7px;height:7px;background:${z.border};border-radius:2px"></div>${z.icon} ${z.name} (${S.team.filter(m=>m.zone===z.name).length})</div>`).join('')}
+      </div>
     </div>
-    <div class="inspector"><div style="color:#f0c040;font-size:11px;font-weight:bold;margin-bottom:8px">🔍 INSPECTOR</div>${insp}</div>
+    <div class="inspector">
+      <div style="color:#f0c040;font-size:11px;font-weight:bold;margin-bottom:8px">🔍 INSPECTOR</div>
+      <div id="mapInspector"><div style="color:#566c86;font-size:10px;text-align:center;padding:20px">Click a hero</div></div>
+      <div style="border-top:1px solid #2a2a3a;margin-top:10px;padding-top:10px">
+        <div style="color:#f0c040;font-size:10px;font-weight:bold;margin-bottom:6px">🏰 ZONE STATUS</div>
+        ${ZONES.map(z=>`<div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:9px"><span style="color:${z.border}">${z.icon} ${z.name}</span><span style="color:#f0c040">${S.team.filter(m=>m.zone===z.name).length} heroes</span></div>`).join('')}
+      </div>
+    </div>
   </div>`;
 }
 
 function renderRoster(){
   return`<div class="roster">${S.team.map(m=>`
-    <div class="card" onclick="openHero('${m.accountId}')" style="border-color:#4a4e8c">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-        <span style="font-size:22px">${m.avatar}</span>
+    <div class="hero-card" onclick="openTicketsByHero(S.team.find(t=>t.accountId==='${m.accountId}'))">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="font-size:24px">${m.avatar}</span>
         <div>
           <div style="color:${m.color};font-weight:bold;font-size:13px">${m.name}</div>
-          <div style="color:#566c86;font-size:10px">${m.role} · Lv.${m.level}</div>
+          <div style="color:#566c86;font-size:9px">${m.role} · Lv.${m.level}</div>
         </div>
-        <span class="badge" style="background:${sColor(m.status)};margin-left:auto">${(m.status||'').toUpperCase()}</span>
+        <span class="badge" style="background:${sColor(m.status)};margin-left:auto">${m.status.toUpperCase()}</span>
       </div>
-      <div style="font-size:10px;color:#566c86;margin-bottom:6px">${m.issueCount} quests · ${m.completedPts}pt done</div>
+      <div style="font-size:9px;color:#566c86;margin-bottom:8px">📍 ${m.zone} · ${m.issueCount} quests · ${m.completedPts}pt done</div>
       ${[['HP',m.hp,100,'#e43b44'],['MP',m.mp,100,'#3b7fd4'],['XP',m.xp,500,'#f0c040']].map(([l,v,mx,c])=>`
-        <div style="display:flex;gap:4px;align-items:center;margin-bottom:3px">
+        <div style="display:flex;gap:4px;align-items:center;margin-bottom:4px">
           <span style="font-size:9px;color:${c};width:18px">${l}</span>${statBar(v,mx,c,5)}<span style="font-size:9px;color:${c}">${v}</span>
         </div>`).join('')}
-      <div style="margin-top:8px;text-align:center;background:#0f0f1b;border-radius:4px;padding:4px;font-size:9px;color:#f0c040">⚔️ Click to manage quests</div>
     </div>`).join('')}</div>`;
 }
 
 function renderLeaderboard(){
   const sorted=[...S.team].sort((a,b)=>(b.level*1000+b.xp)-(a.level*1000+a.xp));
-  return`<div style="max-width:520px;margin:0 auto" class="panel">
-    <div style="color:#f0c040;font-size:13px;font-weight:bold;margin-bottom:10px;text-align:center">🏆 HALL OF HEROES</div>
-    ${sorted.map((m,i)=>`
-      <div onclick="openHero('${m.accountId}')" style="display:flex;align-items:center;gap:8px;background:${i===0?'#2a2200':'#16213e'};border:1px solid ${i===0?'#f0c040':'#4a4e8c'};border-radius:6px;padding:7px 10px;margin-bottom:5px;cursor:pointer;" onmouseover="this.style.borderColor='#f0c040'" onmouseout="this.style.borderColor='${i===0?'#f0c040':'#4a4e8c'}'">
-        <span style="font-size:16px;width:22px">${['🥇','🥈','🥉'][i]||'#'+(i+1)}</span>
-        <span style="font-size:18px">${m.avatar}</span>
-        <div style="flex:1">
-          <div style="color:${m.color};font-size:12px;font-weight:bold">${m.name} <span style="color:#566c86;font-weight:normal">· ${m.role}</span></div>
-          ${statBar(m.xp,500,'#f0c040',4)}
-        </div>
-        <div style="text-align:right">
-          <div style="color:#f0c040;font-size:13px;font-weight:bold">Lv.${m.level}</div>
-          <div style="color:#566c86;font-size:9px">${m.completedPts}pt · ${m.issueCount} tasks</div>
-        </div>
-      </div>`).join('')}
-  </div>`;
-}
-
-function renderSprintBar(){
-  const total=S.issues.reduce((s,i)=>s+(i.points||0),0);
-  const done=S.issues.filter(i=>i.status==='Done').reduce((s,i)=>s+(i.points||0),0);
-  const inprog=S.issues.filter(i=>i.status==='In Progress').reduce((s,i)=>s+(i.points||0),0);
-  const rev=S.issues.filter(i=>['In Review','Code Review'].includes(i.status)).reduce((s,i)=>s+(i.points||0),0);
-  const pct=total>0?Math.round((done/total)*100):0;
-  const timer=getSprintTimer();
-  const segs=[{l:'Done',v:done,c:'#38b764'},{l:'Review',v:rev,c:'#9b59b6'},{l:'In Progress',v:inprog,c:'#f0a030'},{l:'To Do',v:total-done-rev-inprog,c:'#566c86'}];
-  return`<div class="panel" style="margin-bottom:10px">
-    <div style="display:flex;align-items:center;gap:12px">
-      <div class="timer-ring" style="border-color:${timer.urgent?'#e43b44':'#f0c040'};color:${timer.urgent?'#e43b44':'#f0c040'}">
-        <div style="font-size:14px;font-weight:bold">${timer.days}</div>
-        <div style="font-size:8px">days</div>
-      </div>
-      <div style="flex:1">
-        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
-          <span style="color:#f0c040;font-size:11px;font-weight:bold">⚔️ ${S.sprintName}</span>
-          <span style="color:#f0c040;font-size:11px">${done}/${total} pts · ${pct}%</span>
-        </div>
-        <div style="height:16px;display:flex;border-radius:6px;overflow:hidden;border:1px solid #4a4e8c;margin-bottom:6px">
-          ${segs.filter(s=>s.v>0).map(s=>`<div style="width:${total>0?(s.v/total)*100:0}%;background:${s.c};transition:width 0.5s" title="${s.l}: ${s.v}pts"></div>`).join('')}
-        </div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
-          ${segs.map(s=>`<div style="display:flex;align-items:center;gap:3px"><div style="width:8px;height:8px;background:${s.c};border-radius:2px"></div><span style="color:#566c86;font-size:9px">${s.l}: ${s.v}pt</span></div>`).join('')}
-        </div>
-      </div>
+  return`<div>
+    <div style="max-width:560px;margin:0 auto">
+      <div style="color:#f0c040;font-size:14px;font-weight:bold;margin-bottom:12px;text-align:center;letter-spacing:2px">🏆 HALL OF HEROES</div>
+      ${sorted.map((m,i)=>`
+        <div class="lb-row" onclick="openTicketsByHero(S.team.find(t=>t.accountId==='${m.accountId}'))">
+          <span style="font-size:18px;width:24px">${['🥇','🥈','🥉'][i]||`#${i+1}`}</span>
+          <span style="font-size:20px">${m.avatar}</span>
+          <div style="flex:1">
+            <div style="color:${m.color};font-size:12px;font-weight:bold">${m.name} <span style="color:#566c86;font-weight:normal">· ${m.role}</span></div>
+            <div style="display:flex;gap:4px;align-items:center;margin-top:2px">${statBar(m.xp,500,'#f0c040',4)}</div>
+          </div>
+          <div style="text-align:right">
+            <div style="color:#f0c040;font-size:14px;font-weight:bold">Lv.${m.level}</div>
+            <div style="color:#566c86;font-size:9px">${m.completedPts}pt · ${m.issueCount} tasks</div>
+          </div>
+        </div>`).join('')}
+      ${renderBurndown()}
     </div>
   </div>`;
 }
 
 function render(){
-  const tabs=[['board','🎮 Quest Board'],['map','🗺️ Map'],['roster','👥 Party'],['lead','🏆 Ranks']];
+  if(clockInt)clearInterval(clockInt);
+  const tabs=[['board','🎮 Board'],['map','🗺️ Map'],['roster','👥 Party'],['lead','🏆 Ranks']];
   const now=new Date();
+
   document.getElementById('app').innerHTML=`
     <div class="header">
       <div>
-        <div style="color:#f0c040;font-size:18px;font-weight:bold;letter-spacing:2px">⚔️ JIRA QUEST</div>
-        <div style="color:#566c86;font-size:10px">BUM · ${S.sprintName} · ${S.team.length} Heroes · Drag tickets to move!</div>
+        <div style="color:#f0c040;font-size:16px;font-weight:bold;letter-spacing:2px">⚔️ JIRA QUEST</div>
+        <div style="color:#566c86;font-size:9px">BUM · ${S.sprintName} · ${S.team.length} heroes · drag tickets to move!</div>
       </div>
-      <div style="display:flex;align-items:center;gap:10px">
-        ${S.lastSync?`<div style="text-align:center"><div style="color:#38b764;font-size:9px">🟢 LIVE</div><div style="color:#566c86;font-size:8px">${S.lastSync.toLocaleTimeString()}</div></div>`:''}
-        <button onclick="fetchData()" style="background:#16213e;color:#29adff;border:1px solid #29adff;border-radius:6px;padding:4px 10px;font-size:10px">⟳ Sync</button>
+      <div style="display:flex;align-items:center;gap:8px">
+        ${S.lastSync?`<div style="text-align:center"><div style="color:#38b764;font-size:8px">🟢 LIVE</div><div style="color:#566c86;font-size:7px">${S.lastSync.toLocaleTimeString()}</div></div>`:''}
+        <button onclick="fetchData(true)" style="background:#16213e;color:#29adff;border:1px solid #29adff;border-radius:5px;padding:3px 8px;font-size:9px">⟳</button>
         <div style="text-align:right">
-          <div style="color:#29adff;font-size:13px" id="clock">${now.toLocaleTimeString()}</div>
-          <div style="color:#566c86;font-size:9px">${now.toLocaleDateString()}</div>
+          <div style="color:#29adff;font-size:12px" id="clk">${now.toLocaleTimeString()}</div>
+          <div style="color:#566c86;font-size:8px">${now.toLocaleDateString()}</div>
         </div>
       </div>
     </div>
@@ -538,79 +1059,25 @@ function render(){
     <div id="content">
       ${S.tab==='board'?renderBoard():S.tab==='map'?renderMap():S.tab==='roster'?renderRoster():renderLeaderboard()}
     </div>
-    <div style="margin-top:10px;text-align:center;color:#566c86;font-size:9px">
-      ⚡ JIRA QUEST · Drag & drop to move tickets · Click heroes to manage · Auto-syncs every 60s
+    <div style="margin-top:8px;text-align:center;color:#566c86;font-size:8px">
+      ⚡ JIRA QUEST · Click tickets to open · Drag to move · Click heroes on map · Auto-syncs 60s
     </div>`;
 
-  if(S.tab==='map')drawMap();
-  setInterval(()=>{const c=document.getElementById('clock');if(c)c.textContent=new Date().toLocaleTimeString();},1000);
-}
+  clockInt=setInterval(()=>{const c=document.getElementById('clk');if(c)c.textContent=new Date().toLocaleTimeString();},1000);
 
-function setTab(t){S.tab=t;S.selected=null;render();}
-
-// ── CANVAS MAP ────────────────────────────────────────────────────────────────
-function drawMap(){
-  const canvas=document.getElementById('mapCanvas');if(!canvas)return;
-  canvas.onclick=e=>{
-    const r=canvas.getBoundingClientRect(),sx=canvas.width/r.width,sy=canvas.height/r.height;
-    const mx=(e.clientX-r.left)*sx,my=(e.clientY-r.top)*sy,W=canvas.width,H=canvas.height;
-    let hit=null;
-    ZONES.forEach((z,zi)=>{
-      const l=ZL[zi],zx=l.x/100*W,zy=l.y/100*H;
-      S.team.filter(m=>m.zone===z.name).forEach((m,mi)=>{
-        const col=mi%3,row=Math.floor(mi/3);
-        if(Math.hypot(mx-(zx+20+col*44),my-(zy+32+row*34))<18)hit=m;
-      });
-    });
-    S.selected=hit;render();
-  };
-  if(animFrame)clearTimeout(animFrame);
-  let tick=0;
-  function frame(){
-    if(!document.getElementById('mapCanvas'))return;
-    tick++;
-    const ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height;
-    ctx.fillStyle='#0d1117';ctx.fillRect(0,0,W,H);
-    ctx.strokeStyle='#1a2030';ctx.lineWidth=1;
-    for(let x=0;x<W;x+=20){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
-    for(let y=0;y<H;y+=20){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-    ZONES.forEach((z,zi)=>{
-      const l=ZL[zi],zx=l.x/100*W,zy=l.y/100*H,zw=l.w/100*W,zh=l.h/100*H;
-      ctx.fillStyle=z.color;ctx.strokeStyle=z.border;ctx.lineWidth=2;
-      ctx.beginPath();ctx.roundRect(zx,zy,zw,zh,8);ctx.fill();ctx.stroke();
-      ctx.fillStyle=z.border;ctx.font='bold 10px monospace';
-      ctx.fillText(`${z.icon} ${z.name}`,zx+6,zy+16);
-      S.team.filter(m=>m.zone===z.name).forEach((m,mi)=>{
-        const col=mi%3,row=Math.floor(mi/3);
-        const wobble=tick%2===0?1.2:-1.2;
-        const mx=zx+20+col*44+wobble,my=zy+32+row*34;
-        const isSel=S.selected?.accountId===m.accountId;
-        if(isSel){ctx.shadowColor=m.color;ctx.shadowBlur=14;}
-        ctx.fillStyle=isSel?m.color:m.color+'bb';
-        ctx.beginPath();ctx.arc(mx,my,isSel?13:10,0,Math.PI*2);ctx.fill();
-        ctx.shadowBlur=0;
-        ctx.font=`${isSel?15:12}px serif`;ctx.textAlign='center';
-        ctx.fillText(m.avatar,mx,my+5);
-        ctx.fillStyle=isSel?'#fff':'#ccc';ctx.font=`bold ${isSel?9:8}px monospace`;
-        ctx.fillText(m.name.split(' ')[0],mx,my+24);
-        ctx.fillStyle=sColor(m.status);
-        ctx.beginPath();ctx.arc(mx+9,my-9,4,0,Math.PI*2);ctx.fill();
-      });
-    });
-    animFrame=setTimeout(frame,700);
+  if(S.tab==='map'){
+    drawMap();
   }
-  frame();
 }
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
-fetchData();
-setInterval(fetchData,60000);
-</script>
+function setTab(t){
+  if(mapAnim){clearTimeout(mapAnim);mapAnim=null;}
+  S.tab=t;S.sel=null;render();
+}
 
-<!-- Update proxy to support POST for Jira transitions -->
-<script>
-// Patch: the Netlify function needs to support POST for transitions
-// Make sure netlify/functions/jira.js handles method param
+// ── BOOT ──────────────────────────────────────────────────────────────────────
+fetchData();
+setInterval(()=>fetchData(true),60000);
 </script>
 </body>
 </html>
