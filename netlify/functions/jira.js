@@ -21,13 +21,21 @@ export async function handler(event) {
   try {
     const opts = {
       method,
-      headers: { "Authorization": `Basic ${auth}`, "Accept": "application/json", "Content-Type": "application/json" },
+      headers: {
+        "Authorization": `Basic ${auth}`,
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      },
     };
-    if (method === "POST" && event.body) opts.body = event.body;
+    if ((method === "POST" || method === "PUT") && event.body) {
+      opts.body = event.body;
+    }
 
     const res = await fetch(url, opts);
     if (res.status === 204) return { statusCode: 204, headers, body: "" };
-    const data = await res.json();
+    const text = await res.text();
+    let data;
+    try { data = JSON.parse(text); } catch { data = { raw: text }; }
     return { statusCode: res.status, headers, body: JSON.stringify(data) };
   } catch (e) {
     return { statusCode: 500, headers, body: JSON.stringify({ error: e.message }) };
